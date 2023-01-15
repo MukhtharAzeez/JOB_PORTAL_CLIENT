@@ -15,12 +15,13 @@ const initialState: UserDetails = {
   userToken: "",
 };
 
-export const userAuthSlice = createSlice({
-  name: "counter",
+const userAuthSlice = createSlice({
+  name: "user",
   initialState,
   reducers: {
     addUserDetails(state, actions) {
       const newItem = actions.payload;
+      console.log("ethii brooo")
       state.userName = newItem.firstName + " " + newItem.lastName;
       state.userId = newItem._id;
       state.email = newItem.email;
@@ -28,7 +29,6 @@ export const userAuthSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { addUserDetails } = userAuthSlice.actions;
-export const selectUserDetails = (state: RootState) => state.userAuthReducer;
-export default userAuthSlice.reducer;
+export const currentUser = (state: RootState) => state.user;
+export default userAuthSlice;

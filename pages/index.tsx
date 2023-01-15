@@ -8,10 +8,12 @@ import SideBar from "../components/User/Home/SideBar";
 import Feed from "../components/User/Home/Feed";
 import RightBar from "../components/User/Home/RightBar";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { useState } from "react";
 import { getSession, useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import instance from "../axios/axios";
+import { useSelector } from "react-redux";
+import { currentTheme } from "../redux/user/ThemeSlice";
+
 const BottomBar = dynamic(
   () => import("../components/User/MobileBottom/MobileBottom")
 );
@@ -25,6 +27,7 @@ const BottomBar = dynamic(
  */
 
 export default function Home({ req }: { req: any }) {
+  const mode = useSelector(currentTheme)
   useEffect(() => {
     (async () => {
       const session = await getSession({ req });
@@ -63,10 +66,10 @@ export default function Home({ req }: { req: any }) {
     })();
   }, []);
 
-  const [mode, setMode] = useState<string>("dark");
 
   // const {data:session} =
   useSession();
+
 
   const theme = createTheme({
     palette: {
@@ -85,7 +88,7 @@ export default function Home({ req }: { req: any }) {
           {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" /> */}
         </Head>
         <Box bgcolor={"background.default"} color={"text.primary"}>
-          <NavBar mode={mode} setMode={setMode} />
+          <NavBar mode={mode}/>
           <Grid container item sx={{ paddingLeft: { xs: 0, sm: 1, lg: 1 } }}>
             <Grid item sm={3} p={2} justifyContent="space-between">
               <SideBar />

@@ -22,10 +22,11 @@ import WorkIcon from "@mui/icons-material/Work";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { changeTheme } from "../../../redux/user/ThemeSlice";
 
 interface Props {
   mode: String;
-  setMode: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const Search = styled("div")(({ theme }) => ({
@@ -68,7 +69,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBar({ mode, setMode }: Props) {
+export default function NavBar({ mode }: Props) {
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -173,7 +175,7 @@ export default function NavBar({ mode, setMode }: Props) {
       </MenuItem>
       <MenuItem
         onClick={() => {
-          setMode(mode === "light" ? "dark" : "light");
+          dispatch(changeTheme(mode))
         }}
       >
         <IconButton
@@ -300,7 +302,7 @@ export default function NavBar({ mode, setMode }: Props) {
             aria-label="show 17 new notifications"
             color="inherit"
             onClick={() => {
-              setMode(mode === "light" ? "dark" : "light");
+              dispatch(changeTheme(mode))
             }}
             sx={{ "&:hover": { backgroundColor: "transparent" } }}
           >
@@ -323,11 +325,13 @@ export default function NavBar({ mode, setMode }: Props) {
             <SettingsIcon sx={{ color: mode == "light" ? "black" : "white" }} />
           </IconButton>
 
-          <Avatar
-            sx={{ width: 30, height: 30, marginTop: "10px", margin: "20px" }}
-            alt="profile"
-            src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-          />
+          <Link href="/User/Profile">
+            <Avatar
+              sx={{ width: 30, height: 30, marginTop: "10px", margin: "20px" }}
+              alt="profile"
+              src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            />
+          </Link>
         </Box>
         <Box sx={{ display: { xs: "none", sm: "flex", md: "none" } }}>
           <IconButton
@@ -350,7 +354,7 @@ export default function NavBar({ mode, setMode }: Props) {
             aria-haspopup="true"
             color="inherit"
             onClick={() => {
-              setMode(mode === "light" ? "dark" : "light");
+              dispatch(changeTheme(mode))
             }}
             sx={{ "&:hover": { backgroundColor: "transparent" } }}
           >

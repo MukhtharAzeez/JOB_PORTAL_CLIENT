@@ -1,13 +1,17 @@
-import userAuthReducer from "./user/userAuthSlicer";
-import { configureStore } from "@reduxjs/toolkit";
 
-export const store = configureStore({
-  reducer: {
-    userAuthReducer,
-  },
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import userSideThemeSlice from "./user/ThemeSlice";
+import userAuthSlice from "./user/userAuthSlicer";
+
+const reducer = combineReducers({
+  user: userAuthSlice.reducer,
+  userTheme: userSideThemeSlice.reducer,
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+const store = configureStore({
+  reducer,
+});
+
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
+export default store;
