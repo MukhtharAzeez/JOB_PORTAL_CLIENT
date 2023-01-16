@@ -7,16 +7,18 @@ import SideBar from '../../../components/User/Home/SideBar'
 import MobileBottom from '../../../components/User/MobileBottom/MobileBottom'
 import NavBar from '../../../components/User/NavBar/NavBar'
 import Profile from '../../../components/User/Profile/Profile'
+import UserProtectRouter from '../../../protectRoutes/protectRoute'
 import { currentTheme } from '../../../redux/user/ThemeSlice'
 
 
 
 
-function index({ profile }: any) {
+function index() {
     
     const mode = useSelector(currentTheme)
     return (
-        <>
+        <UserProtectRouter>
+     
             <Head>
                 <title>Portal-Profile</title>
             </Head>
@@ -35,20 +37,20 @@ function index({ profile }: any) {
                 </Grid> */}
                 <div className='border '>
                     <div className="flex justify-around md:pr-20">
-                        <div className="w-2/12 mt-5 hidden md:block">
+                        <div className="w-2/12 mt-8 hidden md:block">
                             <SideBar />
                         </div>
                         <div className='lg:w-5/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-5 flex justify-center'>
                             <Profile />
                         </div>
-                        <div className=" md:w-2/12 md:pr-10  mt-1">
+                        <div className=" md:w-2/12 md:pr-10  mt-4">
                             <RightBar />
                         </div>
                     </div>
                 </div>
                 <MobileBottom />
             </Box>
-        </>
+        </UserProtectRouter>
     )
 }
 

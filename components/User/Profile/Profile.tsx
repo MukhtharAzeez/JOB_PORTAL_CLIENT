@@ -19,6 +19,7 @@ function Profile() {
     const address = `http://localhost:4000/user/profile?userId=${userId}`
     const fetcher = async (url: any) => await axios.get(url).then((res) => res.data);
     const { data, error, isLoading } = useSWR(address, fetcher);
+    if(error) return <div>error</div>
     return (
         <>
             <Head>
@@ -32,70 +33,56 @@ function Profile() {
                         <div className="w-full px-4 flex justify-center">
                             <div className="relative">
                                 {isLoading ? (
-
                                     <svg className="animate-pulse shadow-xl rounded-full h-40 align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px text-gray-100 dark:text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd"></path></svg>
-
                                 ) : (
                                         <img alt="..." src="https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png" className="shadow-xl rounded-full h-40 align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px" />
                                 )}
-                                {/*  */}
                             </div>
                         </div>
                         <div className="w-full text-center mt-20">
                             <div className="flex justify-center py-4 lg:pt-4 pt-8 pl-[48px]">
                                 <div className="mr-4 p-3 pr-8 text-center">
                                     {isLoading ? (
-
                                         <span className="h-10 animate-pulse bg-gray-100 block rounded-lg dark:bg-gray-500 w-10 ml-2"></span>
                                     ) : (
                                             <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                                                 44
                                             </span>
                                     )}
-                                   
                                     <span className="text-sm text-blueGray-400">Friends</span>
                                 </div>
                                 <div className="mr-4 p-3 text-center">
                                     {isLoading ? (
-
                                         <span className="h-10 animate-pulse bg-gray-100 block rounded-lg dark:bg-gray-500 w- ml-2"></span>
                                     ) : (
                                             <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                                                 10
                                             </span>
                                     )}
-                                   
-                                    
-
                                     <span className="text-sm text-blueGray-400">Photos</span>
                                 </div>
                                 <div className="lg:mr-4 p-3 text-center pl-5">
-                                    {isLoading ? (
-                                        
+                                    {isLoading ? (  
                                     <span className="h-10 animate-pulse bg-gray-100 block rounded-lg dark:bg-gray-500 w-10 ml-2"></span>
                                     ) : (
                                             <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                                                 89
                                             </span> 
                                     )}
-                                    
-
                                     <span className="text-sm text-blueGray-400">Comments</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     {
                         isLoading ? <SkeletonLoader/> : (
                         <>
                                 <div className="text-center mt-12">
                                     <h3 className="text-xl font-semibold leading-normal mb-2 text-blueGray-700">
-                                        {error || isLoading ? 'loading' : data.firstName + ' ' + data.lastName}
+                                        {data.firstName + ' ' + data.lastName}
                                     </h3>
-                                    <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                                        <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
-                                        Los Angeles, California
+                                    <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold">
+                                        {data.email}
                                     </div>
                                     <div className="mb-2 text-blueGray-600 mt-10">
                                         <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
