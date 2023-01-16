@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import AddPost from "./AddPost";
+import AddPost from "./userFeeds/AddPost";
 // import dynamic from "next/dynamic";
 import { Box, Chip } from "@mui/material";
 import Jobs from "./Jobs";
-import Post from "./Post";
+import Post from "./userFeeds/Post";
 
 // const Post = dynamic(() => import("./Post"));
 
@@ -25,7 +25,7 @@ function Feed({ mode }: Props) {
   };
 
   return (
-    <div>
+    <div className="mt-20">
       <Box
         width={"100%"}
         m={1}
@@ -87,6 +87,7 @@ function Feed({ mode }: Props) {
           <Jobs mode={mode} />
         </>
       )}
+      <div className="h-8 w-full bg-transparent"></div>
     </div>
   );
 }

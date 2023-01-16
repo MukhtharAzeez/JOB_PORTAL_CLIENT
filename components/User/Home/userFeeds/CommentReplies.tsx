@@ -1,6 +1,6 @@
 import React from "react";
 
-function commentReplies() {
+function commentReplies({reply}:any) {
   return (
     <div className="space-y-4">
       <div className="flex">
@@ -15,9 +15,7 @@ function commentReplies() {
           <strong>Sarah</strong>{" "}
           <span className="text-xs text-gray-400">3:34 PM</span>
           <p className="text-xs sm:text-sm">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua.
+            {reply}
           </p>
         </div>
       </div>

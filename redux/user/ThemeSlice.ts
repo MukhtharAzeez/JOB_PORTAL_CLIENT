@@ -7,7 +7,7 @@ export interface Themes {
 }
 
 const initialState: Themes = {
-  mode: "dark",
+  mode: "light",
 };
 
 const userSideThemeSlice = createSlice({

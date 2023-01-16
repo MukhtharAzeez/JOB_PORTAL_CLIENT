@@ -3,13 +3,13 @@ import LargeScreenSideBar from "./LargeScreenSideBar";
 
 function UserMessage() {
   return (
-    <div>
-      <div className="flex h-screen antialiased text-gray-800">
+    <div className="pt-20">
+      <div className="flex h-90vh antialiased text-gray-800">
         <div className="flex flex-row h-full w-full overflow-x-hidden">
           <LargeScreenSideBar />
           <div className="flex flex-col flex-auto h-full md:p-6">
-            <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
-              <div className="flex flex-col h-full overflow-x-auto mb-4">
+            <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-[650px] p-4">
+              <div className="flex flex-col h-full overflow-x-auto mb-4  ">
                 <div className="flex flex-col h-full">
                   <div className="grid grid-cols-12 gap-y-2">
                     <div className="col-start-1 col-end-8 p-3 rounded-lg">
@@ -28,11 +28,17 @@ function UserMessage() {
                           A
                         </div>
                         <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Vel ipsa commodi illum saepe numquam maxime
-                            asperiores voluptate sit, minima perspiciatis.
-                          </div>
+                          <div>Hey How are you today?</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-start-1 col-end-8 p-3 rounded-lg">
+                      <div className="flex flex-row items-center">
+                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
+                          A
+                        </div>
+                        <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                          <div>Hey How are you today?</div>
                         </div>
                       </div>
                     </div>

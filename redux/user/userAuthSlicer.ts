@@ -21,7 +21,6 @@ const userAuthSlice = createSlice({
   reducers: {
     addUserDetails(state, actions) {
       const newItem = actions.payload;
-      console.log("ethii brooo")
       state.userName = newItem.firstName + " " + newItem.lastName;
       state.userId = newItem._id;
       state.email = newItem.email;

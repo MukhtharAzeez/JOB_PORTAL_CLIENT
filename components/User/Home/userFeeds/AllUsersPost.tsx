@@ -17,12 +17,6 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { selectUserDetails } from "../../../redux/user/userAuthSlicer";
-import {
-  getPostComment,
-  postComment,
-  postLike,
-} from "../../../api/User/Post/post-related/postRequests";
 import { Collapse, Divider, InputBase, Paper, styled } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
@@ -31,6 +25,8 @@ import Comment from "./Comment";
 import moment from "moment";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+import { currentUser } from "../../../../redux/user/userAuthSlicer";
+import { getPostComment, postComment, postLike } from "../../../../api/User/Post/post-related/postRequests";
 
 interface props {
   mode: String;
@@ -55,7 +51,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 function AllUsersPost({ mode, post }: props) {
-  const { userId } = useSelector(selectUserDetails);
+  const { userId } = useSelector(currentUser);
 
   const [likes, setLikes] = React.useState(post.likes ? post.likes.length : 0);
   const [comment, setComment] = React.useState("");
@@ -98,6 +94,7 @@ function AllUsersPost({ mode, post }: props) {
   }
   return (
     <Card
+      className="shadow-2xl rounded-lg top-0"
       sx={{
         minWidth: { xs: "auto", md: "auto", sm: 400 },
         margin: 1,
@@ -179,20 +176,23 @@ function AllUsersPost({ mode, post }: props) {
               <p className="text-sm">{likes}</p>
             </IconButton>
           )}
+
           <IconButton
             aria-label="chat"
             sx={{ marginRight: 1 }}
             className="hover:bg-transparent"
+            onClick={() => getPostComments(post._id)}
           >
             <ExpandMore
               expand={expanded}
-              onClick={() => getPostComments(post._id)}
+              
               aria-expanded={expanded}
               aria-label="show more"
             >
               <ChatBubbleOutlineIcon />
             </ExpandMore>
           </IconButton>
+
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>

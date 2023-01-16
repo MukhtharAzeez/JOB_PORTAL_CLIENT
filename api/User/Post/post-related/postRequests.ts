@@ -55,3 +55,16 @@ export const getPostComment = async (postId: string) => {
   );
   return comments;
 };
+
+export const likeComment = async (commentId:string, userId:string)=>{
+  const result = await instance.get(
+    `/userPost/likeAComment?commentId=${commentId}&userId=${userId}`,
+    {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return result
+}

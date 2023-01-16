@@ -4,7 +4,7 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import ChatTwoToneIcon from "@mui/icons-material/ChatTwoTone";
 import HomeTwoToneIcon from "@mui/icons-material/Home";
 import WorkIcon from "@mui/icons-material/Work";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function MobileBottom() {
   const [value, setValue] = React.useState("Home");
@@ -13,31 +13,35 @@ export default function MobileBottom() {
     setValue(newValue);
   };
 
+  const router = useRouter();
   return (
-    <BottomNavigation
+    < BottomNavigation
       sx={{
         position: "fixed",
         left: 0,
         bottom: 0,
         right: 0,
         display: { xs: "flex", sm: "none" },
-      }}
+      }
+      }
       value={value}
       onChange={handleChange}
     >
-      <BottomNavigationAction
+      < BottomNavigationAction
         label="Home"
         value="home"
-        icon={<HomeTwoToneIcon />}
+        icon={< HomeTwoToneIcon />}
+        onClick={() => router.push('/')}
       />
       <BottomNavigationAction label="Jobs" value="Jobs" icon={<WorkIcon />} />
-      <Link href="/User/Inbox">
-        <BottomNavigationAction
-          label="Messages"
-          value="Messages"
-          icon={<ChatTwoToneIcon />}
-        />
-      </Link>
+      <BottomNavigationAction
+        label="Messages"
+        value="Messages"
+        icon={<ChatTwoToneIcon />}
+        onClick={() => router.push('/User/Inbox')}
+
+      />
+ 
       <BottomNavigationAction
         label="profile"
         value="profile"
@@ -47,6 +51,7 @@ export default function MobileBottom() {
             src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
           />
         }
+        onClick={() => router.push('/User/Profile')}
       />
       <BottomNavigationAction
         label="Messages"
@@ -54,6 +59,6 @@ export default function MobileBottom() {
         icon={<ChatTwoToneIcon />}
         sx={{ display: "none" }}
       />
-    </BottomNavigation>
+    </BottomNavigation >
   );
 }

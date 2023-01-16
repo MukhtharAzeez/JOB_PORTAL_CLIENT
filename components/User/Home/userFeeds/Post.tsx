@@ -13,11 +13,11 @@ import Favorite from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import { getAllUsersPost } from "../../../api/User/Get/post-related/getRequests";
 import { Skeleton } from "@mui/material";
 // import { imageOptimizer } from "next/dist/server/image-optimizer";
 import useSWR from "swr";
 import AllUsersPost from "./AllUsersPost";
+import { getAllUsersPost } from "../../../../api/User/Get/post-related/getRequests";
 
 interface Props {
   mode: String;

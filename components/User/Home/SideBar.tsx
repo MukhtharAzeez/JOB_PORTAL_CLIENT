@@ -1,87 +1,63 @@
-import * as React from "react";
+import React from 'react'
 
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
-import Image from "next/image";
-
-const card = (
-  <React.Fragment>
-    <CardContent>
-      <Typography
-        variant="subtitle1"
-        color="text.secondary"
-        component="div"
-        sx={{ maxWidth: 160 }}
-      >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit
-      </Typography>
-    </CardContent>
-    <CardActions>
-      <Button size="small">Learn More</Button>
-    </CardActions>
-  </React.Fragment>
-);
-
-export default function SideBar() {
+function SideBar() {
   return (
-    <Box sx={{ display: { xs: "none", sm: "block" } }} pt={1}>
-      <Box position="fixed">
-        <Card
-          sx={{ display: "flex", flexDirection: { xs: "column", lg: "row" } }}
-        >
-          <Box
-            sx={{
-              position: "relative",
-              width: { xs: 150, lg: 140 },
-              height: 200,
-              display: "flex",
-              alignSelf: "center",
-            }}
-          >
-            <Image
-              src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-              fill
-              sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 30vw,
-              33vw"
-              alt=""
-            />
-          </Box>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <CardContent sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                component="div"
-              >
-                Followers : 4000
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                component="div"
-              >
-                Following : 4000
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                component="div"
-              >
-                Pages : 4000
-              </Typography>
-            </CardContent>
-          </Box>
-        </Card>
-
-        <Box sx={{ minWidth: 200, paddingTop: 2 }}>
-          <Card variant="outlined">{card}</Card>
-        </Box>
-      </Box>
-    </Box>
-  );
+    <div className="fixed w-1/5 mt-20  hidden sm:block">
+      <div className="w-full py-4 px-2 text-gray-900 bg-white rounded-lg text-left capitalize font-medium shadow-2xl">
+        <img src="https://www.freepnglogos.com/uploads/spotify-logo-png/file-spotify-logo-png-4.png"
+          alt="alt placeholder" className="w-8 h-8 mx-auto mb-5 " />
+        <span className="flex cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded mb-5">
+          <i className="w-8 fas fa-stream p-2  rounded-full">
+          </i>
+          <span className="mx-2 ">categories</span>
+        </span>
+        <span className="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded flex mb-5">
+          <i className="w-8 fas fa-search p-2  rounded-full">
+          </i>
+          <span className="mx-2">search</span>
+        </span>
+        <span className="cursor-pointer px-2 py-1  hover:bg-gray-200 hover:text-gray-700 rounded flex">
+          <span className="w-8 mb-5 relative">
+            <i className="w-8 fas fa-user p-2  rounded-full">
+            </i>
+            <span
+              className="absolute right-0 top-0 -mt-2 -mr-1 text-xs bg-yellow-500 text-black font-medium px-2 rounded-full">3</span>
+          </span>
+          <span className="mx-2">sign ups</span>
+        </span>
+        <span className="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded flex mb-5">
+          <i className="w-8 fas fa-th p-2  rounded-full">
+          </i>
+          <span className="mx-2">menu</span>
+        </span>
+        <span className="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded flex mb-5">
+          <i className="w-8 fas fa-calendar-alt p-2  rounded-full">
+          </i>
+          <span className="mx-2">calendar</span>
+        </span>
+        <span className="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded flex mb-5">
+          <i className="w-8 fas fa-calendar-alt p-2  rounded-full">
+          </i>
+          <span className="mx-2">calendar</span>
+        </span>
+        <span className="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded flex mb-5">
+          <i className="w-8 fas fa-calendar-alt p-2  rounded-full">
+          </i>
+          <span className="mx-2">calendar</span>
+        </span>
+        <span className="cursor-pointer px-2 py-1 hover:bg-gray-200 hover:text-gray-700 rounded flex mb-5">
+          <i className="w-8 fas fa-calendar-alt p-2  rounded-full">
+          </i>
+          <span className="mx-2">calendar</span>
+        </span>
+        <span className="cursor-pointer px-2 pt-0 hover:bg-gray-200 hover:text-gray-700 rounded flex mb-5">
+          <i className="w-8 fas fa-calendar-alt p-2  rounded-full">
+          </i>
+          <span className="mx-2">calendar</span>
+        </span>
+      </div>
+    </div>
+  )
 }
+
+export default SideBar

@@ -87,16 +87,16 @@ export default function Home({ req }: { req: any }) {
           <link rel="icon" href="/favicon.ico" />
           {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" /> */}
         </Head>
-        <Box bgcolor={"background.default"} color={"text.primary"}>
+        <Box color={"text.primary"} className="bg-gray-200">
           <NavBar mode={mode}/>
           <Grid container item sx={{ paddingLeft: { xs: 0, sm: 1, lg: 1 } }}>
             <Grid item sm={3} p={2} justifyContent="space-between">
               <SideBar />
             </Grid>
-            <Grid item sm={6} pt={2}>
+            <Grid item sm={5} pt={2}>
               <Feed mode={mode} />
             </Grid>
-            <Grid item sm={3} p={2}>
+            <Grid item sm={4} className="md:pl-16 xs:pl-12">
               <RightBar />
             </Grid>
           </Grid>

@@ -10,7 +10,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TextField from "@mui/material/TextField";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Button } from "@mui/material";
-import PostAddModal from "../Upload/UploadPost";
+import PostAddModal from "../../Upload/UploadPost";
 
 export default function AddPost() {
   const [addPost, setAddPost] = React.useState(false);

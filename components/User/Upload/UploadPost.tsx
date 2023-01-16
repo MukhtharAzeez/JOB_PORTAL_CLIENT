@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { addPostToServer } from "../../../api/User/Post/post-related/postRequests";
-import { selectUserDetails } from "../../../redux/user/userAuthSlicer";
+import { currentUser } from "../../../redux/user/userAuthSlicer";
 
 export default function PostAddModal({ addPost, setAddPost }: any) {
-  const { userId } = useSelector(selectUserDetails);
+  const { userId } = useSelector(currentUser);
   const [files, setFile] = useState([]);
   const [image, setImage] = useState([]);
 
