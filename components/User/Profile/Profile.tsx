@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
 import useSWR from "swr";
 import axios from "axios";
+import Link from "next/link";
 
 // import { BsFillPeopleFill } from "react-icons/bs";
 
@@ -79,7 +80,10 @@ function Profile() {
                         <>
                                 <div className="text-center mt-12">
                                     <h3 className="text-xl font-semibold leading-normal mb-2 text-blueGray-700">
-                                        {data.firstName + ' ' + data.lastName}
+                                        {data.firstName + ' ' + data.lastName}  
+                                        <Link href="/User/Profile/Edit">
+                                            Edit
+                                        </Link>
                                     </h3>
                                     <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold">
                                         {data.email}

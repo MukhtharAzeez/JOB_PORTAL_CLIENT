@@ -3,10 +3,10 @@ import Head from 'next/head'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import SideBar from '../../../components/User/Home/SideBar'
-import SideBarWithoutText from '../../../components/User/Home/sideBarWithoutText'
+import SideBarWithoutText from '../../../components/User/Home/SideBarWithoutText'
 import MobileBottom from '../../../components/User/MobileBottom/MobileBottom'
 import NavBar from '../../../components/User/NavBar/NavBar'
-import EditProfile from '../../../components/User/Profile/editProfile'
+import EditProfile from '../../../components/User/Profile/EditProfile'
 import { currentTheme } from '../../../redux/user/ThemeSlice'
 
 
