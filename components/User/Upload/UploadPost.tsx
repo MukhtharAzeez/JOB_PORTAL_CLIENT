@@ -2,7 +2,7 @@ import S3 from "aws-sdk/clients/s3";
 import React, { useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { addPostToServer } from "../../../api/User/Post/post-related/postRequests";
+import { addPostToServer } from "../../../api/User/Post/post";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
 
 export default function PostAddModal({ addPost, setAddPost }: any) {

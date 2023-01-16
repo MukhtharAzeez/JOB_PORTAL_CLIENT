@@ -26,7 +26,7 @@ import moment from "moment";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { currentUser } from "../../../../redux/user/userAuthSlicer";
-import { getPostComment, postComment, postLike } from "../../../../api/User/Post/post-related/postRequests";
+import { getPostComment, postComment, postLike } from "../../../../api/User/Post/post";
 
 interface props {
   mode: String;
@@ -94,7 +94,7 @@ function AllUsersPost({ mode, post }: props) {
   }
   return (
     <Card
-      className="shadow-2xl rounded-lg top-0"
+      className="shadow-2xl shadow-gray-800 rounded-md"
       sx={{
         minWidth: { xs: "auto", md: "auto", sm: 400 },
         margin: 1,

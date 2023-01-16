@@ -5,7 +5,7 @@ import CommentReplies from "./CommentReplies";
 
 import { useSelector } from "react-redux";
 import { currentUser } from '../../../../redux/user/userAuthSlicer';
-import { likeComment } from '../../../../api/User/Post/post-related/postRequests';
+import { likeComment } from '../../../../api/User/Post/post';
 
 
 function UserComment({ comment }: any) {

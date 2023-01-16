@@ -3,7 +3,7 @@ import LargeScreenSideBar from "./LargeScreenSideBar";
 
 function UserMessage() {
   return (
-    <div className="pt-20">
+    <div className="pt-20 ">
       <div className="flex h-90vh antialiased text-gray-800">
         <div className="flex flex-row h-full w-full overflow-x-hidden">
           <LargeScreenSideBar />

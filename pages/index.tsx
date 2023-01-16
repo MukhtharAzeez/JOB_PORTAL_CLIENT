@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import FormData from "form-data";
 import NavBar from "../components/User/NavBar/NavBar";
 import SideBar from "../components/User/Home/SideBar";
@@ -89,7 +88,7 @@ export default function Home({ req }: { req: any }) {
         </Head>
         <Box color={"text.primary"} className="bg-gray-200">
           <NavBar mode={mode}/>
-          <Grid container item sx={{ paddingLeft: { xs: 0, sm: 1, lg: 1 } }}>
+          {/* <Grid container item sx={{ paddingLeft: { xs: 0, sm: 1, lg: 1 } }}>
             <Grid item sm={3} p={2} justifyContent="space-between">
               <SideBar />
             </Grid>
@@ -99,7 +98,20 @@ export default function Home({ req }: { req: any }) {
             <Grid item sm={4} className="md:pl-16 xs:pl-12">
               <RightBar />
             </Grid>
-          </Grid>
+          </Grid> */}
+          <div className='border '>
+            <div className="flex justify-around md:pr-20">
+              <div className="w-2/12 mt-5 hidden md:block">
+                <SideBar />
+              </div>
+              <div className='lg:w-5/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-5 flex justify-center'>
+                <Feed mode={mode} />
+              </div>
+              <div className=" md:w-2/12 md:pr-10  mt-1">
+                <RightBar />
+              </div>
+            </div>
+          </div>
           <BottomBar />
         </Box>
       </ThemeProvider>

@@ -1,4 +1,4 @@
-import instance from "../../../../axios/axios";
+import instance from "../../../axios/axios";
 
 export const addPostToServer = async (formData: any) => {
   const { data } = await instance.post("/userPost/addPost", formData, {

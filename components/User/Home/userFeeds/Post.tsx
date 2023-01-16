@@ -17,7 +17,7 @@ import { Skeleton } from "@mui/material";
 // import { imageOptimizer } from "next/dist/server/image-optimizer";
 import useSWR from "swr";
 import AllUsersPost from "./AllUsersPost";
-import { getAllUsersPost } from "../../../../api/User/Get/post-related/getRequests";
+import { getAllUsersPost } from "../../../../api/User/Get/post";
 
 interface Props {
   mode: String;
