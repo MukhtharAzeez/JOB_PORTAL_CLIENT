@@ -26,7 +26,11 @@ import moment from "moment";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { currentUser } from "../../../../redux/user/userAuthSlicer";
-import { getPostComment, postComment, postLike } from "../../../../api/User/Post/post";
+import {
+  getPostComment,
+  postComment,
+  postLike,
+} from "../../../../api/User/Post/post";
 
 interface props {
   mode: String;
@@ -92,6 +96,7 @@ function AllUsersPost({ mode, post }: props) {
       handleExpandClick();
     }
   }
+
   return (
     <Card
       className="shadow-2xl shadow-gray-800 rounded-md"
@@ -131,7 +136,7 @@ function AllUsersPost({ mode, post }: props) {
           return (
             <Image
               key={index}
-              src="https://1.bp.blogspot.com/-kK7Fxm7U9o0/YN0bSIwSLvI/AAAAAAAACFk/aF4EI7XU_ashruTzTIpifBfNzb4thUivACLcBGAsYHQ/s1280/222.jpg"
+              src="https://m.media-amazon.com/images/I/41FzfSpv4iL.jpg"
               // src={image}
               fill
               sizes="(max-width: 768px) 100vw,
@@ -185,7 +190,6 @@ function AllUsersPost({ mode, post }: props) {
           >
             <ExpandMore
               expand={expanded}
-              
               aria-expanded={expanded}
               aria-label="show more"
             >
@@ -271,12 +275,7 @@ function AllUsersPost({ mode, post }: props) {
       </Box>
 
       {/* Comment Box */}
-      <Collapse
-        in={expanded}
-        timeout="auto"
-        unmountOnExit
-        className="max-h-80 overflow-auto scrollbar-hide"
-      >
+      <Collapse in={expanded} timeout="auto" unmountOnExit className="">
         <Comment comments={allComments} />
       </Collapse>
     </Card>

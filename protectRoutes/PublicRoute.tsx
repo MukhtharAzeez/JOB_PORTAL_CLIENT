@@ -2,15 +2,12 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { addUserDetails, currentUser } from "../redux/user/userAuthSlicer";
-// import { useCookies } from 'react-cookie'
 
-const UserProtectRouter = ({ children }: any) => {
-  // const [cookie, setCookie, removeCookie] = useCookies(['jwt'])
+const PublicRoute = ({ children }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const user = useSelector(currentUser);
-
   useEffect(() => {
     const publicFu = () => {
       dispatch(
@@ -22,16 +19,15 @@ const UserProtectRouter = ({ children }: any) => {
         })
       );
     };
-    publicFu();
-    if (user.userId !== null) {
-    } else {
-      router.push("/User/Login");
-    }
-  }, []);
 
-  if (user.userId !== null) {
+    publicFu();
+    if (user.userId) {
+      router.push("/");
+    }
+  }, [user]);
+  if (user.userId == null) {
     return children;
   }
 };
 
-export default UserProtectRouter;
+export default PublicRoute;

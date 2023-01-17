@@ -24,7 +24,8 @@ interface Props {
 
 function Jobs({ mode }: Props) {
   return (
-    <Card className="shadow-2xl shadow-gray-800 rounded-lg"
+    <Card
+      className="shadow-2xl shadow-gray-800 rounded-lg"
       sx={{
         minWidth: { xs: "auto", md: "auto", sm: 400 },
         margin: 1,

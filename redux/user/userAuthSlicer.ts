@@ -9,10 +9,10 @@ export interface UserDetails {
 }
 
 const initialState: UserDetails = {
-  userName: "",
-  email: "",
-  userId: "",
-  userToken: "",
+  userName: null,
+  email: null,
+  userId: null,
+  userToken: null,
 };
 
 const userAuthSlice = createSlice({

@@ -6,12 +6,12 @@ import NavBar from "../../../components/User/NavBar/NavBar";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
 
 function index() {
-  const mode = useSelector(currentTheme)
+  const mode = useSelector(currentTheme);
   return (
     <div>
-      <NavBar mode={mode}/>
+      <NavBar mode={mode} />
       <UserMessage />
-      <MobileBottom/>
+      <MobileBottom />
     </div>
   );
 }

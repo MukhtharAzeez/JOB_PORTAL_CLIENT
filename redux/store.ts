@@ -1,4 +1,3 @@
-
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userSideThemeSlice from "./user/ThemeSlice";
 import userAuthSlice from "./user/userAuthSlicer";

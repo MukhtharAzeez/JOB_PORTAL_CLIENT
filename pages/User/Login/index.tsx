@@ -24,6 +24,7 @@ import { signIn } from "next-auth/react";
 import instance from "../../../axios/axios";
 import { useDispatch } from "react-redux";
 import { addUserDetails } from "../../../redux/user/userAuthSlicer";
+import PublicRoute from "../../../protectRoutes/PublicRoute";
 
 const theme = createTheme();
 
@@ -57,6 +58,13 @@ export default function SignIn() {
         },
       });
       if (user) {
+        localStorage.setItem(
+          "userName",
+          user.data.firstName + " " + user.data.lastName
+        );
+        localStorage.setItem("email", user.data.email);
+        localStorage.setItem("userId", user.data._id);
+
         dispatch(addUserDetails(user.data));
         router.push("/");
       }
@@ -93,200 +101,210 @@ export default function SignIn() {
   const SignUpPage = () => router.push("/User/Signup");
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box
-        bgcolor={"white"}
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          marginTop: 10,
-        }}
-      >
-        <Container
-          component="main"
-          sx={{ marginLeft: { xl: 24, xs: "auto" } }}
-          maxWidth="xs"
-        >
-          <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Typography component="h1" variant="h5">
-              SIGN IN
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    variant="filled"
-                    size="small"
-                    InputProps={{
-                      disableUnderline: true,
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth required variant="filled">
-                    <InputLabel htmlFor="filled-adornment-password">
-                      Password
-                    </InputLabel>
-                    <FilledInput
-                      id="filled-adornment-password"
-                      type={showPassword ? "text" : "password"}
-                      required
-                      name="password"
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value="TermsAndConditions"
-                        defaultChecked
-                        sx={{
-                          color: "#38d39f",
-                          "&.Mui-checked": {
-                            color: "#38d39f",
-                          },
-                        }}
-                        color="primary"
-                      />
-                    }
-                    label="Accept Terms And Conditions"
-                  />
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  backgroundColor: "#38d39f",
-                  height: 50,
-                  "&:hover": { backgroundColor: "#38d39f" },
-                }}
-                style={{ backgroundColor: "#38d39f" }}
-              >
-                {isLoading ? (
-                  <CircularProgress sx={{ color: "white" }} />
-                ) : (
-                  "Sign In"
-                )}
-              </Button>
-              <p style={{ marginLeft: "48%", paddingBottom: 15 }}>or</p>
-              <Button
-                variant="contained"
-                onClick={handleGoogleSignUp}
-                sx={{
-                  backgroundColor: "#ffffff",
-                  color: "black",
-                  marginBottom: 2,
-                  width: "100%",
-                  height: 50,
-                  "&:hover": { backgroundColor: "#ffffff", color: "black" },
-                }}
-                endIcon={<GoogleIcon />}
-              >
-                Sign In With Google
-              </Button>
-              <Button
-                variant="contained"
-                onClick={handleGithubSignUp}
-                sx={{
-                  backgroundColor: "#ffffff",
-                  color: "black",
-                  width: "100%",
-                  height: 50,
-                  "&:hover": { backgroundColor: "#ffffff", color: "black" },
-                }}
-                endIcon={<GitHubIcon />}
-              >
-                Sign In With Github
-              </Button>
-              <Grid container justifyContent="center" pt={2}>
-                <Grid item>
-                  <Grid item sx={{ cursor: "pointer" }}>
-                    <p onClick={SignUpPage}>
-                      Does not have an account? Sign Up
-                    </p>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
-        </Container>
+    <PublicRoute>
+      <ThemeProvider theme={theme}>
         <Box
+          bgcolor={"white"}
           sx={{
-            width: "50%",
-            display: { xs: "none", md: "flex" },
-            justifyContent: "flex-start",
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            marginTop: 10,
           }}
         >
-          <Image
-            src="https://preview.colorlib.com/theme/bootstrap/login-form-08/images/undraw_file_sync_ot38.svg"
-            alt=""
-            width={480}
-            height={480}
-          />
+          <Container
+            component="main"
+            sx={{ marginLeft: { xl: 24, xs: "auto" } }}
+            maxWidth="xs"
+          >
+            <CssBaseline />
+            <Box
+              sx={{
+                marginTop: 8,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Typography component="h1" variant="h5">
+                SIGN IN
+              </Typography>
+              <Box
+                component="form"
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 1 }}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      variant="filled"
+                      size="small"
+                      InputProps={{
+                        disableUnderline: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControl fullWidth required variant="filled">
+                      <InputLabel htmlFor="filled-adornment-password">
+                        Password
+                      </InputLabel>
+                      <FilledInput
+                        id="filled-adornment-password"
+                        type={showPassword ? "text" : "password"}
+                        required
+                        name="password"
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          value="TermsAndConditions"
+                          defaultChecked
+                          sx={{
+                            color: "#38d39f",
+                            "&.Mui-checked": {
+                              color: "#38d39f",
+                            },
+                          }}
+                          color="primary"
+                        />
+                      }
+                      label="Accept Terms And Conditions"
+                    />
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    backgroundColor: "#38d39f",
+                    height: 50,
+                    "&:hover": { backgroundColor: "#38d39f" },
+                  }}
+                  style={{ backgroundColor: "#38d39f" }}
+                >
+                  {isLoading ? (
+                    <CircularProgress sx={{ color: "white" }} />
+                  ) : (
+                    "Sign In"
+                  )}
+                </Button>
+                <p style={{ marginLeft: "48%", paddingBottom: 15 }}>or</p>
+                <Button
+                  variant="contained"
+                  onClick={handleGoogleSignUp}
+                  sx={{
+                    backgroundColor: "#ffffff",
+                    color: "black",
+                    marginBottom: 2,
+                    width: "100%",
+                    height: 50,
+                    "&:hover": { backgroundColor: "#ffffff", color: "black" },
+                  }}
+                  endIcon={<GoogleIcon />}
+                >
+                  Sign In With Google
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleGithubSignUp}
+                  sx={{
+                    backgroundColor: "#ffffff",
+                    color: "black",
+                    width: "100%",
+                    height: 50,
+                    "&:hover": { backgroundColor: "#ffffff", color: "black" },
+                  }}
+                  endIcon={<GitHubIcon />}
+                >
+                  Sign In With Github
+                </Button>
+                <Grid container justifyContent="center" pt={2}>
+                  <Grid item>
+                    <Grid item sx={{ cursor: "pointer" }}>
+                      <p onClick={SignUpPage}>
+                        Does not have an account? Sign Up
+                      </p>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+          </Container>
+          <Box
+            sx={{
+              width: "50%",
+              display: { xs: "none", md: "flex" },
+              justifyContent: "flex-start",
+            }}
+          >
+            <Image
+              src="https://preview.colorlib.com/theme/bootstrap/login-form-08/images/undraw_file_sync_ot38.svg"
+              alt=""
+              width={480}
+              height={480}
+            />
+          </Box>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert
+              onClose={handleClose}
+              severity="error"
+              sx={{ width: "100%" }}
+            >
+              {message}
+            </Alert>
+          </Snackbar>
         </Box>
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-            {message}
-          </Alert>
-        </Snackbar>
-      </Box>
-    </ThemeProvider>
+      </ThemeProvider>
+    </PublicRoute>
   );
 }
 
-export async function getServerSideProps({ req }: { req: any }) {
-  let cookies: any = req.cookies.jwt;
-  if (!cookies) {
-    cookies = null;
-    return {
-      props: {
-        cookies,
-      },
-    };
-  } else {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-}
+// export async function getServerSideProps({ req }: { req: any }) {
+//   let cookies: any = req.cookies.jwt;
+//   if (!cookies) {
+//     cookies = null;
+//     return {
+//       props: {
+//         cookies,
+//       },
+//     };
+//   } else {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     };
+//   }
+// }

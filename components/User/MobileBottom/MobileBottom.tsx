@@ -15,33 +15,31 @@ export default function MobileBottom() {
 
   const router = useRouter();
   return (
-    < BottomNavigation
+    <BottomNavigation
       sx={{
         position: "fixed",
         left: 0,
         bottom: 0,
         right: 0,
         display: { xs: "flex", sm: "none" },
-      }
-      }
+      }}
       value={value}
       onChange={handleChange}
     >
-      < BottomNavigationAction
+      <BottomNavigationAction
         label="Home"
         value="home"
-        icon={< HomeTwoToneIcon />}
-        onClick={() => router.push('/')}
+        icon={<HomeTwoToneIcon />}
+        onClick={() => router.push("/")}
       />
       <BottomNavigationAction label="Jobs" value="Jobs" icon={<WorkIcon />} />
       <BottomNavigationAction
         label="Messages"
         value="Messages"
         icon={<ChatTwoToneIcon />}
-        onClick={() => router.push('/User/Inbox')}
-
+        onClick={() => router.push("/User/Inbox")}
       />
- 
+
       <BottomNavigationAction
         label="profile"
         value="profile"
@@ -51,7 +49,7 @@ export default function MobileBottom() {
             src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
           />
         }
-        onClick={() => router.push('/User/Profile')}
+        onClick={() => router.push("/User/Profile")}
       />
       <BottomNavigationAction
         label="Messages"
@@ -59,6 +57,6 @@ export default function MobileBottom() {
         icon={<ChatTwoToneIcon />}
         sx={{ display: "none" }}
       />
-    </BottomNavigation >
+    </BottomNavigation>
   );
 }

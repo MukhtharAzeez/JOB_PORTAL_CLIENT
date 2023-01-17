@@ -56,7 +56,7 @@ export const getPostComment = async (postId: string) => {
   return comments;
 };
 
-export const likeComment = async (commentId:string, userId:string)=>{
+export const likeComment = async (commentId: string, userId: string) => {
   const result = await instance.get(
     `/userPost/likeAComment?commentId=${commentId}&userId=${userId}`,
     {
@@ -66,5 +66,5 @@ export const likeComment = async (commentId:string, userId:string)=>{
       },
     }
   );
-  return result
-}
+  return result;
+};

@@ -8,6 +8,7 @@ const nextConfig = {
       "img.freepik.com",
       "thumbs.dreamstime.com",
       "myawsbucketforaddpost.s3.ap-south-1.amazonaws.com",
+      "m.media-amazon.com",
     ],
   },
 };

@@ -26,7 +26,7 @@ const BottomBar = dynamic(
  */
 
 export default function Home({ req }: { req: any }) {
-  const mode = useSelector(currentTheme)
+  const mode = useSelector(currentTheme);
   useEffect(() => {
     (async () => {
       const session = await getSession({ req });
@@ -65,10 +65,8 @@ export default function Home({ req }: { req: any }) {
     })();
   }, []);
 
-
   // const {data:session} =
   useSession();
-
 
   const theme = createTheme({
     palette: {
@@ -87,7 +85,7 @@ export default function Home({ req }: { req: any }) {
           {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" /> */}
         </Head>
         <Box color={"text.primary"} className="bg-gray-200">
-          <NavBar mode={mode}/>
+          <NavBar mode={mode} />
           {/* <Grid container item sx={{ paddingLeft: { xs: 0, sm: 1, lg: 1 } }}>
             <Grid item sm={3} p={2} justifyContent="space-between">
               <SideBar />
@@ -99,12 +97,12 @@ export default function Home({ req }: { req: any }) {
               <RightBar />
             </Grid>
           </Grid> */}
-          <div className='border '>
+          <div className="border ">
             <div className="flex justify-around md:pr-20">
               <div className="w-2/12 mt-8 hidden md:block">
                 <SideBar />
               </div>
-              <div className='lg:w-5/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-5 flex justify-center'>
+              <div className="lg:w-5/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-5 flex justify-center">
                 <Feed mode={mode} />
               </div>
               <div className=" md:w-2/12 md:pr-10  mt-4">
