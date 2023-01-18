@@ -63,20 +63,6 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@cloudinary/transformation-builder-sdk@^1.0.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@cloudinary/transformation-builder-sdk/-/transformation-builder-sdk-1.2.0.tgz#1016865a180d061a72b4048c55cfd448478e7c19"
-  integrity sha512-QhCZf8Lad90za9cEXMDZtF4G9Bdan6X0RlrtZBx3sAmuAYQz0yIwgcV8Ov63lef4tGwIdpGGXPjeopondw9P4A==
-  dependencies:
-    "@cloudinary/url-gen" "^1.7.0"
-
-"@cloudinary/url-gen@^1.7.0", "@cloudinary/url-gen@^1.8.6":
-  version "1.8.7"
-  resolved "https://registry.yarnpkg.com/@cloudinary/url-gen/-/url-gen-1.8.7.tgz#4399db1960655f40a2ed6fc2ee55366306d3c44a"
-  integrity sha512-07Hqy3weuuRm8ZCwn/HejrfiC8MiC/dK13IWm01FslhWek55jUTsKqR5xMwYQPX8+MWpLXd/EI/FiwqWaB5dDA==
-  dependencies:
-    "@cloudinary/transformation-builder-sdk" "^1.0.0"
-
 "@emoji-mart/data@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@emoji-mart/data/-/data-1.1.1.tgz#8b49cdfa85be8f1893abfca4cd0fa78e34e49672"
@@ -1884,11 +1870,6 @@ hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.3.0, hoist-non-react-
   dependencies:
     react-is "^16.7.0"
 
-husky@^8.0.0:
-  version "8.0.3"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-8.0.3.tgz#4936d7212e46d1dea28fef29bb3a108872cd9184"
-  integrity sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==
-
 ieee754@1.1.13:
   version "1.1.13"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.13.tgz#ec168558e95aa181fd87d37f55c32bbcb6708b84"
@@ -2367,13 +2348,6 @@ next-auth@^4.18.7:
     preact "^10.6.3"
     preact-render-to-string "^5.1.19"
     uuid "^8.3.2"
-
-next-cloudinary@^1.8.1:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/next-cloudinary/-/next-cloudinary-1.8.2.tgz#1619ade305889843aba794d88232fd55dbed0beb"
-  integrity sha512-4GB1NIy5tJ3DKmkw6G/RClpe4fwSFVcdJ4keT1L0sAu/g0DMVfT78uRrmsz7uImWywD00WAHRj3y260hJ+j04A==
-  dependencies:
-    "@cloudinary/url-gen" "^1.8.6"
 
 next@13.1.1:
   version "13.1.1"
