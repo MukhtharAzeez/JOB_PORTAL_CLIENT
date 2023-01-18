@@ -1,19 +1,25 @@
 import { Alert, Snackbar } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { updateUserProfile } from "../../../api/User/Post/user";
 import UserProtectRouter from "../../../protectRoutes/ProtectRoute";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
-// import { useForm } from "react-hook-form";
+import useSWR from "swr";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { uploadImage } from "../../../api/User/ThirdParty/cloudinary";
+import { updateUserProfile } from "../../../api/User/Post/user";
 
 function EditProfile() {
   const { userId } = useSelector(currentUser);
+  const address = `http://localhost:4000/user/profile?userId=${userId}`;
+  const fetcher = async (url: any) =>
+    await axios.get(url).then((res) => res.data);
+  const { data, error, isLoading } = useSWR(address, fetcher);
+
   const router = useRouter();
-  const data = router.query;
-  // const { register, handleSubmit, formState: { errors } } = useForm();
+
   const [qualificationValue, setQualificationValue] = useState("");
   const [qualifications, setQualifications] = useState([]);
   const [skillValue, setSkillValue] = useState("");
@@ -21,6 +27,14 @@ function EditProfile() {
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
+  const proImageRef = useRef<any>(null);
+  const [proImg, setProImg] = useState <any>(null);
+  const [imgErr,setImgErr] =  useState('')
+
+  const [openQualification, setOpenQualification] = useState(false)
+
+  if (isLoading) return <div>Loading</div>
+  if (error) return <div>error</div>
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -32,6 +46,12 @@ function EditProfile() {
 
     setOpen(false);
   };
+
+  function openQualificationInput() {
+    if (data.qualifications.length > 0) setQualifications(data.qualifications)
+    if (data.skills.length > 0) setSkills(data.skills)
+    setOpenQualification(!openQualification)
+  }
 
   function handleQualification(e: any) {
     if (qualifications.includes(qualificationValue))
@@ -60,16 +80,47 @@ function EditProfile() {
     setSkills(remindSkills);
   }
 
+  const proImgChangeHandler = (e: any) => {
+    const file = e.target.files;
+    const fileType = file[0]["type"];
+    const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+    if (validImageTypes.includes(fileType)) {
+      setProImg(e.target.files[0])
+      setImgErr("");
+    } else {
+      setImgErr(
+        "Image Invalid file type. Only jpeg, png, and gif images are allowed."
+      );
+    }
+  };
+
   async function handleSubmit(event: any) {
     event.preventDefault();
-    console.log("event", event.key);
-    const data = new FormData(event.target);
-    data.append("qualifications", JSON.stringify(qualifications));
-    data.append("skills", JSON.stringify(skills));
-    data.append("userId", userId);
-    try {
-      await updateUserProfile(data);
-    } catch (error:any) {
+
+    const formData = new FormData(event.target);
+    if (qualifications.length > 0) {
+      formData.append("qualifications", JSON.stringify(qualifications));
+    }
+    else { formData.append("qualifications", JSON.stringify(data.qualifications)); }
+    if (skills.length > 0) { formData.append("skills", JSON.stringify(skills)); }
+    else { formData.append("skills", JSON.stringify(data.skills)); }
+    formData.append("userId", userId);
+
+    let url
+    if(proImg){
+      url = await uploadImage(proImg)
+    }else if(data.image.length>0){
+      url = data.image
+    }else{
+      url = "https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png"
+    }
+
+    try {      
+      formData.append("image", url);
+      await updateUserProfile(formData);
+      router.push('/User/Profile')
+    } catch (error: any) {
+      console.log(error)
       const type = typeof error.response.data.message;
       if (type == "string") {
         setMessage(error.response.data.message);
@@ -80,9 +131,8 @@ function EditProfile() {
     }
   }
 
-  // const onSubmit = (data:any) => {
-  //   console.log(data);
-  // }
+ 
+
 
   return (
     <UserProtectRouter>
@@ -106,13 +156,29 @@ function EditProfile() {
               >
                 My account
               </Link>
-              <div className="flex">
-                <img
-                  className="w-16 h-16 ml-4 rounded-full"
-                  src="https://images.unsplash.com/photo-1628563694622-5a76957fd09c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW5zdGFncmFtJTIwcHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80"
-                  alt="Default avatar"
-                />
+
+              <div className="relative">
+                <div className="">
+                    <img
+                      className="w-16 h-16 ml-4 rounded-full"
+                      src=
+                    {proImg? URL?.createObjectURL(proImg)
+                      : data.image ? data.image :
+                      "https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png"
+                    }
+                      alt="Default avatar"
+                    onClick={() => proImageRef.current.click()}
+                    />
+                    <input
+                      type="file"
+                      name="Profile_img"
+                    onChange={proImgChangeHandler}
+                      ref={proImageRef}
+                      hidden
+                    />
+                </div>
               </div>
+              
             </div>
           </div>
           <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
@@ -265,116 +331,126 @@ function EditProfile() {
                 </div>
               </div>
               <hr className="mt-6 border-b-1 border-blueGray-300" />
-              <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                Add your Qualifications
-              </h6>
-              <div className="max-w-lg m-6">
-                <div className="relative">
-                  <input
-                    className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Add Your Educational Details"
-                    value={qualificationValue}
-                    onChange={(e) =>
-                      setQualificationValue(e.target.value.toUpperCase())
-                    }
-                    onKeyDown={handleQualification}
-                  />
-                  <div className="hidden">
-                    <div className="absolute z-40 left-0 mt-2 w-full">
-                      <div className="py-1 text-sm bg-white rounded shadow-lg border border-gray-300">
-                        <a className="block py-1 px-5 cursor-pointer hover:bg-indigo-600 hover:text-white">
-                          Add tag <span className="font-semibold"></span>
-                        </a>
+              {!openQualification && <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase" onClick={openQualificationInput}>
+                Click to Add your Qualifications and Skills
+              </h6>}
+              {openQualification ? (
+                <>
+                  <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                    Add your Qualifications
+                  </h6>
+                  <div className="max-w-lg m-6">
+                    <div className="relative">
+                      <input
+                        className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Add Your Educational Details"
+                        value={qualificationValue}
+                        onChange={(e) =>
+                          setQualificationValue(e.target.value.toUpperCase())
+                        }
+                        onKeyDown={handleQualification}
+                      />
+                      <div className="hidden">
+                        <div className="absolute z-40 left-0 mt-2 w-full">
+                          <div className="py-1 text-sm bg-white rounded shadow-lg border border-gray-300">
+                            <a className="block py-1 px-5 cursor-pointer hover:bg-indigo-600 hover:text-white">
+                              Add tag <span className="font-semibold"></span>
+                            </a>
+                          </div>
+                        </div>
                       </div>
+                      {qualifications.map(function (
+                        qualification: string,
+                        index: number
+                      ) {
+                        return (
+                          <div
+                            key={index}
+                            className="bg-gray-400 inline-flex items-center text-sm rounded mt-2 mr-1 overflow-hidden"
+                          >
+                            <span className="ml-2 mr-1 leading-relaxed truncate max-w-xs px-1">
+                              {qualification}
+                            </span>
+                            <button
+                              type="button"
+                              className="w-6 h-8 inline-block align-middle text-gray-500 bg-gray-800 focus:outline-none"
+                              onClick={() => deleteQualification(qualification)}
+                            >
+                              <svg
+                                className="w-6 h-6 fill-current mx-auto"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M15.78 14.36a1 1 0 0 1-1.42 1.42l-2.82-2.83-2.83 2.83a1 1 0 1 1-1.42-1.42l2.83-2.82L7.3 8.7a1 1 0 0 1 1.42-1.42l2.83 2.83 2.82-2.83a1 1 0 0 1 1.42 1.42l-2.83 2.83 2.83 2.82z"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
-                  {qualifications.map(function (
-                    qualification: string,
-                    index: number
-                  ) {
-                    return (
-                      <div
-                        key={index}
-                        className="bg-gray-400 inline-flex items-center text-sm rounded mt-2 mr-1 overflow-hidden"
-                      >
-                        <span className="ml-2 mr-1 leading-relaxed truncate max-w-xs px-1">
-                          {qualification}
-                        </span>
-                        <button
-                          type="button"
-                          className="w-6 h-8 inline-block align-middle text-gray-500 bg-gray-800 focus:outline-none"
-                          onClick={() => deleteQualification(qualification)}
-                        >
-                          <svg
-                            className="w-6 h-6 fill-current mx-auto"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
+                  <hr className="mt-6 border-b-1 border-blueGray-300" />
+                  <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                    Add your Skills
+                  </h6>
+                  <div className="max-w-lg m-6">
+                    <div className="relative">
+                      <input
+                        className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Add Some skills you have"
+                        value={skillValue}
+                        onChange={(e) =>
+                          setSkillValue(e.target.value.toUpperCase())
+                        }
+                        onKeyDown={handleSkills}
+                      />
+                      <div className="hidden">
+                        <div className="absolute z-40 left-0 mt-2 w-full">
+                          <div className="py-1 text-sm bg-white rounded shadow-lg border border-gray-300">
+                            <a className="block py-1 px-5 cursor-pointer hover:bg-indigo-600 hover:text-white">
+                              Add tag <span className="font-semibold"></span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      {skills.map(function (skill: string, index: number) {
+                        return (
+                          <div
+                            key={index}
+                            className="bg-gray-400 inline-flex items-center text-sm rounded mt-2 mr-1 overflow-hidden"
                           >
-                            <path
-                              fillRule="evenodd"
-                              d="M15.78 14.36a1 1 0 0 1-1.42 1.42l-2.82-2.83-2.83 2.83a1 1 0 1 1-1.42-1.42l2.83-2.82L7.3 8.7a1 1 0 0 1 1.42-1.42l2.83 2.83 2.82-2.83a1 1 0 0 1 1.42 1.42l-2.83 2.83 2.83 2.82z"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-              <hr className="mt-6 border-b-1 border-blueGray-300" />
-              <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                Add your Skills
-              </h6>
-              <div className="max-w-lg m-6">
-                <div className="relative">
-                  <input
-                    className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Add Some skills you have"
-                    value={skillValue}
-                    onChange={(e) =>
-                      setSkillValue(e.target.value.toUpperCase())
-                    }
-                    onKeyDown={handleSkills}
-                  />
-                  <div className="hidden">
-                    <div className="absolute z-40 left-0 mt-2 w-full">
-                      <div className="py-1 text-sm bg-white rounded shadow-lg border border-gray-300">
-                        <a className="block py-1 px-5 cursor-pointer hover:bg-indigo-600 hover:text-white">
-                          Add tag <span className="font-semibold"></span>
-                        </a>
-                      </div>
+                            <span className="ml-2 mr-1 leading-relaxed truncate max-w-xs px-1">
+                              {skill}
+                            </span>
+                            <button
+                              type="button"
+                              className="w-6 h-8 inline-block align-middle text-gray-500 bg-gray-800 focus:outline-none"
+                              onClick={() => deleteSkills(skill)}
+                            >
+                              <svg
+                                className="w-6 h-6 fill-current mx-auto"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M15.78 14.36a1 1 0 0 1-1.42 1.42l-2.82-2.83-2.83 2.83a1 1 0 1 1-1.42-1.42l2.83-2.82L7.3 8.7a1 1 0 0 1 1.42-1.42l2.83 2.83 2.82-2.83a1 1 0 0 1 1.42 1.42l-2.83 2.83 2.83 2.82z"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
-                  {skills.map(function (skill: string, index: number) {
-                    return (
-                      <div
-                        key={index}
-                        className="bg-gray-400 inline-flex items-center text-sm rounded mt-2 mr-1 overflow-hidden"
-                      >
-                        <span className="ml-2 mr-1 leading-relaxed truncate max-w-xs px-1">
-                          {skill}
-                        </span>
-                        <button
-                          type="button"
-                          className="w-6 h-8 inline-block align-middle text-gray-500 bg-gray-800 focus:outline-none"
-                          onClick={() => deleteSkills(skill)}
-                        >
-                          <svg
-                            className="w-6 h-6 fill-current mx-auto"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M15.78 14.36a1 1 0 0 1-1.42 1.42l-2.82-2.83-2.83 2.83a1 1 0 1 1-1.42-1.42l2.83-2.82L7.3 8.7a1 1 0 0 1 1.42-1.42l2.83 2.83 2.82-2.83a1 1 0 0 1 1.42 1.42l-2.83 2.83 2.83 2.82z"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+                </>
+              ) : (
+                <div></div>
+              )
+              }
               <button
                 className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 type="submit"
@@ -399,3 +475,11 @@ function EditProfile() {
 }
 
 export default EditProfile;
+
+// function uploadImage(proImg: any) {
+//   throw new Error("Function not implemented.");
+// }
+// function uploadImage(proImg: any) {
+//   throw new Error("Function not implemented.");
+// }
+
