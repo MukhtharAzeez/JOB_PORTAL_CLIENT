@@ -99,6 +99,8 @@ export default function SignIn() {
   };
 
   const SignUpPage = () => router.push("/User/Signup");
+  const createCompany = () => router.push("/Company/Create")
+
 
   return (
     <PublicRoute>
@@ -249,16 +251,12 @@ export default function SignIn() {
                 >
                   Sign In With Github
                 </Button>
-                <Grid container justifyContent="center" pt={2}>
-                  <Grid item>
-                    <Grid item sx={{ cursor: "pointer" }}>
-                      <p onClick={SignUpPage}>
-                        Does not have an account? Sign Up
-                      </p>
-                    </Grid>
-                  </Grid>
-                </Grid>
               </Box>
+              <div className="flex justify-center flex-col mt-3">
+                <p className="text-center">Does not have an account? <span onClick={SignUpPage} className="cursor-pointer hover:text-[#38d39f]">Sign Up</span> </p>
+                <p className="text-center">or </p>
+                <p className="text-center">Want to Login to your page? <span onClick={createCompany} className="cursor-pointer hover:text-[#38d39f]">Go to Page</span> </p>
+              </div>
             </Box>
           </Container>
           <Box

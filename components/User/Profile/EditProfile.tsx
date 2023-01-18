@@ -29,7 +29,6 @@ function EditProfile() {
 
   const proImageRef = useRef<any>(null);
   const [proImg, setProImg] = useState <any>(null);
-  const [imgErr,setImgErr] =  useState('')
 
   const [openQualification, setOpenQualification] = useState(false)
 
@@ -86,11 +85,12 @@ function EditProfile() {
     const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
     if (validImageTypes.includes(fileType)) {
       setProImg(e.target.files[0])
-      setImgErr("");
+      setMessage("");
     } else {
-      setImgErr(
-        "Image Invalid file type. Only jpeg, png, and gif images are allowed."
+      setMessage(
+        "The file you selected is invalid. Only jpeg, png, and gif images are allowed !"
       );
+      setOpen(true); 
     }
   };
 
@@ -157,7 +157,7 @@ function EditProfile() {
                 My account
               </Link>
 
-              <div className="relative">
+              <div className="relative cursor-pointer">
                 <div className="">
                     <img
                       className="w-16 h-16 ml-4 rounded-full"
@@ -476,10 +476,4 @@ function EditProfile() {
 
 export default EditProfile;
 
-// function uploadImage(proImg: any) {
-//   throw new Error("Function not implemented.");
-// }
-// function uploadImage(proImg: any) {
-//   throw new Error("Function not implemented.");
-// }
 

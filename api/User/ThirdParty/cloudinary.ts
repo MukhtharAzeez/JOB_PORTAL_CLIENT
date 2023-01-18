@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export const uploadImage = async (image:any) => {
-  console.log("cloudinary", image)
   const formData = new FormData();
   formData.append("file", image);
     formData.append('upload_preset', 'fetovrfe');

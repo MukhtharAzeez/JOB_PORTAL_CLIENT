@@ -9,6 +9,9 @@ const nextConfig = {
       "thumbs.dreamstime.com",
       "myawsbucketforaddpost.s3.ap-south-1.amazonaws.com",
       "m.media-amazon.com",
+      "www.essenzlovo.com",
+      "www.hrinasia.com",
+      "cdn.pixabay.com"
     ],
   },
 };

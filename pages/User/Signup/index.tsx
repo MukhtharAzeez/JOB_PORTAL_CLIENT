@@ -92,6 +92,7 @@ export default function SignUp() {
   };
 
   const loginPage = () => router.push("/User/Login");
+  const createCompany = () => router.push("/Company/Create")
 
   return (
     <PublicRoute>
@@ -290,12 +291,17 @@ export default function SignUp() {
                   )}
                 </Button>
 
-                <Grid container justifyContent="center">
-                  <Grid item sx={{ cursor: "pointer" }}>
-                    <p onClick={loginPage}>Already have an account? Sign In</p>
-                  </Grid>
-                </Grid>
               </Box>
+                {/* <Grid container justifyContent="center" className="flex flex-row">
+                  <Grid item sx={{ cursor: "pointer" }}>
+                    <p >Already have an account? Sign In</p>
+                  </Grid>
+                </Grid> */}
+                <div className="flex justify-center flex-col">
+                <p>Already have an account? <span onClick={loginPage} className="cursor-pointer hover:text-[#6c63ff]">Sign In</span> </p>
+                  <p className="text-center">or </p>
+                <p>Looking for create a Page? <span onClick={createCompany} className="cursor-pointer hover:text-[#6c63ff]">Create</span> </p>
+                </div>
             </Box>
           </Container>
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
