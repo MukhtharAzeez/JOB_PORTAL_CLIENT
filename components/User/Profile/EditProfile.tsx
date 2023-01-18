@@ -1,3 +1,4 @@
+import { Alert, Snackbar } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -17,6 +18,20 @@ function EditProfile() {
   const [qualifications, setQualifications] = useState([]);
   const [skillValue, setSkillValue] = useState("");
   const [skills, setSkills] = useState([]);
+  const [message, setMessage] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   function handleQualification(e: any) {
     if (qualifications.includes(qualificationValue))
@@ -52,7 +67,17 @@ function EditProfile() {
     data.append("qualifications", JSON.stringify(qualifications));
     data.append("skills", JSON.stringify(skills));
     data.append("userId", userId);
-    await updateUserProfile(data);
+    try {
+      await updateUserProfile(data);
+    } catch (error:any) {
+      const type = typeof error.response.data.message;
+      if (type == "string") {
+        setMessage(error.response.data.message);
+      } else {
+        setMessage(error.response.data.message[0]);
+      }
+      setOpen(true);
+    }
   }
 
   // const onSubmit = (data:any) => {
@@ -83,7 +108,7 @@ function EditProfile() {
               </Link>
               <div className="flex">
                 <img
-                  className="w-16 h-16 ml-4 rounded"
+                  className="w-16 h-16 ml-4 rounded-full"
                   src="https://images.unsplash.com/photo-1628563694622-5a76957fd09c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW5zdGFncmFtJTIwcHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80"
                   alt="Default avatar"
                 />
@@ -360,6 +385,15 @@ function EditProfile() {
           </div>
         </div>
       </div>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
     </UserProtectRouter>
   );
 }

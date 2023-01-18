@@ -118,24 +118,35 @@ function Profile() {
                 <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold">
                   {data.email}
                 </div>
-                <div className="mb-2 text-blueGray-600 mt-10">
-                  <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                  Solution Manager - Creative Tim Officer
-                </div>
-                <div className="mb-2 text-blueGray-600">
-                  <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
-                  University of Computer Science
+                  <div className='w-full justify-center flex'>
+                    <div className="mb-2 text-blueGray-600 mt-10 w-96 flex gap-2 justify-center">
+                      <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
+
+                      {
+                        data.qualifications.map(function(obj:any , index:number){
+                          return (
+                            <div key={obj} >
+                              <p className="mt-1 text-sm font-bold">  {obj} {index==data.qualifications.length-1 ? '': '|'}  </p>
+                            </div>
+                          )
+                        })
+                      }
+                    </div>
                 </div>
               </div>
               <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-9/12 px-4">
                     <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                      An artist of considerable range, Jenna the name taken by
-                      Melbourne-raised, Brooklyn-based Nick Murphy writes,
-                      performs and records all of his own music, giving it a
-                      warm, intimate feel with a solid groove structure. An
-                      artist of considerable range.
+                        {
+                          data.skills.map(function (obj: any, index: number) {
+                            return (
+                              <div key={obj} >
+                                <p className="mt-1 text-sm font-bold">  {obj} {index == data.qualifications.length - 1 ? '' : '|'}  </p>
+                              </div>
+                            )
+                          })
+                        }
                     </p>
                     <a className="font-normal text-pink-500">Show more</a>
                   </div>
