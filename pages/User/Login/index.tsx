@@ -24,7 +24,7 @@ import { signIn } from "next-auth/react";
 import instance from "../../../axios/axios";
 import { useDispatch } from "react-redux";
 import { addUserDetails } from "../../../redux/user/userAuthSlicer";
-import PublicRoute from "../../../protectRoutes/PublicRoute";
+import Cookies from 'js-cookie'
 
 const theme = createTheme();
 
@@ -65,7 +65,7 @@ export default function SignIn() {
         localStorage.setItem("email", user.data.result.email);
         localStorage.setItem("userId", user.data.result._id);
         localStorage.setItem("userToken", user.data.accessToken.access_token);
-
+        Cookies.set("userToken", user.data.accessToken.access_token)
         dispatch(addUserDetails(user.data));
         router.push("/");
       }
@@ -104,7 +104,7 @@ export default function SignIn() {
 
 
   return (
-    <PublicRoute>
+    <>
       <ThemeProvider theme={theme}>
         <Box
           bgcolor={"white"}
@@ -285,7 +285,7 @@ export default function SignIn() {
           </Snackbar>
         </Box>
       </ThemeProvider>
-    </PublicRoute>
+    </>
   );
 }
 

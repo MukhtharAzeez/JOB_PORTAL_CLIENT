@@ -63,12 +63,14 @@ function NavBar({ mode }: Props) {
             <span className="px-1 cursor-pointer hover:text-gray-700 hidden md:block">
               <i className="w-8 fas fa-calendar-alt p-2  rounded-full"></i>
             </span>
-            <span className="px-1 w-8 relative cursor-pointer hover:text-gray-700 hidden md:block">
-              <i className="fas fa-bell p-2  rounded-full"></i>
-              <span className="absolute right-0 top-0 -mt-2 -mr-1 text-xs bg-red-500 text-white font-medium px-2 shadow-lg rounded-full">
-                3
+            <Link href="/User/Login">
+              <span className="px-1 w-8 relative cursor-pointer hover:text-gray-700 hidden md:block">
+                <i className="fas fa-bell p-2  rounded-full"></i>
+                <span className="absolute right-0 top-0 -mt-2 -mr-1 text-xs bg-red-500 text-white font-medium px-2 shadow-lg rounded-full">
+                  3
+                </span>
               </span>
-            </span>
+            </Link>
           </div>
 
           <Link href="/User/Profile">

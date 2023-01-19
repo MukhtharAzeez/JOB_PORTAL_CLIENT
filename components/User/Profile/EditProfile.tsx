@@ -3,7 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import UserProtectRouter from "../../../protectRoutes/ProtectRoute";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
 import useSWR from "swr";
 import { useRouter } from "next/router";
@@ -137,7 +136,7 @@ function EditProfile() {
 
 
   return (
-    <UserProtectRouter>
+    <>
       <Head>
         <link
           rel="stylesheet"
@@ -472,7 +471,8 @@ function EditProfile() {
           {message}
         </Alert>
       </Snackbar>
-    </UserProtectRouter>
+
+      </>
   );
 }
 

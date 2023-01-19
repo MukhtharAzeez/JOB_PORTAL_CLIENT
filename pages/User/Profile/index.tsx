@@ -7,13 +7,12 @@ import SideBar from "../../../components/User/Home/SideBar";
 import MobileBottom from "../../../components/User/MobileBottom/MobileBottom";
 import NavBar from "../../../components/User/NavBar/NavBar";
 import Profile from "../../../components/User/Profile/Profile";
-import UserProtectRouter from "../../../protectRoutes/ProtectRoute";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
 
 function index() {
   const mode = useSelector(currentTheme);
   return (
-    <UserProtectRouter>
+    <>
       <Head>
         <title>Portal-Profile</title>
       </Head>
@@ -45,7 +44,7 @@ function index() {
         </div>
         <MobileBottom />
       </Box>
-    </UserProtectRouter>
+    </>
   );
 }
 

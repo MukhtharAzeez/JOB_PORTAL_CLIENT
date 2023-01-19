@@ -76,10 +76,6 @@ export default function Home({ req }: { req: any }) {
           console.log(error);
         }
       }
-        console.log("userId",localStorage.getItem("userId"))
-        if(!localStorage.getItem("userId")){
-          router.push('/User/Login')
-        }
     })();
   }, []);
 

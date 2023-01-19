@@ -26,7 +26,6 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUserDetails } from "../../../redux/user/userAuthSlicer";
-import PublicRoute from "../../../protectRoutes/PublicRoute";
 
 const theme = createTheme();
 
@@ -95,7 +94,7 @@ export default function SignUp() {
   const createCompany = () => router.push("/Company/Create")
 
   return (
-    <PublicRoute>
+    <>
       <ThemeProvider theme={theme}>
         <Box
           bgcolor={"white"}
@@ -315,7 +314,7 @@ export default function SignUp() {
           </Snackbar>
         </Box>
       </ThemeProvider>
-    </PublicRoute>
+    </>
   );
 }
 
