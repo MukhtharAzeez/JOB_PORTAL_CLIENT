@@ -10,8 +10,10 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { getSession, useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import instance from "../axios/axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { currentTheme } from "../redux/user/ThemeSlice";
+import { addUserDetails } from "../redux/user/userAuthSlicer";
+import { useRouter } from "next/router";
 
 const BottomBar = dynamic(
   () => import("../components/User/MobileBottom/MobileBottom")
@@ -26,8 +28,13 @@ const BottomBar = dynamic(
  */
 
 export default function Home({ req }: { req: any }) {
+
+  const dispatch = useDispatch()
   const mode = useSelector(currentTheme);
+  const router = useRouter();
+
   useEffect(() => {
+    
     (async () => {
       const session = await getSession({ req });
       console.log("github", session);
@@ -51,17 +58,28 @@ export default function Home({ req }: { req: any }) {
         data.append("confirmPassword", password);
         data.append("signInWith", "google");
         try {
-          const res = await instance.post("/user/registerWithProviders", data, {
+          const user = await instance.post("/auth/user/registerWithProviders", data, {
             withCredentials: true,
             headers: {
               "Content-Type": "application/json",
             },
           });
-          console.log(res);
+          localStorage.setItem(
+            "userName",
+            user.data.result.firstName + " " + user.data.result.lastName
+          );
+          localStorage.setItem("email", user.data.result.email);
+          localStorage.setItem("userId", user.data.result._id);
+          localStorage.setItem("userToken", user.data.accessToken.access_token);
+          dispatch(addUserDetails(user.data.result));
         } catch (error) {
           console.log(error);
         }
       }
+        console.log("userId",localStorage.getItem("userId"))
+        if(!localStorage.getItem("userId")){
+          router.push('/User/Login')
+        }
     })();
   }, []);
 
@@ -117,34 +135,35 @@ export default function Home({ req }: { req: any }) {
   );
 }
 
-export async function getServerSideProps({ req }: { req: any }) {
-  let session: any = await getSession({ req });
-  let cookies = req.cookies.jwt;
+// export async function getServerSideProps({ req }: { req: any }) {
+  // let session: any = await getSession({ req });
+  // let cookies = req.cookies.jwt;
 
-  if (session == null && !cookies) {
-    return {
-      redirect: {
-        destination: "/User/Login",
-        permanent: false,
-      },
-    };
-  }
+  // if (session == null && !cookies) {
+  //   return {
+  //     redirect: {
+  //       destination: "/User/Login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
-  if (session?.user || cookies) {
-    if (!session) session = null;
-    if (!cookies) cookies = null;
-    return {
-      props: {
-        session,
-        cookies,
-      },
-    };
-  } else {
-    return {
-      redirect: {
-        destination: "/User/Login",
-        permanent: false,
-      },
-    };
-  }
-}
+  // if (session?.user || cookies) {
+  //   if (!session) session = null;
+  //   if (!cookies) cookies = null;
+  //   return {
+  //     props: {
+  //       session,
+  //       cookies,
+  //     },
+  //   };
+  // } else {
+  //   return {
+  //     redirect: {
+  //       destination: "/User/Login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
+
+// }

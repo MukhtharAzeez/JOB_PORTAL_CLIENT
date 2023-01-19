@@ -12,10 +12,15 @@ const PublicRoute = ({ children }: any) => {
     const publicFu = () => {
       dispatch(
         addUserDetails({
-          firstName: localStorage.getItem("userName"),
-          lastName: "",
-          email: localStorage.getItem("email"),
-          _id: localStorage.getItem("userId"),
+          result: {
+            firstName: localStorage.getItem("userName"),
+            lastName: "",
+            email: localStorage.getItem("email"),
+            _id: localStorage.getItem("userId"),
+          },
+          accessToken: {
+            access_token: localStorage.getItem("userToken"),
+          }
         })
       );
     };

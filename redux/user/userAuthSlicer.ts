@@ -21,9 +21,10 @@ const userAuthSlice = createSlice({
   reducers: {
     addUserDetails(state, actions) {
       const newItem = actions.payload;
-      state.userName = newItem.firstName + " " + newItem.lastName;
-      state.userId = newItem._id;
-      state.email = newItem.email;
+      state.userName = newItem.result.firstName + " " + newItem.result.lastName;
+      state.userId = newItem.result._id;
+      state.email = newItem.result.email;
+      state.userToken = newItem.accessToken.access_token;
     },
   },
 });
@@ -31,3 +32,5 @@ const userAuthSlice = createSlice({
 export const { addUserDetails } = userAuthSlice.actions;
 export const currentUser = (state: RootState) => state.user;
 export default userAuthSlice;
+
+

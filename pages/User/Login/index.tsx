@@ -51,7 +51,7 @@ export default function SignIn() {
     setIsLoading(true);
     const data = new FormData(event.currentTarget);
     try {
-      const user = await instance.post("/user/login", data, {
+      const user = await instance.post("/auth/user/login", data, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -60,10 +60,11 @@ export default function SignIn() {
       if (user) {
         localStorage.setItem(
           "userName",
-          user.data.firstName + " " + user.data.lastName
+          user.data.result.firstName + " " + user.data.result.lastName
         );
-        localStorage.setItem("email", user.data.email);
-        localStorage.setItem("userId", user.data._id);
+        localStorage.setItem("email", user.data.result.email);
+        localStorage.setItem("userId", user.data.result._id);
+        localStorage.setItem("userToken", user.data.accessToken.access_token);
 
         dispatch(addUserDetails(user.data));
         router.push("/");

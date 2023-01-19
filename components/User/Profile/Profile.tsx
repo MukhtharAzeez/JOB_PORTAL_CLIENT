@@ -3,25 +3,21 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
 import useSWR from "swr";
-import axios from "axios";
 import Link from "next/link";
 import SkeletonLoader from "../../Loader/SkeletonLoader";
-
-// import { BsFillPeopleFill } from "react-icons/bs";
-
-// const fetcher = async (userId:string) => {
-//     console.log("userId",userId)
-//     const profile = await getCurrentUserDetails(userId);
-//     console.log(profile)
-//     return profile;
-// };
+import { getCurrentUserDetails } from "../../../api/User/Get/user";
 
 function Profile() {
   const { userId } = useSelector(currentUser);
-  const address = `http://localhost:4000/user/profile?userId=${userId}`;
-  const fetcher = async (url: any) =>
-    await axios.get(url).then((res) => res.data);
-  const { data, error, isLoading } = useSWR(address, fetcher);
+
+  const fetcher = async () => {
+    const profile = await getCurrentUserDetails(userId);
+    return profile;
+  };
+  const { data, error, isLoading } = useSWR("profile",fetcher);
+
+ 
+  
 
   return (
     <>

@@ -6,17 +6,19 @@ import { useSelector } from "react-redux";
 import UserProtectRouter from "../../../protectRoutes/ProtectRoute";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
 import useSWR from "swr";
-import axios from "axios";
 import { useRouter } from "next/router";
 import { uploadImage } from "../../../api/User/ThirdParty/cloudinary";
 import { updateUserProfile } from "../../../api/User/Post/user";
+import { getCurrentUserDetails } from "../../../api/User/Get/user";
 
 function EditProfile() {
   const { userId } = useSelector(currentUser);
-  const address = `http://localhost:4000/user/profile?userId=${userId}`;
-  const fetcher = async (url: any) =>
-    await axios.get(url).then((res) => res.data);
-  const { data, error, isLoading } = useSWR(address, fetcher);
+
+  const fetcher = async () => {
+    const profile = await getCurrentUserDetails(userId);
+    return profile;
+  };
+  const { data, error, isLoading } = useSWR("profile", fetcher);
 
   const router = useRouter();
 

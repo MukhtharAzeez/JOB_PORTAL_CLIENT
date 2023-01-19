@@ -54,19 +54,19 @@ export default function SignUp() {
     data.set("signInWith", "email");
     try {
       setIsLoading(true);
-      const user = await axios.post("http://localhost:4000/user/signup", data, {
+      const user = await axios.post("http://localhost:4000/auth/user/signup", data, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
         },
       });
-
       localStorage.setItem(
         "userName",
-        user.data.firstName + " " + user.data.lastName
+        user.data.result.firstName + " " + user.data.result.lastName
       );
-      localStorage.setItem("email", user.data.email);
-      localStorage.setItem("userId", user.data._id);
+      localStorage.setItem("email", user.data.result.email);
+      localStorage.setItem("userId", user.data.result._id);
+      localStorage.setItem("userToken", user.data.accessToken.access_token);
       dispatch(addUserDetails(user.data));
       router.push("/");
     } catch (error: any) {
