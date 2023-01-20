@@ -76,7 +76,7 @@ export default function Home({ req }: { req: any }) {
         }
       }
     })();
-  }, []);
+  },[]);
 
   // const {data:session} =
   useSession();

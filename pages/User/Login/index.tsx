@@ -291,22 +291,3 @@ export default function SignIn() {
     </PublicRoute>
   );
 }
-
-// export async function getServerSideProps({ req }: { req: any }) {
-//   let cookies: any = req.cookies.jwt;
-//   if (!cookies) {
-//     cookies = null;
-//     return {
-//       props: {
-//         cookies,
-//       },
-//     };
-//   } else {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
-// }

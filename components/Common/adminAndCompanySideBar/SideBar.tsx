@@ -2,18 +2,18 @@ import Link from 'next/link';
 import React, { useState, useEffect, useRef } from 'react';
 
 
-function SideBar({ sidebarOpen, setSidebarOpen }:any) {
+function SideBar({ sidebarOpen, setSidebarOpen }: any) {
 
     const trigger = useRef(null);
     const sidebar = useRef(null);
 
-    let storedSidebarExpanded 
-    const [sidebarExpanded, setSidebarExpanded] = useState(storedSidebarExpanded === null ? false :true);
+    let storedSidebarExpanded
+    const [sidebarExpanded, setSidebarExpanded] = useState(storedSidebarExpanded === null ? false : true);
 
     // close on click outside
     useEffect(() => {
-        storedSidebarExpanded=localStorage.getItem('sidebar-expanded');
-        const clickHandler = ({ target }:any) => {
+        storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
+        const clickHandler = ({ target }: any) => {
             if (!sidebar.current || !trigger.current) return;
             if (!sidebarOpen || sidebar.current.contains(target) || trigger.current.contains(target)) return;
             setSidebarOpen(false);
@@ -24,7 +24,7 @@ function SideBar({ sidebarOpen, setSidebarOpen }:any) {
 
     // close if the esc key is pressed
     useEffect(() => {
-        const keyHandler = ({ keyCode }:any) => {
+        const keyHandler = ({ keyCode }: any) => {
             if (!sidebarOpen || keyCode !== 27) return;
             setSidebarOpen(false);
         };
@@ -100,7 +100,7 @@ function SideBar({ sidebarOpen, setSidebarOpen }:any) {
                 </div>
                 <div className="overflow-y-auto overflow-x-hidden flex-grow scrollbar-hide">
                     <ul className="flex flex-col py-4 space-y-1">
-                       
+
                         <li>
                             <a href="#" className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-500 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                                 <span className="inline-flex justify-center items-center ml-4">
@@ -167,7 +167,7 @@ function SideBar({ sidebarOpen, setSidebarOpen }:any) {
                                 <span className="ml-2 text-sm tracking-wide truncate">Notifications</span>
                             </a>
                         </li>
-                       </ul>
+                    </ul>
                 </div>
 
                 <div className="pt-3 hidden lg:inline-flex 2xl:hidden justify-end mt-auto">

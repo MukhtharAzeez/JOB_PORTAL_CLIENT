@@ -1,22 +1,26 @@
+import { Tooltip } from '@mui/material';
 import React from 'react';
 import useSWR from "swr";
-import { Tooltip } from '@mui/material';
-import { getAllCompanyAdmins } from '../../../../api/Company/get';
+import { approveCompany, getAllCompanies } from '../../../api/Admin/get';
 
 
-function Admins() {
+function Companies() {
+
+    async function handleApprove(companyId: string) {
+        await approveCompany(companyId)
+    }
 
     const fetcher = async () => {
-        const companyAdmins = await getAllCompanyAdmins();
-        return companyAdmins;
+        const companies = await getAllCompanies();
+        return companies;
     };
-    const { data, error, isLoading } = useSWR("companyAdmins", fetcher);
+    const { data, error, isLoading } = useSWR("companies", fetcher);
 
     if (error) return <div>Error....</div>
     if (isLoading) return <div>Loading....</div>
 
     return (
-        <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200">
+        <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-slate-200">
             <header className="px-5 py-4 border-b border-slate-100">
                 <h2 className="font-semibold text-slate-800">All Companies</h2>
             </header>
@@ -29,19 +33,22 @@ function Admins() {
                         <thead className="text-xs uppercase text-slate-400 bg-slate-50 rounded-sm">
                             <tr>
                                 <th className="p-2">
-                                    <div className="font-semibold text-left">Admin</div>
+                                    <div className="font-semibold text-left">Company</div>
                                 </th>
                                 <th className="p-2">
-                                    <div className="font-semibold text-center">Position</div>
+                                    <div className="font-semibold text-center">Established</div>
                                 </th>
                                 <th className="p-2">
-                                    <div className="font-semibold text-center">Total Hiring</div>
+                                    <div className="font-semibold text-center">Email</div>
                                 </th>
                                 <th className="p-2">
-                                    <div className="font-semibold text-center">Total Rejections</div>
+                                    <div className="font-semibold text-center">Type</div>
                                 </th>
                                 <th className="p-2">
-                                    <div className="font-semibold text-center">Pending Hiring</div>
+                                    <div className="font-semibold text-center">Pan Card No.</div>
+                                </th>
+                                <th className="p-2">
+                                    <div className="font-semibold text-center">Status</div>
                                 </th>
                             </tr>
                         </thead>
@@ -73,7 +80,7 @@ function Admins() {
                                                 <div className="text-center text-green-500">{company.panCardNumber}</div>
                                             </td>
                                             <Tooltip title={company.approved ? 'Cancel Approvement' : 'Approve this company'} arrow placement='bottom-start'>
-                                                <td className="p-2">
+                                                <td className="p-2" onClick={() => handleApprove(company._id)}>
                                                     <div className="text-center cursor-pointer">{company.approved ? 'Approved' : 'Not Approved'}</div>
                                                 </td>
                                             </Tooltip>
@@ -81,7 +88,7 @@ function Admins() {
                                     )
                                 })
                             }
-                            
+
                         </tbody>
                     </table>
 
@@ -91,4 +98,7 @@ function Admins() {
     );
 }
 
-export default Admins;
+export default Companies;
+
+
+

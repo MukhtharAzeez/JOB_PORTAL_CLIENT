@@ -17,5 +17,3 @@ function SidebarLinkGroup({
     </li>
   );
 }
-
-export default SidebarLinkGroup;

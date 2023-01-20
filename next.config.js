@@ -11,7 +11,8 @@ const nextConfig = {
       "m.media-amazon.com",
       "www.essenzlovo.com",
       "www.hrinasia.com",
-      "cdn.pixabay.com"
+      "cdn.pixabay.com",
+      "static.vecteezy.com"
     ],
   },
 };

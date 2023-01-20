@@ -9,7 +9,6 @@ const PublicRoute = ({ children }: any) => {
 
   const user = useSelector(currentUser);
 
-  let check = false;
 
   useEffect(() => {
     const publicFu = () => {
@@ -17,7 +16,6 @@ const PublicRoute = ({ children }: any) => {
       if (userId) {
         return router.push("/");
       }
-      check = true;
       const firstName = localStorage.getItem("userName");
       const lastName = "";
       const email = localStorage.getItem("email");
