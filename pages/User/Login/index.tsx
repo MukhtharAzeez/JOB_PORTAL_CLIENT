@@ -25,6 +25,7 @@ import instance from "../../../axios/axios";
 import { useDispatch } from "react-redux";
 import { addUserDetails } from "../../../redux/user/userAuthSlicer";
 import Cookies from 'js-cookie'
+import PublicRoute from "../../../protectRoutes/publicRoute";
 
 const theme = createTheme();
 
@@ -34,6 +35,8 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
+
+
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -104,7 +107,7 @@ export default function SignIn() {
 
 
   return (
-    <>
+    <PublicRoute>
       <ThemeProvider theme={theme}>
         <Box
           bgcolor={"white"}
@@ -285,7 +288,7 @@ export default function SignIn() {
           </Snackbar>
         </Box>
       </ThemeProvider>
-    </>
+    </PublicRoute>
   );
 }
 

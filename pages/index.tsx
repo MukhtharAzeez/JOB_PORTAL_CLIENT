@@ -13,7 +13,7 @@ import instance from "../axios/axios";
 import { useDispatch, useSelector } from "react-redux";
 import { currentTheme } from "../redux/user/ThemeSlice";
 import { addUserDetails } from "../redux/user/userAuthSlicer";
-import { useRouter } from "next/router";
+import UserProtectRouter from "../protectRoutes/protectRoutes";
 
 const BottomBar = dynamic(
   () => import("../components/User/MobileBottom/MobileBottom")
@@ -31,7 +31,6 @@ export default function Home({ req }: { req: any }) {
 
   const dispatch = useDispatch()
   const mode = useSelector(currentTheme);
-  const router = useRouter();
 
   useEffect(() => {
     
@@ -89,7 +88,7 @@ export default function Home({ req }: { req: any }) {
   });
 
   return (
-    <>
+    <UserProtectRouter>
       <ThemeProvider theme={theme}>
         <Head>
           <title>Portal</title>
@@ -127,7 +126,7 @@ export default function Home({ req }: { req: any }) {
           <BottomBar />
         </Box>
       </ThemeProvider>
-    </>
+    </UserProtectRouter>
   );
 }
 

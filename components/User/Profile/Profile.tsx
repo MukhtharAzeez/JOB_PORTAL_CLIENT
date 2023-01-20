@@ -1,24 +1,16 @@
 import Head from "next/head";
-import React, { useEffect } from "react";
 import useSWR from "swr";
 import Link from "next/link";
 import SkeletonLoader from "../../Loader/SkeletonLoader";
 import { getCurrentUserDetails } from "../../../api/User/Get/user";
 
-function Profile() {
-  let userId:string
-  useEffect(() => {
-    userId = localStorage.getItem("userId");
-  },[userId])
+function Profile({userId}:any) {
 
   const fetcher = async () => {
     const profile = await getCurrentUserDetails(userId);
     return profile;
   };
   const { data, error, isLoading } = useSWR("profile", fetcher);
-
-
-  console.log(data)
 
   return (
     <>
@@ -34,9 +26,9 @@ function Profile() {
       </Head>
 
       <div className="relative flex flex-col min-w-0 min-h-[550px] break-words bg-white xs:w-full sm:w-[500px] md:w-[580px] lg:w-full mb-6 shadow-xl rounded-lg mt-36">
-        <div className="px-6rounded-lg shadow-lg">
-          <div className="flex flex-wrap justify-center">
-            <div className="w-full px-4 flex justify-center">
+        <div className="rounded-lg shadow-lg">
+          <div className="flex flex-wrap">
+            <div className="w-full flex justify-center">
               <div className="relative">
                 {isLoading || error ? (
                   <svg
@@ -56,12 +48,12 @@ function Profile() {
                   <img
                     alt="..."
                     src={data.image ? data.image : 'https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png'}
-                    className="shadow-xl rounded-full h-40 align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
+                    className="shadow-xl rounded-full h-40  border-none absolute -m-16 -ml-20 lg:-ml-20 max-w-150-px"
                   />
                 )}
               </div>
             </div>
-            <div className="w-full text-center mt-28 ml-6">
+            <div className="w-full text-center mt-28 ">
               <Link
                 href={{ pathname: "/User/Profile/Edit" }}
                 className="hover:underline cursor-pointer text-black font-bold"
@@ -70,8 +62,8 @@ function Profile() {
               </Link>
             </div>
             <div className="w-full text-center">
-              <div className="flex justify-center py-4 lg:pt-4 pt-8 pl-[48px]">
-                <div className="mr-4 p-3 pr-8 text-center">
+              <div className="flex justify-around">
+                <div className=" text-center">
                   {isLoading || error ? (
                     <span className="h-10 animate-pulse bg-gray-100 block rounded-lg dark:bg-gray-200 w-10 ml-2"></span>
                   ) : (
@@ -81,7 +73,7 @@ function Profile() {
                   )}
                   <span className="text-sm text-blueGray-400">Friends</span>
                 </div>
-                <div className="mr-4 p-3 text-center">
+                <div className="text-center pl-8">
                   {isLoading || error ? (
                     <span className="h-10 animate-pulse bg-gray-100 block rounded-lg dark:bg-gray-200 w- ml-2"></span>
                   ) : (
@@ -91,7 +83,7 @@ function Profile() {
                   )}
                   <span className="text-sm text-blueGray-400">Photos</span>
                 </div>
-                <div className="lg:mr-4 p-3 text-center pl-5">
+                <div className="text-center pl-5">
                   {isLoading || error ? (
                     <span className="h-10 animate-pulse bg-gray-100 block rounded-lg dark:bg-gray-200 w-10 ml-2"></span>
                   ) : (

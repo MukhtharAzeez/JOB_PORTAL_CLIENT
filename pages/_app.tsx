@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Provider } from "react-redux";
 import store from "../redux/store";
 
+
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -13,6 +14,8 @@ const darkTheme = createTheme({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+ 
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={darkTheme}>

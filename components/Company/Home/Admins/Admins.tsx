@@ -9,7 +9,7 @@ function Admins() {
             <div className="p-3">
 
                 {/* Table */}
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto scrollbar-hide">
                     <table className="table-auto w-full">
                         {/* Table header */}
                         <thead className="text-xs uppercase text-slate-400 bg-slate-50 rounded-sm">

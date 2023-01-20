@@ -11,6 +11,12 @@ import { currentTheme } from "../../../redux/user/ThemeSlice";
 
 function index() {
   const mode = useSelector(currentTheme);
+
+  let userId
+  if (typeof window !== 'undefined') {
+    userId=localStorage.getItem('userId');
+  }
+  
   return (
     <>
       <Head>
@@ -35,7 +41,7 @@ function index() {
               <SideBar />
             </div>
             <div className="lg:w-5/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-5 flex justify-center">
-              <Profile />
+              <Profile userId={userId}/>
             </div>
             <div className=" md:w-2/12 md:pr-10  mt-4">
               <RightBar />
