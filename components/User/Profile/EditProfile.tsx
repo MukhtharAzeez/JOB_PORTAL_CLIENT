@@ -2,8 +2,6 @@ import { Alert, Snackbar } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { currentUser } from "../../../redux/user/userAuthSlicer";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import { uploadImage } from "../../../api/User/ThirdParty/cloudinary";
@@ -11,7 +9,7 @@ import { updateUserProfile } from "../../../api/User/Post/user";
 import { getCurrentUserDetails } from "../../../api/User/Get/user";
 
 function EditProfile() {
-  const { userId } = useSelector(currentUser);
+  const userId = localStorage.getItem("userId");
 
   const fetcher = async () => {
     const profile = await getCurrentUserDetails(userId);

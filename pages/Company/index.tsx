@@ -1,24 +1,34 @@
-import React from 'react'
-import NavBar from '../../components/Company/Home/NavBar/NavBar';
+import React, { useState } from 'react'
+import Admins from '../../components/Company/Home/Admins/Admins';
+import Header from '../../components/Company/Home/Header/Header';
+// import NavBar from '../../components/Company/Home/NavBar/NavBar';
 import SideBar from '../../components/Company/Home/SideBar/SideBar';
-import AdminTable from '../../components/Company/Tables/AdminTable';
+// import AdminTable from '../../components/Company/Tables/AdminTable';
 
 function index() {
 
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+
+
     return (
-        <div className="bg-gray-200">
-            <NavBar />
-            <div className='flex gap-8'>
-                <SideBar/>
+        <div className="flex h-screen overflow-hidden">
 
-                <div className="w-10/12 shadow-lg rounded-lg bg-white mr-8 mt-28 pb-4 flex justify-center">
-                    <div >
-                        <AdminTable />
+            {/* Sidebar */}
+            <SideBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
+            {/* Content area */}
+            <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+
+                {/*  Site header */}
+                <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+                <main>
+                    <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto bg-gray-200">
+                        <div className="border rounded-lg shadow">
+                            <Admins/>
+                        </div>
                     </div>
-                </div>
-
+                </main>
             </div>
-
         </div>
     )
 }

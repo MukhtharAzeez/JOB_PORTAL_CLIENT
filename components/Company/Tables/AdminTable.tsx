@@ -61,6 +61,7 @@ function AdminTable() {
             selectableRows
             selectableRowsHighlight
             highlightOnHover
+            responsive
         />
     )
 }

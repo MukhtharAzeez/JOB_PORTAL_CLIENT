@@ -1,23 +1,24 @@
 import Head from "next/head";
-import React from "react";
-import { useSelector } from "react-redux";
-import { currentUser } from "../../../redux/user/userAuthSlicer";
+import React, { useEffect } from "react";
 import useSWR from "swr";
 import Link from "next/link";
 import SkeletonLoader from "../../Loader/SkeletonLoader";
 import { getCurrentUserDetails } from "../../../api/User/Get/user";
 
 function Profile() {
-  const { userId } = useSelector(currentUser);
+  let userId:string
+  useEffect(() => {
+    userId = localStorage.getItem("userId");
+  },[userId])
 
   const fetcher = async () => {
     const profile = await getCurrentUserDetails(userId);
     return profile;
   };
-  const { data, error, isLoading } = useSWR("profile",fetcher);
+  const { data, error, isLoading } = useSWR("profile", fetcher);
 
- 
-  
+
+  console.log(data)
 
   return (
     <>
@@ -54,7 +55,7 @@ function Profile() {
                 ) : (
                   <img
                     alt="..."
-                      src={data.image ? data.image :'https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png'}
+                    src={data.image ? data.image : 'https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png'}
                     className="shadow-xl rounded-full h-40 align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
                   />
                 )}
@@ -62,7 +63,7 @@ function Profile() {
             </div>
             <div className="w-full text-center mt-28 ml-6">
               <Link
-                href={{ pathname: "/User/Profile/Edit"}}
+                href={{ pathname: "/User/Profile/Edit" }}
                 className="hover:underline cursor-pointer text-black font-bold"
               >
                 Update Profile
@@ -114,35 +115,35 @@ function Profile() {
                 <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold">
                   {data.email}
                 </div>
-                  <div className='w-full justify-center flex'>
-                    <div className="mb-2 text-blueGray-600 mt-10 w-96 flex gap-2 justify-center">
-                      <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
+                <div className='w-full justify-center flex'>
+                  <div className="mb-2 text-blueGray-600 mt-10 w-96 flex gap-2 justify-center">
+                    <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
 
-                      {
-                        data.qualifications.map(function(obj:any , index:number){
-                          return (
-                            <div key={obj} >
-                              <p className="mt-1 text-sm font-bold">  {obj} {index==data.qualifications.length-1 ? '': '|'}  </p>
-                            </div>
-                          )
-                        })
-                      }
-                    </div>
+                    {
+                      data.qualifications.map(function (obj: any, index: number) {
+                        return (
+                          <div key={obj} >
+                            <p className="mt-1 text-sm font-bold">  {obj} {index == data.qualifications.length - 1 ? '' : '|'}  </p>
+                          </div>
+                        )
+                      })
+                    }
+                  </div>
                 </div>
               </div>
               <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-9/12 px-4">
                     <span className="mb-4 text-lg leading-relaxed text-blueGray-700 flex flex-wrap justify-center gap-2">
-                        {
-                          data.skills.map(function (obj: any, index: number) {
-                            return (
-                              <div key={obj} >
-                                <p className="mt-1 text-sm font-bold">  {obj} {index == data.skills.length - 1 ? '' : '|'}</p>
-                              </div>
-                            )
-                          })
-                        }
+                      {
+                        data.skills.map(function (obj: any, index: number) {
+                          return (
+                            <div key={obj} >
+                              <p className="mt-1 text-sm font-bold">  {obj} {index == data.skills.length - 1 ? '' : '|'}</p>
+                            </div>
+                          )
+                        })
+                      }
                     </span>
                     <a className="font-normal text-pink-500">Show more</a>
                   </div>
