@@ -37,7 +37,7 @@ function AddCompanyAdmins() {
         }
         try {
             await addAdmin(adminData);
-            router.push('/Company')
+            router.push('/company')
         } catch (error: any) {
             const type = typeof error.response.data.message;
             if (type == "string") {

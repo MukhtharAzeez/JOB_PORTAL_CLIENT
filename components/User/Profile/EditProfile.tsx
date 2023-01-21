@@ -116,7 +116,7 @@ function EditProfile() {
     try {      
       formData.append("image", url);
       await updateUserProfile(formData);
-      router.push('/User/Profile')
+      router.push('/user/profile')
     } catch (error: any) {
       const type = typeof error.response.data.message;
       if (type == "string") {
@@ -148,7 +148,7 @@ function EditProfile() {
           <div className="rounded-t bg-white mb-0 px-6 py-6">
             <div className="text-center flex justify-between">
               <Link
-                href="/User/Profile"
+                href="/user/profile"
                 className="text-blueGray-800 text-xl font-bold hover:underline cursor-pointer"
               >
                 My account

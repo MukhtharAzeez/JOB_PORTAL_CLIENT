@@ -13,7 +13,7 @@ const UserProtectRouter = ({ children }:any) => {
     const publicFu = () => {
         const userId = localStorage.getItem("userId")
         if (!userId) {
-          router.push("/User/Login");
+          router.push("/user/login");
         }
         const firstName = localStorage.getItem("userName");
         const lastName = ''

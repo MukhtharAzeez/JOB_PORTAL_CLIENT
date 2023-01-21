@@ -3,7 +3,7 @@ import React from "react";
 function CompanyAdminsProfile() {
     return (
         <div className=" lg:px-16 lg:pb-16">
-            <div className="p-8 bg-white shadow mt-24">
+            <div className="p-8 bg-white shadow mt-10">
                 <div className="grid grid-cols-1 md:grid-cols-3">
                     <div className="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
                         <div>

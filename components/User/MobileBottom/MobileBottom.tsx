@@ -37,7 +37,7 @@ export default function MobileBottom() {
         label="Messages"
         value="Messages"
         icon={<ChatTwoToneIcon />}
-        onClick={() => router.push("/User/Inbox")}
+        onClick={() => router.push("/user/inbox")}
       />
 
       <BottomNavigationAction
@@ -49,7 +49,7 @@ export default function MobileBottom() {
             src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
           />
         }
-        onClick={() => router.push("/User/Profile")}
+        onClick={() => router.push("/user/profile")}
       />
       <BottomNavigationAction
         label="Messages"

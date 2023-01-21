@@ -19,7 +19,7 @@ function Admins() {
     return (
         <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200">
             <header className="px-5 py-4 border-b border-slate-100">
-                <h2 className="font-semibold text-slate-800">All Companies</h2>
+                <h2 className="font-semibold text-slate-800">All Admins</h2>
             </header>
             <div className="p-3">
 
@@ -52,7 +52,7 @@ function Admins() {
                                 data.data.map(function (admin: any) {
                                     return (
                                         <tr key={admin._id}>
-                                            <Link href="/Company/CompanyAdmin-Profile">
+                                            <Link href="/company/company-admin-profile">
                                                 <td className="p-2">
                                                     <div className="flex items-center">
                                                         <svg className="shrink-0 mr-2 sm:mr-3" width="36" height="36" viewBox="0 0 36 36">

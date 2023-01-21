@@ -167,8 +167,8 @@ export default function Create() {
         event.preventDefault();
     };
 
-    const loginPage = () => router.push("/User/Login");
-    const loginToCompanyPage = () => router.push("/Company/Login")
+    const loginPage = () => router.push("/user/login");
+    const loginToCompanyPage = () => router.push("/company/login")
 
     return (
             <ThemeProvider theme={theme}>

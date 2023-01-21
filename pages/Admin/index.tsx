@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Companies from '../../components/Admin/Companies/Companies';
 import SideBar from '../../components/Common/adminAndCompanySideBar/SideBar';
-import Header from '../../components/Company/Home/Header/Header';
+import Header from '../../components/Common/adminAndCompanySideBar/Header/Header';
 
 
 function index() {

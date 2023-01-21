@@ -65,7 +65,7 @@ export default function SignIn() {
                 // localStorage.setItem("userToken", user.data.accessToken.access_token);
                 // Cookies.set("userToken", user.data.accessToken.access_token)
                 // dispatch(addUserDetails(user.data));
-                router.push("/Company");
+                router.push("/company");
             }
         } catch (error: any) {
             const type = typeof error.response.data.message;
@@ -91,8 +91,8 @@ export default function SignIn() {
         event.preventDefault();
     };
 
-    const SignUpPage = () => router.push("/User/Signup");
-    const createCompany = () => router.push("/Company/Create")
+    const SignUpPage = () => router.push("/user/signup");
+    const createCompany = () => router.push("/company/create")
 
 
     return (

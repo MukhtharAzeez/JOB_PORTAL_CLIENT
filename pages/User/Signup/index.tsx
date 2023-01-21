@@ -90,8 +90,8 @@ export default function SignUp() {
     event.preventDefault();
   };
 
-  const loginPage = () => router.push("/User/Login");
-  const createCompany = () => router.push("/Company/Create")
+  const loginPage = () => router.push("/user/login");
+  const createCompany = () => router.push("/company/create")
 
   return (
     <>

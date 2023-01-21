@@ -55,7 +55,7 @@ function Profile({userId}:any) {
             </div>
             <div className="w-full text-center mt-28 ">
               <Link
-                href={{ pathname: "/User/Profile/Edit" }}
+                href={{ pathname: "/user/profile/edit" }}
                 className="hover:underline cursor-pointer text-black font-bold"
               >
                 Update Profile

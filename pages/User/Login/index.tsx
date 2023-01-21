@@ -104,8 +104,8 @@ export default function SignIn() {
     event.preventDefault();
   };
 
-  const SignUpPage = () => router.push("/User/Signup");
-  const createCompany = () => router.push("/Company/Create")
+  const SignUpPage = () => router.push("/user/signup");
+  const createCompany = () => router.push("/company/create")
 
 
   return (
