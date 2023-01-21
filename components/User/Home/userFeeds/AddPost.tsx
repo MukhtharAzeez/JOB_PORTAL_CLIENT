@@ -5,16 +5,17 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-import { red } from "@mui/material/colors";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import TextField from "@mui/material/TextField";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { Button } from "@mui/material";
 import PostAddModal from "../../Upload/UploadPost";
+import { currentUser } from "../../../../redux/user/userAuthSlicer";
+import { useSelector } from "react-redux";
+import moment from "moment";
 
 export default function AddPost() {
   const [addPost, setAddPost] = React.useState(false);
   const handleOpen = () => setAddPost(true);
+
+  const { userName , image} =  useSelector(currentUser)
   return (
     <>
       <Card
@@ -26,36 +27,26 @@ export default function AddPost() {
       >
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              R
-            </Avatar>
+            image ? (
+              <Avatar alt="User Profile" src={image} />
+            ) : (
+              <Avatar className="bg-black" aria-label="recipe">
+                {userName[0]}
+              </Avatar>
+            )
           }
           action={
             <IconButton aria-label="settings">
               <MoreVertIcon />
             </IconButton>
           }
-          title="Shrimp and Chorizo Paella"
-          subheader="September 14, 2016"
+          title={userName}
+          subheader={moment(Date.now()).format("DD MMMM YYYY")}
         />
         <CardContent>
-          <TextField
-            sx={{ width: "100%" }}
-            id="standard-multiline-flexible"
-            label="What's on your mind?"
-            multiline
-            maxRows={4}
-            variant="standard"
-          />
-          {/* <AddCircleOutlineIcon sx={{marginTop:1 , fontSize:40 , cursor: 'pointer'}} /> */}
-          <Button
-            variant="contained"
-            startIcon={<AddCircleOutlineIcon />}
-            onClick={handleOpen}
-            className="bg-black text-white m-3 hover:bg-white hover:text-black"
-          >
+          <button className="px-4 py-2 w-full text-bold shadow:md hover:shadow-lg" onClick={handleOpen}>
             Create
-          </Button>
+          </button>
         </CardContent>
         {/* <addPostModal addPost={addPost} setAddPost={setAddPost} /> */}
         <PostAddModal addPost={addPost} setAddPost={setAddPost} />

@@ -6,6 +6,7 @@ export interface UserDetails {
   email: string;
   userId: string;
   userToken: string;
+  image: string;
 }
 
 const initialState: UserDetails = {
@@ -13,6 +14,7 @@ const initialState: UserDetails = {
   email: null,
   userId: null,
   userToken: null,
+  image: '',
 };
 
 const userAuthSlice = createSlice({
@@ -24,6 +26,7 @@ const userAuthSlice = createSlice({
       state.userName = newItem.result.firstName + " " + newItem.result.lastName;
       state.userId = newItem.result._id;
       state.email = newItem.result.email;
+      state.image = newItem.result.image
       state.userToken = newItem.accessToken.access_token;
     },
   },

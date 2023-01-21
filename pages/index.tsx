@@ -18,9 +18,7 @@ import UserProtectRouter from "../protectRoutes/protectRoutes";
 const BottomBar = dynamic(
   () => import("../components/User/MobileBottom/MobileBottom")
 );
-// import axios from "axios";
 
-// const inter = Inter({ subsets: ['latin'] })
 
 /**
  * Home Page of the Application

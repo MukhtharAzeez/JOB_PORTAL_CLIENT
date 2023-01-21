@@ -61,6 +61,7 @@ export default function SignIn() {
         },
       });
       if (user) {
+        console.log(user)
         localStorage.setItem(
           "userName",
           user.data.result.firstName + " " + user.data.result.lastName
@@ -68,6 +69,7 @@ export default function SignIn() {
         localStorage.setItem("email", user.data.result.email);
         localStorage.setItem("userId", user.data.result._id);
         localStorage.setItem("userToken", user.data.accessToken.access_token);
+        localStorage.setItem("image", user.data.result.image);
         Cookies.set("userToken", user.data.accessToken.access_token)
         dispatch(addUserDetails(user.data));
         router.push("/");

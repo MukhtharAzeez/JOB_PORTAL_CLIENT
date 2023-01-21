@@ -18,8 +18,9 @@ const UserProtectRouter = ({ children }:any) => {
         const firstName = localStorage.getItem("userName");
         const lastName = ''
         const email = localStorage.getItem("email")
+        const image = localStorage.getItem("image");
         const userToken = localStorage.getItem("userToken")
-        dispatch(addUserDetails({ result: { firstName , lastName,_id:userId, email}, accessToken: {access_token:userToken} }));
+        dispatch(addUserDetails({ result: { firstName , lastName,_id:userId, email,image}, accessToken: {access_token:userToken} }));
     };
     
     
