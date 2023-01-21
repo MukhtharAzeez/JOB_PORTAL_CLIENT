@@ -13,3 +13,14 @@ export const createABusinessPage = async (formData:any) => {
   );
   return result;
 };
+
+export const addAdmin = async (formData: any) => {
+  const result = await instance.post(`/company/addAdmin`, formData, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return result;
+};
+

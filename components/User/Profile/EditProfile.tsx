@@ -95,7 +95,6 @@ function EditProfile() {
 
   async function handleSubmit(event: any) {
     event.preventDefault();
-
     const formData = new FormData(event.target);
     if (qualifications.length > 0) {
       formData.append("qualifications", JSON.stringify(qualifications));
@@ -119,7 +118,6 @@ function EditProfile() {
       await updateUserProfile(formData);
       router.push('/User/Profile')
     } catch (error: any) {
-      console.log(error)
       const type = typeof error.response.data.message;
       if (type == "string") {
         setMessage(error.response.data.message);
@@ -196,6 +194,7 @@ function EditProfile() {
                       name="firstName"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue={data.firstName ? data.firstName : ""}
+                      required
                     />
                   </div>
                 </div>
@@ -209,6 +208,7 @@ function EditProfile() {
                       name="lastName"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue={data.lastName ? data.lastName : ""}
+                      required
                     />
                   </div>
                 </div>
@@ -222,6 +222,7 @@ function EditProfile() {
                       name="email"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue={data.email ? data.email : ""}
+                      required
                     />
                   </div>
                 </div>
@@ -248,6 +249,8 @@ function EditProfile() {
                       name="mobile"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue={data.mobile ? data.mobile : ""}
+                      minLength={10}
+                      maxLength={10}
                     />
                   </div>
                 </div>
@@ -453,6 +456,7 @@ function EditProfile() {
               <button
                 className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 type="submit"
+                
               >
                 Save
               </button>
