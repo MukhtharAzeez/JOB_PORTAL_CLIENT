@@ -27,7 +27,7 @@ function EditProfile() {
   const [open, setOpen] = React.useState(false);
 
   const proImageRef = useRef<any>(null);
-  const [proImg, setProImg] = useState <any>(null);
+  const [proImg, setProImg] = useState<any>(null);
 
   const [openQualification, setOpenQualification] = useState(false)
 
@@ -52,19 +52,25 @@ function EditProfile() {
   }
 
   function handleQualification(e: any) {
-    if (qualifications.includes(qualificationValue))
-      return setQualificationValue("");
-    if (e.keyCode == 32 && qualificationValue.trim() != "") {
-      setQualifications([...qualifications, qualificationValue.trim()]);
-      setQualificationValue("");
+    if (e.keyCode == 13) {
+      e.preventDefault();
+      if (qualifications.includes(qualificationValue))
+        return setQualificationValue("");
+      if (qualificationValue.trim() != "") {
+        setQualifications([...qualifications, qualificationValue.trim()]);
+        setQualificationValue("");
+      }
     }
   }
 
   function handleSkills(e: any) {
-    if (skills.includes(skillValue)) return setQualificationValue("");
-    if (e.keyCode == 32 && skillValue.trim() != "") {
-      setSkills([...skills, skillValue.trim()]);
-      setSkillValue("");
+    if (e.keyCode == 13) {
+      e.preventDefault();
+      if (skills.includes(skillValue)) return setQualificationValue("");
+      if (skillValue.trim() != "") {
+        setSkills([...skills, skillValue.trim()]);
+        setSkillValue("");
+      }
     }
   }
 
@@ -89,13 +95,26 @@ function EditProfile() {
       setMessage(
         "The file you selected is invalid. Only jpeg, png, and gif images are allowed !"
       );
-      setOpen(true); 
+      setOpen(true);
     }
   };
+
+  function preventFormFromEnter(e: any) {
+    if (e.keyCode == 13) e.preventDefault()
+  }
 
   async function handleSubmit(event: any) {
     event.preventDefault();
     const formData = new FormData(event.target);
+    const bday = formData.get("DOB")
+    if(new Date(bday.toString())<=new Date(new Date().toString())){
+
+    }else{
+      setMessage("Date is invalid");
+      setOpen(true)
+      return
+    }
+
     if (qualifications.length > 0) {
       formData.append("qualifications", JSON.stringify(qualifications));
     }
@@ -105,15 +124,15 @@ function EditProfile() {
     formData.append("userId", userId);
 
     let url
-    if(proImg){
+    if (proImg) {
       url = await uploadImage(proImg)
-    }else if(data.image.length>0){
+    } else if (data.image.length > 0) {
       url = data.image
-    }else{
+    } else {
       url = "https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png"
     }
 
-    try {      
+    try {
       formData.append("image", url);
       await updateUserProfile(formData);
       router.push('/user/profile')
@@ -128,7 +147,7 @@ function EditProfile() {
     }
   }
 
- 
+
 
 
   return (
@@ -156,26 +175,26 @@ function EditProfile() {
 
               <div className="relative cursor-pointer">
                 <div className="">
-                    <img
-                      className="w-16 h-16 ml-4 rounded-full"
-                      src=
-                    {proImg? URL?.createObjectURL(proImg)
+                  <img
+                    className="w-16 h-16 ml-4 rounded-full"
+                    src=
+                    {proImg ? URL?.createObjectURL(proImg)
                       : data.image ? data.image :
-                      "https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png"
+                        "https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png"
                     }
-                      alt="Default avatar"
+                    alt="Default avatar"
                     onClick={() => proImageRef.current.click()}
-                    />
-                    <input
-                      type="file"
-                      name="Profile_img"
+                  />
+                  <input
+                    type="file"
+                    name="Profile_img"
                     onChange={proImgChangeHandler}
-                      ref={proImageRef}
-                      hidden
-                    />
+                    ref={proImageRef}
+                    hidden
+                  />
                 </div>
               </div>
-              
+
             </div>
           </div>
           <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
@@ -195,6 +214,7 @@ function EditProfile() {
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue={data.firstName ? data.firstName : ""}
                       required
+                      onKeyDown={preventFormFromEnter}
                     />
                   </div>
                 </div>
@@ -209,6 +229,7 @@ function EditProfile() {
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue={data.lastName ? data.lastName : ""}
                       required
+                      onKeyDown={preventFormFromEnter}
                     />
                   </div>
                 </div>
@@ -223,6 +244,7 @@ function EditProfile() {
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue={data.email ? data.email : ""}
                       required
+                      onKeyDown={preventFormFromEnter}
                     />
                   </div>
                 </div>
@@ -236,6 +258,7 @@ function EditProfile() {
                       name="DOB"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue={data.DOB ? data.DOB : ""}
+                      onKeyDown={preventFormFromEnter}
                     />
                   </div>
                 </div>
@@ -251,6 +274,7 @@ function EditProfile() {
                       defaultValue={data.mobile ? data.mobile : ""}
                       minLength={10}
                       maxLength={10}
+                      onKeyDown={preventFormFromEnter}
                     />
                   </div>
                 </div>
@@ -289,6 +313,7 @@ function EditProfile() {
                       name="address"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue={data.address ? data.address : ""}
+                      onKeyDown={preventFormFromEnter}
                     />
                   </div>
                 </div>
@@ -302,6 +327,7 @@ function EditProfile() {
                       name="city"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue={data.city ? data.city : ""}
+                      onKeyDown={preventFormFromEnter}
                     />
                   </div>
                 </div>
@@ -315,6 +341,7 @@ function EditProfile() {
                       name="country"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       defaultValue={data.country ? data.country : ""}
+                      onKeyDown={preventFormFromEnter}
                     />
                   </div>
                 </div>
@@ -327,7 +354,8 @@ function EditProfile() {
                       type="text"
                       name="postalCode"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      defaultValue={data.pinCode ? data.pinCode : ""}
+                      defaultValue={data.postalCode ? data.postalCode : ""}
+                      onKeyDown={preventFormFromEnter}
                     />
                   </div>
                 </div>
@@ -456,7 +484,7 @@ function EditProfile() {
               <button
                 className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                 type="submit"
-                
+
               >
                 Save
               </button>
@@ -474,7 +502,7 @@ function EditProfile() {
         </Alert>
       </Snackbar>
 
-      </>
+    </>
   );
 }
 

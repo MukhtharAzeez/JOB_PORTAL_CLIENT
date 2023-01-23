@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import SideBar from '../../../components/Common/adminAndCompanySideBar/SideBar';
-import AddCompanyAdmins from '../../../components/Company/CompanyAdmins/AddCompanyAdmins';
-import Header from '../../../components/Common/adminAndCompanySideBar/Header/Header';
+import SideBar from '../../../../components/Common/adminAndCompanySideBar/SideBar/SideBar';
+import AddCompanyAdmins from '../../../../components/Company/CompanyAdmins/AddCompanyAdmins';
+import Header from '../../../../components/Common/adminAndCompanySideBar/Header/Header';
 import { Breadcrumbs } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 
 import Link from 'next/link';
+import { COMPANY_SIDE_BAR_LINKS } from '../../../../constants/Company-sideBar';
 function index() {
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,7 +16,7 @@ function index() {
         <div className="flex h-screen overflow-hidden">
 
             {/* Sidebar */}
-            <SideBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+            <SideBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} links={COMPANY_SIDE_BAR_LINKS} />
 
             {/* Content area */}
             <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
@@ -30,7 +31,11 @@ function index() {
                             <Link href="/company">
                                 <HomeIcon />  Home
                             </Link>
-                            <Link href="/company/add-admin"
+                            <Link href="/company/admins"
+                            >
+                                Admins
+                            </Link>
+                            <Link href="/company/admins/add-admin"
                             >
                                 Add Admin
                             </Link>

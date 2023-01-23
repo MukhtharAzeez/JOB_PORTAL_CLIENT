@@ -4,7 +4,7 @@ import Link from "next/link";
 import SkeletonLoader from "../../Loader/SkeletonLoader";
 import { getCurrentUserDetails } from "../../../api/User/Get/user";
 
-function Profile({userId}:any) {
+function Profile({ userId }: any) {
 
   const fetcher = async () => {
     const profile = await getCurrentUserDetails(userId);
@@ -107,21 +107,27 @@ function Profile({userId}:any) {
                 <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold">
                   {data.email}
                 </div>
-                <div className='w-full justify-center flex'>
-                  <div className="mb-2 text-blueGray-600 mt-10 w-96 flex gap-2 justify-center">
-                    <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
 
-                    {
-                      data.qualifications.map(function (obj: any, index: number) {
-                        return (
-                          <div key={obj} >
-                            <p className="mt-1 text-sm font-bold">  {obj} {index == data.qualifications.length - 1 ? '' : '|'}  </p>
-                          </div>
-                        )
-                      })
-                    }
+
+                <div className="text-center mt-5">
+                  <div className="flex flex-wrap justify-center">
+                    <div className="w-full lg:w-9/12 px-4">
+                      <span className="text-lg leading-relaxed text-blueGray-700 flex flex-wrap justify-center gap-2">
+                        <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
+                        {
+                          data.qualifications.map(function (obj: any, index: number) {
+                            return (
+                              <div key={obj} >
+                                <p className="mt-1 text-sm font-bold">  {obj} {index == data.skills.length - 1 ? '' : '|'}</p>
+                              </div>
+                            )
+                          })
+                        }
+                      </span>
+                    </div>
                   </div>
                 </div>
+
               </div>
               <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                 <div className="flex flex-wrap justify-center">
@@ -137,7 +143,6 @@ function Profile({userId}:any) {
                         })
                       }
                     </span>
-                    <a className="font-normal text-pink-500">Show more</a>
                   </div>
                 </div>
               </div>

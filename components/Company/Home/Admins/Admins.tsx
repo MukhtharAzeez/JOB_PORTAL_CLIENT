@@ -1,6 +1,5 @@
 import React from 'react';
 import useSWR from "swr";
-import { Tooltip } from '@mui/material';
 import { getAllCompanyAdmins } from '../../../../api/Company/get';
 import Link from 'next/link';
 
@@ -52,8 +51,8 @@ function Admins() {
                                 data.data.map(function (admin: any) {
                                     return (
                                         <tr key={admin._id}>
-                                            <Link href="/company/company-admin-profile">
-                                                <td className="p-2">
+                                            <td className="p-2">
+                                                <Link href={{ pathname: "/company/admins/company-admin-profile", query: { adminId: admin._id } }}>
                                                     <div className="flex items-center">
                                                         <svg className="shrink-0 mr-2 sm:mr-3" width="36" height="36" viewBox="0 0 36 36">
                                                             <circle fill="#24292E" cx="18" cy="18" r="18" />
@@ -61,8 +60,8 @@ function Admins() {
                                                         </svg>
                                                         <div className="text-slate-800">{admin.name}</div>
                                                     </div>
-                                                </td>
-                                            </Link>
+                                                </Link>
+                                            </td>
                                             <td className="p-2">
                                                 <div className="text-center">{admin.position}</div>
                                             </td>
@@ -75,16 +74,12 @@ function Admins() {
                                             <td className="p-2">
                                                 <div className="text-center text-green-500">{admin.pendingHiring}</div>
                                             </td>
-                                            <Tooltip title={admin.status ? 'Block Admin' : 'Unblock Admin'} arrow placement='bottom-start'>
-                                                <td className="p-2">
-                                                    <div className="text-center cursor-pointer">{admin.status ? 'Active' : 'Blocked'}</div>
-                                                </td>
-                                            </Tooltip>
+                                            
                                         </tr>
                                     )
                                 })
                             }
-                            
+
                         </tbody>
                     </table>
 
