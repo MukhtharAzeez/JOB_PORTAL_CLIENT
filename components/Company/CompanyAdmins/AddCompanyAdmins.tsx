@@ -1,19 +1,20 @@
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, CircularProgress, Snackbar } from '@mui/material';
 import Head from 'next/head'
 import { useRouter } from 'next/router';
 import React, { useState } from 'react'
 import { addAdmin } from '../../../api/Company/post';
+import { sendEmail } from '../../../api/email';
 
-function AddCompanyAdmins() {  
-    
+function AddCompanyAdmins() {
+
 
     const router = useRouter();
-    const [adminData, setAdminData] = useState({name:null, email:null, position:null , employeeId:null, businessMobile:null, authority:null})
+    const [adminData, setAdminData] = useState({ name: null, email: null, position: null, employeeId: null, businessMobile: null, authority: null })
     const [open, setOpen] = React.useState(false);
-    const [message, setMessage] =  useState('')
+    const [message, setMessage] = useState('')
+    const [save, setSave] = useState(false)
 
-
-    const handleEdit = async (e:any) => {
+    const handleEdit = async (e: any) => {
         const { name, value } = e.target;
         setAdminData({ ...adminData, [name]: value });
     };
@@ -31,14 +32,25 @@ function AddCompanyAdmins() {
 
     async function handleSubmit(event: any) {
         event.preventDefault();
-        if(!adminData.name || !adminData.email || !adminData.position || !adminData.employeeId || !adminData.businessMobile || !adminData.authority){
+        if (!adminData.name || !adminData.email || !adminData.position || !adminData.employeeId || !adminData.businessMobile || !adminData.authority) {
             setMessage("Fill all the required fields")
             setOpen(true)
+            return
         }
         try {
-            await addAdmin(adminData);
-            router.push('/company')
+            setSave(true)
+            const admin: any = await addAdmin(adminData);
+            const emailData = {
+                email: adminData.email,
+                subject: "Added as admin",
+                message: `Congrats .... Company added you as an admin to manage their page . Now you can login with your email and password:${admin.data.password}`
+            }
+            await sendEmail(emailData)
+            setSave(false)
+            router.push('/company/admins')
+
         } catch (error: any) {
+            setSave(false)
             const type = typeof error.response.data.message;
             if (type == "string") {
                 setMessage(error.response.data.message);
@@ -50,7 +62,7 @@ function AddCompanyAdmins() {
     }
     return (
         <>
-            <Head> 
+            <Head>
                 <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css" />
                 <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" />
             </Head>
@@ -62,9 +74,15 @@ function AddCompanyAdmins() {
                             <h6 className="text-blueGray-700 text-xl font-bold">
                                 Add an Admin
                             </h6>
-                            <button onClick={handleSubmit} className="bg-[#1e293b] text-gray-400  active:bg-[#1e293b] font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md hover:bg-gray-400 hover:text-black outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button">
-                                Save
-                            </button>
+                            {
+                                save ? (
+                                    <CircularProgress color="inherit" />
+                                ) : (
+                                    <button onClick={handleSubmit} className="bg-[#1e293b] text-gray-400  active:bg-[#1e293b] font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md hover:bg-gray-400 hover:text-black outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="button">
+                                        Save
+                                    </button>
+                                )
+                            }
                         </div>
                     </div>
                     <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
@@ -102,7 +120,7 @@ function AddCompanyAdmins() {
                                         <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" >
                                             Employee Id *
                                         </label>
-                                        <input type="text" name='employeeId' onChange={handleEdit} placeholder='Employee identity Number' className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"/>
+                                        <input type="text" name='employeeId' onChange={handleEdit} placeholder='Employee identity Number' className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" />
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +158,7 @@ function AddCompanyAdmins() {
                                         <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" >
                                             Postal Code
                                         </label>
-                                        <input type="number" name='postalCode' onChange={handleEdit} placeholder='Postal Code' className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"/>
+                                        <input type="number" name='postalCode' onChange={handleEdit} placeholder='Postal Code' className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" />
                                     </div>
                                 </div>
                             </div>

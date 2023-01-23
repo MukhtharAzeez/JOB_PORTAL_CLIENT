@@ -29,7 +29,7 @@ import PublicRoute from "../../../protectRoutes/publicRoute";
 
 const theme = createTheme();
 
-export default function SignIn() {
+export default function SignIn({obj}:any) {
   const dispatch = useDispatch();
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
@@ -292,4 +292,14 @@ export default function SignIn() {
       </ThemeProvider>
     </PublicRoute>
   );
+}
+
+
+export async function getServerSideProps({req}:any){
+  const obj:null=null
+  return {
+    props:{
+      obj
+    }
+  }
 }
