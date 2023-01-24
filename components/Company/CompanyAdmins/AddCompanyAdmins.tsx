@@ -26,7 +26,6 @@ function AddCompanyAdmins() {
         if (reason === "clickaway") {
             return;
         }
-
         setOpen(false);
     };
 
@@ -43,7 +42,9 @@ function AddCompanyAdmins() {
             const emailData = {
                 email: adminData.email,
                 subject: "Added as admin",
-                message: `Congrats .... Company added you as an admin to manage their page . Now you can login with your email and password:${admin.data.password}`
+                message: `Congrats .... 
+                Company added you as an admin to manage their page . 
+                Now you can login with your email and password:${admin.data.password}`
             }
             await sendEmail(emailData)
             setSave(false)

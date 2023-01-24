@@ -49,13 +49,13 @@ export default function SignIn() {
         setIsLoading(true);
         const data = new FormData(event.currentTarget);
         try {
-            const user = await instance.post("/auth/company/login", data, {
+            const company = await instance.post("/auth/company/login", data, {
                 withCredentials: true,
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
-            if (user) {
+            if (company) {
                 // localStorage.setItem(
                 //     "userName",
                 //     user.data.result.firstName + " " + user.data.result.lastName

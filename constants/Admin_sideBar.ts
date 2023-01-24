@@ -7,24 +7,24 @@ export const ADMIN_SIDE_BAR_LINKS = [
     href: "/admin",
   },
   {
-    title: "Admins",
+    title: "Companies",
     icon: HomeOutlinedIcon,
-    href: "/company/admins",
+    href: "/admin/company",
   },
   {
     title: "Messages",
     icon: HomeOutlinedIcon,
-    href: "/company/messages",
+    href: "/admin/messages",
   },
   {
     title: "Notifications",
     icon: HomeOutlinedIcon,
-    href: "/company/notifications",
+    href: "/admin/notifications",
   },
   {
     title: "Requests",
     icon: HomeOutlinedIcon,
-    href: "/company/requests",
+    href: "/admin/reports",
   },
   {
     title: "Profile",

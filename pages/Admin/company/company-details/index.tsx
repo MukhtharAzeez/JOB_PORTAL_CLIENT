@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import SideBar from '../../../../components/Common/adminAndCompanySideBar/SideBar/SideBar';
-import CompanyAdminsProfile from '../../../../components/Company/CompanyAdmins/CompanyAdminsProfile';
 import Header from '../../../../components/Common/adminAndCompanySideBar/Header/Header';
 import { Breadcrumbs } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import Link from 'next/link';
-import { COMPANY_SIDE_BAR_LINKS } from '../../../../constants/Company-sideBar';
+import { ADMIN_SIDE_BAR_LINKS } from '../../../../constants/Admin_sideBar';
+import CompanyDetails from '../../../../components/Admin/Companies/CompanyDetails';
 
 
 function index() {
@@ -14,7 +14,7 @@ function index() {
     return (
         <div className="flex h-screen overflow-hidden">
             {/* Sidebar */}
-            <SideBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} links={COMPANY_SIDE_BAR_LINKS} />
+            <SideBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} links={ADMIN_SIDE_BAR_LINKS} />
             {/* Content area */}
             <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
                 {/*  Site header */}
@@ -22,19 +22,19 @@ function index() {
                 <main>
                     <div className="border rounded-lg shadow bg-gray-200">
                         <Breadcrumbs aria-label="breadcrumb" className="p-5 pl-8 text-black">
-                            <Link href="/company" className='text-black  no-underline'>
+                            <Link href="/admin" className='text-black  no-underline'>
                                 <HomeIcon />  Home
                             </Link>
-                            <Link className='text-black  no-underline' href="/company/admins"
+                            <Link className='text-black  no-underline' href="/admin/company"
                             >
-                                Admins
+                                companies
                             </Link>
-                            <Link className='text-black  no-underline' href="/company/admins/company-admin-profile"
+                            <Link className='text-black  no-underline' href="/admin/company/company-details"
                             >
-                                Company admin profile
+                                Company Details
                             </Link>
                         </Breadcrumbs>
-                        <CompanyAdminsProfile />
+                        <CompanyDetails />
                     </div>
                 </main>
             </div>
