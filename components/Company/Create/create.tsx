@@ -167,7 +167,7 @@ export default function Create() {
         event.preventDefault();
     };
 
-    const loginPage = () => router.push("/user/login");
+    const loginToCompanyAdmin = () => router.push("/company-admin/login");
     const loginToCompanyPage = () => router.push("/company/login")
 
     return (
@@ -486,9 +486,9 @@ export default function Create() {
                                 </Button>
                             </Box>
                             <div className="flex justify-center flex-col">
-                                <p className="text-center">Sign In as Company admin? <span onClick={loginPage} className="cursor-pointer hover:text-[#009fd6]">Sign In</span> </p>
-                                <p className="text-center">or </p>
                                 <p className="text-center">Already Created a Page? <span onClick={loginToCompanyPage} className="cursor-pointer hover:text-[#009fd6]">Login</span> </p>
+                                <p className="text-center">or </p>
+                                <p className="text-center">Sign In as Company admin? <span onClick={loginToCompanyAdmin} className="cursor-pointer hover:text-[#009fd6]">Sign In</span> </p>
                             </div>
                         </Box>
                         

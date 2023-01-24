@@ -2,14 +2,17 @@ import { Alert, CircularProgress, Snackbar } from '@mui/material';
 import Head from 'next/head'
 import { useRouter } from 'next/router';
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 import { addAdmin } from '../../../api/Company/post';
 import { sendEmail } from '../../../api/email';
+import { currentCompany } from '../../../redux/company/companyAuthSlicer';
 
 function AddCompanyAdmins() {
 
 
+    const { companyId } = useSelector(currentCompany)
     const router = useRouter();
-    const [adminData, setAdminData] = useState({ name: null, email: null, position: null, employeeId: null, businessMobile: null, authority: null })
+    const [adminData, setAdminData] = useState({ name: null, email: null, position: null, employeeId: null, businessMobile: null, authority: null ,company: companyId})
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = useState('')
     const [save, setSave] = useState(false)

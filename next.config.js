@@ -12,7 +12,8 @@ const nextConfig = {
       "www.essenzlovo.com",
       "www.hrinasia.com",
       "cdn.pixabay.com",
-      "static.vecteezy.com"
+      "static.vecteezy.com",
+      "www.recruiter.com"
     ],
   },
 };

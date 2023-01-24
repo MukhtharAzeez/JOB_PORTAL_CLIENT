@@ -105,8 +105,6 @@ export default function SignIn({obj}:any) {
   };
 
   const SignUpPage = () => router.push("/user/signup");
-  const createCompany = () => router.push("/company/create")
-
 
   return (
     <PublicRoute>
@@ -260,8 +258,6 @@ export default function SignIn({obj}:any) {
               </Box>
               <div className="flex justify-center flex-col mt-3">
                 <p className="text-center">Does not have an account? <span onClick={SignUpPage} className="cursor-pointer hover:text-[#38d39f]">Sign Up</span> </p>
-                <p className="text-center">or </p>
-                <p className="text-center">Want to Login to your page? <span onClick={createCompany} className="cursor-pointer hover:text-[#38d39f]">Go to Page</span> </p>
               </div>
             </Box>
           </Container>

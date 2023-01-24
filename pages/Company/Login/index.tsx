@@ -19,8 +19,8 @@ import { FilledInput } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import instance from "../../../axios/axios";
-// import { useDispatch } from "react-redux";
-// import { addUserDetails } from "../../../redux/user/userAuthSlicer";
+import { useDispatch } from "react-redux";
+import { addCompanyDetails } from "../../../redux/company/companyAuthSlicer";
 
 const theme = createTheme();
 
@@ -30,7 +30,7 @@ export default function SignIn() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState("");
-
+    const dispatch = useDispatch();
 
 
     const handleClose = (
@@ -56,15 +56,14 @@ export default function SignIn() {
                 },
             });
             if (company) {
-                // localStorage.setItem(
-                //     "userName",
-                //     user.data.result.firstName + " " + user.data.result.lastName
-                // );
-                // localStorage.setItem("email", user.data.result.email);
-                // localStorage.setItem("userId", user.data.result._id);
-                // localStorage.setItem("userToken", user.data.accessToken.access_token);
-                // Cookies.set("userToken", user.data.accessToken.access_token)
-                // dispatch(addUserDetails(user.data));
+                localStorage.setItem(
+                    "company",
+                    company.data.result.company
+                );
+                localStorage.setItem("email", company.data.result.email);
+                localStorage.setItem("companyId", company.data.result._id);
+                localStorage.setItem("companyToken", company.data.accessToken.access_token);
+                dispatch(addCompanyDetails(company.data));
                 router.push("/company");
             }
         } catch (error: any) {
