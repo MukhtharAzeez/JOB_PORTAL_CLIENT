@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import AddPost from "./userFeeds/AddPost";
 // import dynamic from "next/dynamic";
-import { Box, Chip } from "@mui/material";
 import Jobs from "./Jobs";
 import Post from "./userFeeds/Post";
 
@@ -13,8 +12,7 @@ interface Props {
 
 function Feed({ mode }: Props) {
   const [jobs, setJobs] = useState(true);
-  // const[feedsVariant , setFeedsVariant] = useState<string>('filled')
-  // const [jobsVariant, setJobsVariant] = useState<string>('contained')
+
 
   const changeToJobs = () => {
     setJobs(true);
@@ -26,54 +24,11 @@ function Feed({ mode }: Props) {
 
   return (
     <div className="mt-20">
-      <Box
-        width={"100%"}
-        m={1}
-        pr={0}
-        gap={1}
-        sx={{ marginLeft: { sm: 8, md: 1 }, minWidth: { sm: 400 } }}
-      >
-        {jobs ? (
-          <Chip
-            label="Jobs"
-            variant="filled"
-            sx={{ width: "48%", borderRadius: "5%", marginRight: 1 }}
-            size="small"
-            onClick={changeToJobs}
-          />
-        ) : (
-          <Chip
-            label="Jobs"
-            variant="outlined"
-            sx={{ width: "48%", borderRadius: "5%", marginRight: 1 }}
-            size="small"
-            onClick={changeToJobs}
-          />
-        )}
-        {jobs ? (
-          <Chip
-            label="Feeds"
-            variant="outlined"
-            sx={{
-              width: { xs: "46%", sm: "42%", md: "48%" },
-              borderRadius: "5%",
-            }}
-            size="small"
-            onClick={changeToFeeds}
-          />
-        ) : (
-          <Chip
-            label="Feeds"
-            variant="filled"
-            sx={{
-              width: { xs: "46%", sm: "42%", md: "48%" },
-              borderRadius: "5%",
-            }}
-            size="small"
-            onClick={changeToFeeds}
-          />
-        )}
-      </Box>
+      <label htmlFor="Toggle3" className="inline-flex items-center p-2 rounded-md cursor-pointer dark:text-gray-400 w-full text-center">
+        <input id="Toggle3" type="checkbox" className="hidden peer" />
+        <span className="px-4 py-2 rounded-l-md dark:bg-gray-800 peer-checked:dark:bg-gray-300 w-full" onClick={changeToJobs}>Jobs</span>
+        <span className="px-4 py-2 rounded-r-md dark:bg-gray-300 peer-checked:dark:bg-gray-800 w-full" onClick={changeToFeeds}>Feeds</span>
+      </label>
       {!jobs ? (
         <>
           <AddPost />
@@ -81,9 +36,6 @@ function Feed({ mode }: Props) {
         </>
       ) : (
         <>
-          <Jobs mode={mode} />
-          <Jobs mode={mode} />
-          <Jobs mode={mode} />
           <Jobs mode={mode} />
         </>
       )}

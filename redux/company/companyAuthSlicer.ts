@@ -23,7 +23,7 @@ const companyAuthSlice = createSlice({
   reducers: {
     addCompanyDetails(state, actions) {
       const newItem = actions.payload;
-      state.companyName = newItem.result.firstName + " " + newItem.result.lastName;
+      state.companyName = newItem.result.company;
       state.companyId = newItem.result._id;
       state.email = newItem.result.email;
       state.image = newItem.result.image

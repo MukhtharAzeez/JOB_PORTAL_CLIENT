@@ -3,7 +3,7 @@ import Head from "next/head";
 import Box from "@mui/material/Box";
 import FormData from "form-data";
 import NavBar from "../components/User/NavBar/NavBar";
-import SideBar from "../components/User/Home/SideBar";
+import SideBar from "../components/Common/companyAdmin-user/SideBar";
 import Feed from "../components/User/Home/Feed";
 import RightBar from "../components/User/Home/RightBar";
 import { createTheme, ThemeProvider } from "@mui/material";
@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { currentTheme } from "../redux/user/ThemeSlice";
 import { addUserDetails } from "../redux/user/userAuthSlicer";
 import UserProtectRouter from "../protectRoutes/protectRoutes";
+import { USER_SIDEBAR_LINKS } from "../constants/User-sideBar";
 
 const BottomBar = dynamic(
   () => import("../components/User/MobileBottom/MobileBottom")
@@ -31,7 +32,7 @@ export default function Home({ req }: { req: any }) {
   const mode = useSelector(currentTheme);
 
   useEffect(() => {
-    
+
     (async () => {
       const session = await getSession({ req });
       console.log("github", session);
@@ -74,7 +75,7 @@ export default function Home({ req }: { req: any }) {
         }
       }
     })();
-  },[]);
+  }, []);
 
   // const {data:session} =
   useSession();
@@ -97,21 +98,10 @@ export default function Home({ req }: { req: any }) {
         </Head>
         <Box color={"text.primary"} className="bg-gray-200">
           <NavBar mode={mode} />
-          {/* <Grid container item sx={{ paddingLeft: { xs: 0, sm: 1, lg: 1 } }}>
-            <Grid item sm={3} p={2} justifyContent="space-between">
-              <SideBar />
-            </Grid>
-            <Grid item sm={5} pt={2}>
-              <Feed mode={mode} />
-            </Grid>
-            <Grid item sm={4} className="md:pl-16 xs:pl-12">
-              <RightBar />
-            </Grid>
-          </Grid> */}
           <div className="border ">
             <div className="flex justify-around md:pr-20">
               <div className="w-2/12 mt-8 hidden md:block">
-                <SideBar />
+                <SideBar links={USER_SIDEBAR_LINKS} />
               </div>
               <div className="lg:w-5/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-5 flex justify-center">
                 <Feed mode={mode} />

@@ -103,7 +103,7 @@ function AllUsersPost({ mode, post }: props) {
       sx={{
         minWidth: { xs: "auto", md: "auto", sm: 400 },
         margin: 1,
-        marginLeft: { xs: 1, sm: 6, md: 1 },
+      
       }}
       key={post._id}
     >
@@ -132,10 +132,10 @@ function AllUsersPost({ mode, post }: props) {
           height: { xs: 400, md: 500 },
         }}
       >
-        {post.image.map(function (image: any, index: number) {
+        {post.image.map(function (image: any) {
           return (
             <Image
-              key={index}
+              key={image}
               src="https://m.media-amazon.com/images/I/41FzfSpv4iL.jpg"
               // src={image}
               fill
@@ -143,6 +143,7 @@ function AllUsersPost({ mode, post }: props) {
               (max-width: 1200px) 30vw,
               33vw"
               alt=""
+              className="object-cover object-top"
             />
           );
         })}

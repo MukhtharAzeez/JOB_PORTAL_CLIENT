@@ -12,3 +12,13 @@ export const getAllUsersPost = async () => {
   });
   return data;
 };
+
+export const getJobsPosts = async () => {
+  const { data } = await instance.get("/company/getJobPosts", {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return data;
+};

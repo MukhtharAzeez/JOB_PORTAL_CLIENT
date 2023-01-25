@@ -11,10 +11,10 @@ function commentReplies({ reply }: any) {
             alt=""
           />
         </div>
-        <div className="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+        <div className="flex-1 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed ">
           <strong>Sarah</strong>{" "}
           <span className="text-xs text-gray-400">3:34 PM</span>
-          <p className="text-xs sm:text-sm">{reply}</p>
+          <p className="text-xs sm:text-sm ">{reply}</p>
         </div>
       </div>
     </div>

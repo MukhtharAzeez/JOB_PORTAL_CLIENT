@@ -10,8 +10,8 @@ function Comment({ comments }: any) {
           {comments.length} Comments....
         </h3>
         <div className="space-y-4">
-          {comments.map(function (comment: any, index: any) {
-            return <UserComment key={index} comment={comment} />;
+          {comments.map(function (comment: any) {
+            return <UserComment key={comment} comment={comment} />;
           })}
         </div>
       </div>

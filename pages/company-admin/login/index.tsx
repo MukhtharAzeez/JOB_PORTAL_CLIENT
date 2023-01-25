@@ -20,7 +20,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import instance from "../../../axios/axios";
 import { useDispatch } from "react-redux";
-import { addCompanyDetails } from "../../../redux/company/companyAuthSlicer";
+ import { addCompanyAdminDetails } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
 
 const theme = createTheme();
 
@@ -49,22 +49,23 @@ export default function SignIn() {
         setIsLoading(true);
         const data = new FormData(event.currentTarget);
         try {
-            const company = await instance.post("/auth/company-admin/login", data, {
+            const companyAdmin = await instance.post("/auth/company-admin/login", data, {
                 withCredentials: true,
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
-            if (company) {
+            if (companyAdmin) {
                 localStorage.setItem(
-                    "company",
-                    company.data.result.company
+                    "adminName",
+                    companyAdmin.data.result.name
                 );
-                localStorage.setItem("email", company.data.result.email);
-                localStorage.setItem("companyId", company.data.result._id);
-                localStorage.setItem("companyToken", company.data.accessToken.access_token);
-                dispatch(addCompanyDetails(company.data));
-                router.push("/company");
+                localStorage.setItem("email", companyAdmin.data.result.email);
+                localStorage.setItem("companyAdminId", companyAdmin.data.result._id);
+                localStorage.setItem("companyId", companyAdmin.data.result.company);
+                localStorage.setItem("companyAdminToken", companyAdmin.data.accessToken.access_token);
+                dispatch(addCompanyAdminDetails(companyAdmin.data));
+                router.push("/company-admin");
             }
         } catch (error: any) {
             const type = typeof error.response.data.message;

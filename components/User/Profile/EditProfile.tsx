@@ -26,6 +26,7 @@ function EditProfile() {
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
+
   const proImageRef = useRef<any>(null);
   const [proImg, setProImg] = useState<any>(null);
 

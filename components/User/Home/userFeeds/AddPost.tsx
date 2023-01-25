@@ -22,7 +22,6 @@ export default function AddPost() {
         sx={{
           minWidth: { xs: "auto", md: "auto", sm: 400 },
           margin: 1,
-          marginLeft: { xs: 1, sm: 6, md: 1 },
         }}
       >
         <CardHeader

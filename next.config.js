@@ -13,7 +13,8 @@ const nextConfig = {
       "www.hrinasia.com",
       "cdn.pixabay.com",
       "static.vecteezy.com",
-      "www.recruiter.com"
+      "www.recruiter.com",
+      "res.cloudinary.com"
     ],
   },
 };

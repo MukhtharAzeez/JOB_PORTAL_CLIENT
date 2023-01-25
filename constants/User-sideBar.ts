@@ -1,34 +1,34 @@
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
-export const ADMIN_SIDE_BAR_LINKS = [
+export const USER_SIDEBAR_LINKS = [
   {
     title: "Home",
     icon: HomeOutlinedIcon,
-    href: "/admin",
+    href: "/",
   },
   {
-    title: "Companies",
+    title: "Jobs",
     icon: HomeOutlinedIcon,
-    href: "/admin/company",
+    href: "/user/jobs",
   },
   {
     title: "Messages",
     icon: HomeOutlinedIcon,
-    href: "/admin/messages",
+    href: "/user/messages",
   },
   {
     title: "Notifications",
     icon: HomeOutlinedIcon,
-    href: "/admin/notifications",
+    href: "/user/notifications",
   },
   {
-    title: "Requests",
+    title: "Friend Requests",
     icon: HomeOutlinedIcon,
-    href: "/admin/reports",
+    href: "/user/requests",
   },
   {
     title: "Profile",
     icon: HomeOutlinedIcon,
-    href: "/admin/profile",
+    href: "/user/profile",
   },
 ];

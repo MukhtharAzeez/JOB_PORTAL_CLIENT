@@ -53,6 +53,7 @@ export default function SignIn({obj}:any) {
     event.preventDefault();
     setIsLoading(true);
     const data = new FormData(event.currentTarget);
+    // if(data.get("email") || )
     try {
       const user = await instance.post("/auth/user/login", data, {
         withCredentials: true,

@@ -34,7 +34,7 @@ function UserComment({ comment }: any) {
           <span className="text-xs text-gray-400">
             {moment(comment.createdAt).fromNow()}
           </span>
-          <p className="text-s">{comment.comment}</p>
+          <p className="text-s max-w-xs">{comment.comment}</p>
           <div className="mt-4 flex items-center">
             <div
               className="text-sm text-gray-500 font-semibold cursor-pointer"
