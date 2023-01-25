@@ -2,12 +2,16 @@ import React from 'react';
 import useSWR from "swr";
 import { getAllCompanyAdmins } from '../../../../api/Company/get';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import { currentCompany } from '../../../../redux/company/companyAuthSlicer';
 
 
 function Admins() {
 
+    const {companyId} =  useSelector(currentCompany)
+
     const fetcher = async () => {
-        const companyAdmins = await getAllCompanyAdmins();
+        const companyAdmins = await getAllCompanyAdmins(companyId);
         return companyAdmins;
     };
     const { data, error, isLoading } = useSWR("companyAdmins", fetcher);

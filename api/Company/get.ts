@@ -1,7 +1,7 @@
 import instance from "../../axios/axios";
 
-export const getAllCompanyAdmins = async () => {
-  const result = await instance.get(`/company/getAllCompanyAdmins`, {
+export const getAllCompanyAdmins = async (companyId:string) => {
+  const result = await instance.get(`/company/getAllCompanyAdmins?companyId=${companyId}`, {
     withCredentials: true,
     headers: {
       "Content-Type": "application/json",

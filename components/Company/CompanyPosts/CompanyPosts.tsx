@@ -79,10 +79,24 @@ function AllUsersPost({ mode, post }: props) {
                     className="object-cover object-top"
                 />
             </Box>
-            <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                    {post.jobDescription}
-                </Typography>
+            <CardContent className="max-h-48 overflow-scroll">
+                <div className="flex pl-2">
+                    <h4 className="font-bold">{post.job}</h4>
+                </div>
+                <div className="">
+                    <Typography variant="body2" color="text.secondary" className="p-2">
+                        <p className="font-bold">About</p>{post.jobDescription}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" className="p-2">
+                        <p className="font-bold">Benefits</p>{post.benefits}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" className="p-2">
+                        <p className="font-bold">Required Qualifications</p>{post.jobQualification}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" className="p-2">
+                        <p className="font-bold">Applicants must have</p>{post.applications}
+                    </Typography>
+                </div>
             </CardContent>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <CardActions disableSpacing>
