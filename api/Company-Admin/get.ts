@@ -14,3 +14,18 @@ export const getCompanyAdminDetails = async (adminId: any) => {
   );
   return data;
 };
+
+export const getAllCompanyPost = async (companyId: any) => {
+  console.log("adminId ", companyId);
+
+  const { data } = await instance.get(
+    `/companyAdmin/getAllCompanyPosts?companyId=${companyId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};

@@ -17,8 +17,10 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import moment from "moment";
-import { currentUser } from "../../../redux/user/userAuthSlicer";
-import { postLike } from "../../../api/User/Post/post";
+import { currentUser } from "../../../../redux/user/userAuthSlicer";
+import { postLike } from "../../../../api/User/Post/post";
+import { applyForJob } from "../../../../api/User/Get/post";
+import { Alert, Snackbar } from "@mui/material";
 
 
 interface props {
@@ -30,10 +32,57 @@ interface props {
 function AllUsersPost({ mode, post }: props) {
     const { userId } = useSelector(currentUser);
     const [likes, setLikes] = React.useState(post.likes ? post.likes.length : 0);
+    const [open, setOpen] = React.useState(false);
+    const [message, setMessage] = React.useState({messageType:'' , message:''});
+
+    const handleClose = (
+        event?: React.SyntheticEvent | Event,
+        reason?: string
+    ) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        setOpen(false);
+    };
+
     async function handleLike(postId: string) {
         const result = await postLike(postId, userId);
         if (result.data) setLikes(likes + 1);
         else setLikes(likes - 1);
+    }
+    async function applyForAJob(postId:string){
+        try {
+            const mess = {
+                message: "Wait we are proceeding your request !",
+                messageType: "info"
+            }
+            setMessage(mess)
+            setOpen(true);
+            await applyForJob(postId, userId);
+            const mes = {
+                message: "You successfully applied for this job",
+                messageType: "success"
+            }
+            setMessage(mes);
+            setOpen(true);
+        } catch (error: any) {
+            const type = typeof error.response.data.message;
+            if (type == "string") {
+                const mes={
+                    message: error.response.data.message,
+                    messageType: "error"
+                }
+                setMessage(mes);
+            } else {
+                const mes = {
+                    message: error.response.data.message[0],
+                    messageType: "error"
+                }
+                setMessage(mes);
+            }
+            setOpen(true);
+        }        
     }
     return (
         <Card
@@ -98,6 +147,7 @@ function AllUsersPost({ mode, post }: props) {
                     </Typography>
                 </div>
             </CardContent>
+            <div className="w-full "><p></p></div>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <CardActions disableSpacing>
                     {post.likes?.includes(userId) ? (
@@ -130,6 +180,9 @@ function AllUsersPost({ mode, post }: props) {
                     <IconButton aria-label="share">
                         <ShareIcon />
                     </IconButton>
+                    <div onClick={()=>applyForAJob(post._id)} className="w-full px-6 py-1 shadow-md ml-4 hover:shadow-inner cursor-pointer bg-gray-100 text-gray-500 hover:text-gray-400 rounded-lg">
+                        <p>Apply</p>
+                    </div>
                 </CardActions>
                 <CardActions disableSpacing>
                     <IconButton aria-label="save post">
@@ -144,6 +197,15 @@ function AllUsersPost({ mode, post }: props) {
                     </IconButton>
                 </CardActions>
             </Box>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert
+                    onClose={handleClose}
+                    severity={message.messageType== "error" ? "error" : message.messageType == "success" ? "success" : "info"}
+                    sx={{ width: "100%" }}
+                >
+                    {message.message}
+                </Alert>
+            </Snackbar>
         </Card>
     );
 }

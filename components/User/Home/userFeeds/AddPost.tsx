@@ -43,7 +43,7 @@ export default function AddPost() {
           subheader={moment(Date.now()).format("DD MMMM YYYY")}
         />
         <CardContent>
-          <button className="px-4 py-2 w-full text-bold shadow:md hover:shadow-lg" onClick={handleOpen}>
+          <button className="px-4 py-2 w-full text-bold shadow:md shadow-md hover:shadow-inner hover:bg-gray-100 rounded-md" onClick={handleOpen}>
             Create
           </button>
         </CardContent>

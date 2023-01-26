@@ -1,9 +1,9 @@
 import React from 'react';
 import useSWR from "swr";
-import { getAllCompanyAdmins } from '../../../../api/Company/get';
+import { getAllCompanyAdmins } from '../../../api/Company/get';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
-import { currentCompany } from '../../../../redux/company/companyAuthSlicer';
+import { currentCompany } from '../../../redux/company/companyAuthSlicer';
 
 
 function Admins() {

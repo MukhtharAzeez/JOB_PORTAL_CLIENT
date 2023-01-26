@@ -1,34 +1,45 @@
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import HomeIcon from "@mui/icons-material/Home";
+import WorkIcon from "@mui/icons-material/Work";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import Person2Icon from "@mui/icons-material/Person2";
 
 export const USER_SIDEBAR_LINKS = [
   {
     title: "Home",
-    icon: HomeOutlinedIcon,
+    icon: HomeIcon,
     href: "/",
   },
   {
-    title: "Jobs",
-    icon: HomeOutlinedIcon,
-    href: "/user/jobs",
+    title: "Schedules",
+    icon: EventNoteIcon,
+    href: "/user/schedules",
+  },
+  {
+    title: "Applied Jobs",
+    icon: WorkIcon,
+    href: "/user/applied-jobs",
   },
   {
     title: "Messages",
-    icon: HomeOutlinedIcon,
-    href: "/user/messages",
+    icon: ChatBubbleIcon,
+    href: "/user/inbox",
   },
   {
     title: "Notifications",
-    icon: HomeOutlinedIcon,
+    icon: NotificationsIcon,
     href: "/user/notifications",
   },
   {
     title: "Friend Requests",
-    icon: HomeOutlinedIcon,
+    icon: GroupAddIcon,
     href: "/user/requests",
   },
   {
     title: "Profile",
-    icon: HomeOutlinedIcon,
+    icon: Person2Icon,
     href: "/user/profile",
   },
 ];

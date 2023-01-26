@@ -4,15 +4,16 @@ import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
-import { currentTheme } from "../../redux/user/ThemeSlice";
-import NavBar from "../../components/User/NavBar/NavBar";
-import RightBar from "../../components/User/Home/RightBar";
+import { currentTheme } from "../../../redux/user/ThemeSlice";
+import NavBar from "../../../components/User/NavBar/NavBar";
+import RightBar from "../../../components/User/Home/RightBar";
 import dynamic from "next/dynamic";
-import SideBar from "../../components/Common/companyAdmin-user/SideBar";
-import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../constants/Company-admin-sidebar";
-import SideBarWithoutText from "../../components/User/Home/SideBarWithoutText";
+import SideBar from "../../../components/Common/companyAdmin-user/SideBar";
+import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../../constants/Company-admin-sidebar";
+import AddJob from "../../../components/Company-admin/Job/AddJob";
+import SideBarWithoutText from "../../../components/User/Home/SideBarWithoutText";
 const BottomBar = dynamic(
-    () => import("../../components/User/MobileBottom/MobileBottom")
+    () => import("../../../components/User/MobileBottom/MobileBottom")
 );
 
 
@@ -55,10 +56,10 @@ export default function Home({ req }: { req: any }) {
                             <div className="ml-6 md:hidden">
                                 <SideBarWithoutText />
                             </div>
-                            
+
                         </div>
                         <div className="md:w-6/12 sm:w-9/12 w-full mt-32 mr-5 lg:ml-16">
-
+                            <AddJob />
                         </div>
                         <div className="w-2/12 mt-8 hidden lg:block mr-16">
                             <RightBar />

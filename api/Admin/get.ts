@@ -10,7 +10,6 @@ export const getAllCompanies = async () => {
   return result;
 };
 
-
 export const approveCompany = async (companyId:string) => {
   const result = await instance.get(
     `/admin/approveCompany?companyId=${companyId}`,
@@ -23,4 +22,3 @@ export const approveCompany = async (companyId:string) => {
   );
   return result;
 };
-

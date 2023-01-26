@@ -1,3 +1,5 @@
+import { ListItemIcon } from "@mui/material";
+import Link from "next/link";
 import React from "react";
 
 function SideBar({links}:any) {
@@ -11,16 +13,19 @@ function SideBar({links}:any) {
         />
         {
           links.map(function(link:any){
+            const Icon = link.icon
             return (
-              <span key={link.title} className="cursor-pointer px-2 py-1  hover:bg-gray-200 hover:text-gray-700 rounded flex">
+              <Link href={link.href} key={link.title} className="cursor-pointer px-2 py-1  hover:bg-gray-200 hover:text-gray-700 rounded flex">
                 <span className="w-8 mb-5 relative">
-                  <i className="w-8 fas fa-user p-2  rounded-full"></i>
-                  <span className="absolute right-0 top-0 -mt-2 -mr-1 text-xs bg-yellow-500 text-black font-medium px-2 rounded-full">
+                  <ListItemIcon className='text-gray-500 mx-4 group-hover:text-gray-800'>
+                    <Icon className="text-black"/>
+                  </ListItemIcon>
+                  {/* <span className="absolute right-0 top-0 -mt-2 -mr-1 text-xs bg-yellow-500 text-black font-medium px-2 rounded-full">
                     3
-                  </span>
+                  </span> */}
                 </span>
-                <span className="mx-2">sign ups</span>
-              </span>
+                <span className="mx-5">{link.title}</span>
+              </Link>
             )
           })
         }

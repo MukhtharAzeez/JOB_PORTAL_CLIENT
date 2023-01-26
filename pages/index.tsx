@@ -15,6 +15,7 @@ import { currentTheme } from "../redux/user/ThemeSlice";
 import { addUserDetails } from "../redux/user/userAuthSlicer";
 import UserProtectRouter from "../protectRoutes/protectRoutes";
 import { USER_SIDEBAR_LINKS } from "../constants/User-sideBar";
+import SideBarWithoutText from "../components/User/Home/SideBarWithoutText";
 
 const BottomBar = dynamic(
   () => import("../components/User/MobileBottom/MobileBottom")
@@ -100,8 +101,16 @@ export default function Home({ req }: { req: any }) {
           <NavBar mode={mode} />
           <div className="border ">
             <div className="flex justify-around md:pr-20">
-              <div className="w-2/12 mt-8 hidden md:block">
-                <SideBar links={USER_SIDEBAR_LINKS} />
+              <div className="w-2/12 mt-8 hidden sm:block md:ml-24 lg:ml-0">
+                {/* <SideBar links={USER_SIDEBAR_LINKS} /> */}
+                <div className="sm:w-2/12">
+                  <div className="hidden md:block">
+                    <SideBar links={USER_SIDEBAR_LINKS} />
+                  </div>
+                  <div className="ml-6 md:hidden">
+                    <SideBarWithoutText />
+                  </div>
+                </div>
               </div>
               <div className="lg:w-5/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-5 flex justify-center">
                 <Feed mode={mode} />
@@ -117,36 +126,3 @@ export default function Home({ req }: { req: any }) {
     </UserProtectRouter>
   );
 }
-
-// export async function getServerSideProps({ req }: { req: any }) {
-  // let session: any = await getSession({ req });
-  // let cookies = req.cookies.jwt;
-
-  // if (session == null && !cookies) {
-  //   return {
-  //     redirect: {
-  //       destination: "/User/Login",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
-
-  // if (session?.user || cookies) {
-  //   if (!session) session = null;
-  //   if (!cookies) cookies = null;
-  //   return {
-  //     props: {
-  //       session,
-  //       cookies,
-  //     },
-  //   };
-  // } else {
-  //   return {
-  //     redirect: {
-  //       destination: "/User/Login",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
-
-// }

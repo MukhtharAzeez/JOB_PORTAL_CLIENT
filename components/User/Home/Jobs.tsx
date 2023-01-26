@@ -2,7 +2,7 @@ import * as React from "react";
 import PostSkeleton from "../../Common/skeleton/PostSkeleton";
 import useSWR from "swr";
 import { getJobsPosts } from "../../../api/User/Get/post";
-import CompanyPosts from "../../Company/CompanyPosts/CompanyPosts";
+import CompanyPosts from "./CompanyPosts/CompanyPosts";
 
 interface Props {
   mode: String;
