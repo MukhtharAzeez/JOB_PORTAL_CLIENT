@@ -31,7 +31,7 @@ function index() {
               <SideBar links={USER_SIDEBAR_LINKS} />
             </div>
             <div className="lg:w-5/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-5 flex justify-center">
-              <Profile userId={userId}/>
+              <Profile userId={userId} user={true}/>
             </div>
             <div className=" md:w-2/12 md:pr-10  mt-4">
               <RightBar />

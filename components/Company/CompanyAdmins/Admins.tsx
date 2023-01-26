@@ -1,13 +1,14 @@
 import React from 'react';
 import useSWR from "swr";
 import { getAllCompanyAdmins } from '../../../api/Company/get';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { currentCompany } from '../../../redux/company/companyAuthSlicer';
+import { useRouter } from 'next/router';
 
 
 function Admins() {
-
+    const router = useRouter();
     const {companyId} =  useSelector(currentCompany)
 
     const fetcher = async () => {
@@ -18,6 +19,7 @@ function Admins() {
 
     if (error) return <div>Error....</div>
     if (isLoading) return <div>Loading....</div>
+
 
     return (
         <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200">
@@ -56,7 +58,15 @@ function Admins() {
                                     return (
                                         <tr key={admin._id}>
                                             <td className="p-2">
-                                                <Link href={{ pathname: "/company/admins/company-admin-profile", query: { adminId: admin._id } }}>
+                                                <div className="cursor-pointer"
+                                                    onClick={() => router.push({
+                                                        pathname: "/company/admins/company-admin-profile",
+                                                        query: {
+                                                            adminId: admin._id 
+                                                        },
+                                                    },
+                                                    "/company/admins/company-admin-profile" 
+                                                    )}>
                                                     <div className="flex items-center">
                                                         <svg className="shrink-0 mr-2 sm:mr-3" width="36" height="36" viewBox="0 0 36 36">
                                                             <circle fill="#24292E" cx="18" cy="18" r="18" />
@@ -64,7 +74,7 @@ function Admins() {
                                                         </svg>
                                                         <div className="text-slate-800">{admin.name}</div>
                                                     </div>
-                                                </Link>
+                                                </div>
                                             </td>
                                             <td className="p-2">
                                                 <div className="text-center">{admin.position}</div>

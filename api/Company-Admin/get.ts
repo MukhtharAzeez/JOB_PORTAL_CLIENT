@@ -29,3 +29,29 @@ export const getAllCompanyPost = async (companyId: any) => {
   );
   return data;
 };
+
+export const getAJobPost  = async (jobId: any) => {
+  const { data } = await instance.get(
+    `/companyAdmin/getAJobPost?jobId=${jobId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};
+
+export const getAppliedUsers = async (jobId: any) => {
+  const { data } = await instance.get(
+    `/companyAdmin/getAJobPost?jobId=${jobId}&users=${true}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};

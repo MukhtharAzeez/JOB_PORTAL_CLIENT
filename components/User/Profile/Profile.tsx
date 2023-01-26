@@ -1,10 +1,22 @@
 import Head from "next/head";
 import useSWR from "swr";
 import Link from "next/link";
-import SkeletonLoader from "../../Loader/SkeletonLoader";
+// import SkeletonLoader from "../../Loader/SkeletonLoader";
 import { getCurrentUserDetails } from "../../../api/User/Get/user";
+import { Modal } from "@mui/material";
+import { useState } from "react";
 
-function Profile({ userId }: any) {
+function Profile({ userId ,user}: any) {
+  const [open, setOpen] = useState(false);
+  const [image, setImage] = useState('');
+
+  const handleOpen = (image: string) => {
+    setImage(image)
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const fetcher = async () => {
     const profile = await getCurrentUserDetails(userId);
@@ -25,7 +37,7 @@ function Profile({ userId }: any) {
         />
       </Head>
 
-      <div className="relative flex flex-col min-w-0 min-h-[550px] break-words bg-white xs:w-full sm:w-[500px] md:w-[580px] lg:w-full mb-6 shadow-xl rounded-lg mt-36">
+      <div className="relative flex flex-col min-w-0 min-h-[550px] break-words bg-white xs:w-full lg:w-full mb-6 shadow-xl rounded-lg mt-36">
         <div className="rounded-lg shadow-lg">
           <div className="flex flex-wrap">
             <div className="w-full flex justify-center">
@@ -54,12 +66,12 @@ function Profile({ userId }: any) {
               </div>
             </div>
             <div className="w-full text-center mt-28 ">
-              <Link
+              {user && (  <Link
                 href={{ pathname: "/user/profile/edit" }}
                 className="hover:underline cursor-pointer text-black font-bold"
               >
                 Update Profile
-              </Link>
+              </Link>)}
             </div>
             <div className="w-full text-center">
               <div className="flex justify-around">
@@ -96,8 +108,9 @@ function Profile({ userId }: any) {
               </div>
             </div>
           </div>
-          {isLoading || error ? (
-            <SkeletonLoader />
+          {isLoading|| error? (
+            // <SkeletonLoader />
+            <></>
           ) : (
             <>
               <div className="text-center mt-12">
@@ -146,9 +159,29 @@ function Profile({ userId }: any) {
                   </div>
                 </div>
               </div>
+              <div className="w-full flex justify-center mb-2">
+                  <img src={data.resume} alt="" className=" rounded-lg w-2/4 cursor-pointer" onClick={()=>handleOpen(data.resume)}/>
+              </div>
             </>
           )}
         </div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="parent-modal-title"
+          aria-describedby="parent-modal-description"
+        >
+          <div className="flex flex-col justify-center items-center max-w-lg xs:w-2/4 mx-auto my-8 cursor-pointer ">
+            <div style={{
+              backgroundImage: `url(${image})`
+            }}
+              className="bg-transparent h-[450px] w-full rounded-lg shadow-md bg-cover bg-center"></div>
+            <div className="w-56 md:w-64 bg-white -mt-10 shadow-lg rounded-lg overflow-hidden">
+              <div className="py-2 text-center font-bold uppercase tracking-wide text-gray-800">resume</div>
+            </div>
+
+          </div>
+        </Modal>
       </div>
     </>
   );
