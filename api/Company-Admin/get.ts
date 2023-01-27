@@ -30,7 +30,7 @@ export const getAllCompanyPost = async (companyId: any) => {
   return data;
 };
 
-export const getAJobPost  = async (jobId: any) => {
+export const getAJobPost = async (jobId: any) => {
   const { data } = await instance.get(
     `/companyAdmin/getAJobPost?jobId=${jobId}`,
     {
@@ -46,6 +46,32 @@ export const getAJobPost  = async (jobId: any) => {
 export const getAppliedUsers = async (jobId: any) => {
   const { data } = await instance.get(
     `/companyAdmin/getAJobPost?jobId=${jobId}&users=${true}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};
+
+export const rejectApplicant = async (jobId: any, applicantId: any) => {
+  const { data } = await instance.get(
+    `/companyAdmin/rejectApplicant?applicantId=${applicantId}&jobId=${jobId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};
+
+export const acceptApplicant = async (jobId: any, applicantId: any) => {
+  const { data } = await instance.get(
+    `/companyAdmin/acceptApplicant?applicantId=${applicantId}&jobId=${jobId}`,
     {
       withCredentials: true,
       headers: {

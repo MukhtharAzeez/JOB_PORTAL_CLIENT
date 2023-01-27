@@ -2,6 +2,7 @@ import React from 'react';
 import useSWR from "swr";
 import { useRouter } from 'next/router';
 import { getAppliedUsers } from '../../../api/Company-Admin/get';
+import EachAppliedUsers from './EachAppliedUsers';
 
 function AppliedUsers() {
     const router = useRouter();
@@ -49,40 +50,7 @@ function AppliedUsers() {
                             {
                                 data.map(function (job: any) {
                                     return (
-                                        <tr key={job._id}>
-                                            <td className="p-2">
-                                                <div className="cursor-pointer"
-                                                    onClick={() => router.push({
-                                                        pathname: "/company-admin/jobs/jobs-details/applicant-profile",
-                                                        query: {
-                                                            applicant: job.applicants._id
-                                                        },
-                                                    },
-                                                        "/company-admin/jobs/jobs-details/applicant-profile"
-                                                    )}>
-                                                    <div className="flex items-center">
-                                                        <img src={job.applicants.image} alt="user" className="shrink-0 mr-2 sm:mr-3 rounded-full" width="36" height="36"/>
-                                                        <div>
-                                                            <div className="text-slate-800">{job.applicants.firstName + " " + job.applicants.lastName}</div>
-                                                            <div className="text-center text-gray-400">{job.applicants.email}</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="p-2">
-                                                <div className="text-center">{job.applicants.mobile}</div>
-                                            </td>
-                                            <td className="p-2">
-                                                <div className="text-center">{job.applicants.country}</div>
-                                            </td>
-                                            <td className="p-2">
-                                                <div className="text-center">{job.applicants.city}</div>
-                                            </td>
-                                            <td className="p-2 text-center">
-                                                <div className='text-green-800 cursor-pointer hover:text-green-600'>Accept</div>
-                                                <div className='text-red-800 cursor-pointer hover:text-red-400'>Reject</div>
-                                            </td>
-                                        </tr>
+                                        <EachAppliedUsers key={job._id} job={job}/>
                                     )
                                 })
                             }
