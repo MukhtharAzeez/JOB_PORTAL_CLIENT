@@ -188,7 +188,7 @@ function AddCompanyAdmins() {
                                     </label>
                                 </li>
                                 <li>
-                                    <input type="radio" name='authority' onChange={handleEdit} id="interviewsWithoutPermission" value="haveAllAuthorities" className="hidden peer" />
+                                    <input type="radio" name='authority' onChange={handleEdit} id="interviewsWithoutPermission" value="scheduleInterviewsWithoutPermission" className="hidden peer" />
                                     <label htmlFor="interviewsWithoutPermission" className="inline-flex items-center justify-between w-full p-5 text-gray-500 cursor-pointer bg-white border-2 border-gray-200 rounded-lg cursor-pointe  peer-checked:border-blue-600 hover:text-gray-600  peer-checked:text-gray-600 hover:bg-gray-50 ">
                                         <div className="block">
                                             <div className="w-full text-sm">Admin can schedule interviews without getting approval from the company</div>

@@ -18,3 +18,22 @@ export const editAPost = async (formData: any) => {
   });
   return result;
 };
+
+export const acceptApplicant = async (
+  formData: any,
+  jobId: any,
+  applicantId: any,
+  adminId: any
+) => {
+  const result = await instance.post(
+    `/companyAdmin/acceptApplicant?jobId=${jobId}&applicantId=${applicantId}&adminId=${adminId}`,
+    formData,
+    {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return result;
+};

@@ -4,13 +4,13 @@ import { useRouter } from 'next/router';
 import { getAppliedUsers } from '../../../api/Company-Admin/get';
 import EachAppliedUsers from './EachAppliedUsers';
 
+
 function AppliedUsers() {
     const router = useRouter();
     const jobId = router.query.jobId
 
     const fetcher = async () => {
         const appliedUsers = await getAppliedUsers(jobId);
-        console.log(appliedUsers)
         return appliedUsers;
     };
     const { data, error, isLoading } = useSWR("appliedUsers", fetcher);
@@ -58,6 +58,7 @@ function AppliedUsers() {
                     </table>
                 </div>
             </div>
+           
         </div>
     );
 }
