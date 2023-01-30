@@ -26,7 +26,7 @@ export const acceptApplicant = async (
   adminId: any
 ) => {
   const result = await instance.post(
-    `/companyAdmin/acceptApplicant?jobId=${jobId}&applicantId=${applicantId}&adminId=${adminId}`,
+    `/jobApplicant/acceptApplicant?jobId=${jobId}&applicantId=${applicantId}&adminId=${adminId}`,
     formData,
     {
       withCredentials: true,

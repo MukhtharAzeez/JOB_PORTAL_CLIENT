@@ -43,6 +43,9 @@ function AppliedUsers() {
                                 <th className="p-2">
                                     <div className="font-semibold text-center">Action</div>
                                 </th>
+                                <th className="p-2">
+                                    <div className="font-semibold text-center">info</div>
+                                </th>
                             </tr>
                         </thead>
                         {/* Table body */}
@@ -50,7 +53,7 @@ function AppliedUsers() {
                             {
                                 data.map(function (job: any) {
                                     return (
-                                        <EachAppliedUsers key={job._id} job={job}/>
+                                        <EachAppliedUsers key={job.applicantId._id} job={job}/>
                                     )
                                 })
                             }

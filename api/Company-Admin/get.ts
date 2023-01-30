@@ -45,7 +45,7 @@ export const getAJobPost = async (jobId: any) => {
 
 export const getAppliedUsers = async (jobId: any) => {
   const { data } = await instance.get(
-    `/companyAdmin/getAJobPost?jobId=${jobId}&users=${true}`,
+    `/jobApplicant/getAllApplicants?jobId=${jobId}`,
     {
       withCredentials: true,
       headers: {
@@ -58,7 +58,7 @@ export const getAppliedUsers = async (jobId: any) => {
 
 export const rejectApplicant = async (jobId: any, applicantId: any) => {
   const { data } = await instance.get(
-    `/companyAdmin/rejectApplicant?applicantId=${applicantId}&jobId=${jobId}`,
+    `/jobApplicant/rejectApplicant?applicantId=${applicantId}&jobId=${jobId}`,
     {
       withCredentials: true,
       headers: {
@@ -71,7 +71,7 @@ export const rejectApplicant = async (jobId: any, applicantId: any) => {
 
 export const acceptApplicant = async (jobId: any, applicantId: any) => {
   const { data } = await instance.get(
-    `/companyAdmin/acceptApplicant?applicantId=${applicantId}&jobId=${jobId}`,
+    `/jobApplicant/acceptApplicant?applicantId=${applicantId}&jobId=${jobId}`,
     {
       withCredentials: true,
       headers: {
