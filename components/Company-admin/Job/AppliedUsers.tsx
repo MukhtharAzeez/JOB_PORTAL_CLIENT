@@ -57,6 +57,15 @@ function AppliedUsers() {
                                     )
                                 })
                             }
+                            {
+                                data.length==0 ? 
+                                <div className="w-full">
+                                    <h4 className="font-bold p-2 pt-4">
+                                        There is no users applied yet
+                                    </h4>
+                                </div> 
+                                : '' 
+                            }
                         </tbody>
                     </table>
                 </div>

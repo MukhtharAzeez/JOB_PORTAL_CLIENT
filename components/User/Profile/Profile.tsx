@@ -20,6 +20,7 @@ function Profile({ userId ,user}: any) {
 
   const fetcher = async () => {
     const profile = await getCurrentUserDetails(userId);
+    console.log(profile)
     return profile;
   };
   const { data, error, isLoading } = useSWR("profile", fetcher);
@@ -171,13 +172,13 @@ function Profile({ userId ,user}: any) {
           aria-labelledby="parent-modal-title"
           aria-describedby="parent-modal-description"
         >
-          <div className="flex flex-col justify-center items-center max-w-lg xs:w-2/4 mx-auto my-8 cursor-pointer ">
+          <div className="flex flex-col justify-center items-center max-w-lg xs:w-2/4 mx-auto my-2 cursor-pointer">
             <div style={{
               backgroundImage: `url(${image})`
             }}
-              className="bg-transparent h-[450px] w-full rounded-lg shadow-md bg-cover bg-center"></div>
-            <div className="w-56 md:w-64 bg-white -mt-10 shadow-lg rounded-lg overflow-hidden">
-              <div className="py-2 text-center font-bold uppercase tracking-wide text-gray-800">resume</div>
+              className="bg-transparent h-[90vh] w-full rounded-t-lg shadow-md bg-cover bg-center overflow-y-scroll"></div>
+            <div className="w-full bg-white rounded-b-lg shadow-lg overflow-hidden">
+              <div className="py-2 text-center font-bold uppercase tracking-wide text-gray-800 hover:text-gray-400" onClick={handleClose}>Close resume</div>
             </div>
 
           </div>
