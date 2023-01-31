@@ -6,7 +6,7 @@ import { getCurrentUserDetails } from "../../api/User/Get/user";
 import FriendsList from "./FriendsList";
 
 
-function LargeScreenSideBar() {
+function LargeScreenSideBar({setChat}:any) {
   const { userId } = useSelector(currentUser)
   const fetcher = async () => {
     const user = await getCurrentUserDetails(userId);
@@ -54,7 +54,7 @@ function LargeScreenSideBar() {
             <div className="leading-none ml-1 text-xs">Active</div>
           </div>
         </div>
-        <FriendsList />
+        <FriendsList setChat={setChat}/>
       </div>
     </>
   );
