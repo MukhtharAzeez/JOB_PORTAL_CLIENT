@@ -36,4 +36,3 @@ export const { addUserDetails } = userAuthSlice.actions;
 export const currentUser = (state: RootState) => state.user;
 export default userAuthSlice;
 
-

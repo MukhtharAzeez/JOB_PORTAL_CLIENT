@@ -2,13 +2,25 @@ import Head from "next/head";
 import useSWR from "swr";
 import Link from "next/link";
 // import SkeletonLoader from "../../Loader/SkeletonLoader";
-import { getCurrentUserDetails } from "../../../api/User/Get/user";
+import { getCurrentUserDetails, sendFriendRequest } from "../../../api/User/Get/user";
 import { Modal } from "@mui/material";
 import { useState } from "react";
+import { currentUser } from "../../../redux/user/userAuthSlicer";
+import { useSelector } from "react-redux";
 
-function Profile({ userId ,user}: any) {
+function Profile({ userId, user }: any) {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState('');
+  const [connected, setConnected] = useState(false)
+  const [friends, setFriends] = useState('')
+
+  let friend = false
+  let curUserId: string = null
+  if (user == null) {
+    const current = useSelector(currentUser)
+    curUserId = current.userId
+    if (userId != current.userId) friend = true
+  }
 
   const handleOpen = (image: string) => {
     setImage(image)
@@ -18,9 +30,25 @@ function Profile({ userId ,user}: any) {
     setOpen(false);
   };
 
+  async function sendConnectionRequest(curUserId: string, userId: string) {
+    if (userId == curUserId) return;
+    const res = await sendFriendRequest(curUserId, userId)
+    if (res) {
+      setFriends(friends + 1)
+    } else {
+      setFriends(friends + -1)
+    }
+    setConnected(!connected)
+  }
+
   const fetcher = async () => {
     const profile = await getCurrentUserDetails(userId);
-    console.log(profile)
+    if (user == null) {
+      if (profile.friends.includes(curUserId)) {
+        setConnected(true)
+      }
+    }
+    setFriends(profile.friends.length)
     return profile;
   };
   const { data, error, isLoading } = useSWR("profile", fetcher);
@@ -66,13 +94,23 @@ function Profile({ userId ,user}: any) {
                 )}
               </div>
             </div>
-            <div className="w-full text-center mt-28 ">
-              {user && (  <Link
+            <div className="w-full text-center mt-28 mb-4">
+              {user && (<Link
                 href={{ pathname: "/user/profile/edit" }}
                 className="hover:underline cursor-pointer text-black font-bold"
               >
                 Update Profile
               </Link>)}
+              {friend && (<div
+                className=" text-black font-bold flex justify-around"
+              >
+                {connected ?
+                  (<>
+                    <span onClick={() => { sendConnectionRequest(curUserId, userId) }} className="hover:underline cursor-pointer">Connected</span>
+                    <span>Message</span>
+                  </>
+                  ) : <span onClick={() => { sendConnectionRequest(curUserId, userId) }} className="hover:underline cursor-pointer">Connect</span>}
+              </div>)}
             </div>
             <div className="w-full text-center">
               <div className="flex justify-around">
@@ -81,10 +119,10 @@ function Profile({ userId ,user}: any) {
                     <span className="h-10 animate-pulse bg-gray-100 block rounded-lg dark:bg-gray-200 w-10 ml-2"></span>
                   ) : (
                     <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                      44
+                      {friends}
                     </span>
                   )}
-                  <span className="text-sm text-blueGray-400">Friends</span>
+                  <span className="text-sm text-blueGray-400">Connections</span>
                 </div>
                 <div className="text-center pl-8">
                   {isLoading || error ? (
@@ -94,22 +132,22 @@ function Profile({ userId ,user}: any) {
                       10
                     </span>
                   )}
-                  <span className="text-sm text-blueGray-400">Photos</span>
+                  <span className="text-sm text-blueGray-400">Posts</span>
                 </div>
                 <div className="text-center pl-5">
                   {isLoading || error ? (
                     <span className="h-10 animate-pulse bg-gray-100 block rounded-lg dark:bg-gray-200 w-10 ml-2"></span>
                   ) : (
                     <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                      89
+                      {data.companies.length}
                     </span>
                   )}
-                  <span className="text-sm text-blueGray-400">Comments</span>
+                  <span className="text-sm text-blueGray-400">Companies</span>
                 </div>
               </div>
             </div>
           </div>
-          {isLoading|| error? (
+          {isLoading || error ? (
             // <SkeletonLoader />
             <></>
           ) : (
@@ -161,7 +199,7 @@ function Profile({ userId ,user}: any) {
                 </div>
               </div>
               <div className="w-full flex justify-center mb-2">
-                  <img src={data.resume} alt="" className=" rounded-lg w-2/4 cursor-pointer" onClick={()=>handleOpen(data.resume)}/>
+                <img src={data.resume} alt="" className=" rounded-lg w-2/4 cursor-pointer" onClick={() => handleOpen(data.resume)} />
               </div>
             </>
           )}

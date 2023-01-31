@@ -6,7 +6,6 @@ import { addUserDetails, currentUser } from "../redux/user/userAuthSlicer";
 const UserProtectRouter = ({ children }:any) => {
   const dispatch = useDispatch();
   const router = useRouter();
-
   const user = useSelector(currentUser);
 
   useEffect(() => {

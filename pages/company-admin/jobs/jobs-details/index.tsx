@@ -10,9 +10,9 @@ import RightBar from "../../../../components/User/Home/RightBar";
 import dynamic from "next/dynamic";
 import SideBar from "../../../../components/Common/companyAdmin-user/SideBar";
 import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../../../constants/Company-admin-sidebar";
-import SideBarWithoutText from "../../../../components/User/Home/SideBarWithoutText";
 import EditJob from "../../../../components/Company-admin/Job/EditJob";
 import AppliedUsers from "../../../../components/Company-admin/Job/AppliedUsers";
+import SideBarWithoutText from "../../../../components/Common/companyAdmin-user/SideBarWithoutText";
 const BottomBar = dynamic(
     () => import("../../../../components/User/MobileBottom/MobileBottom")
 );

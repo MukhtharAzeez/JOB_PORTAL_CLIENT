@@ -59,7 +59,7 @@ export default function ScheduleInterview({ scheduleInterview, setScheduleInterv
             {scheduleInterview ? (
                 <>
                     <div className="justify-center w-full items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                        <div className="rounded-lg bg-white shadow-lg p-16 h-[560px]">
+                        <div className="rounded-lg bg-white shadow-lg p-16 h-[600px]">
                             <div className="flex justify-end text-indigo-800 cursor-pointer">
                                 <CloseIcon onClick={handleClose} />
                             </div>

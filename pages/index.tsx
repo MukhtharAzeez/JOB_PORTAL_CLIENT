@@ -15,7 +15,7 @@ import { currentTheme } from "../redux/user/ThemeSlice";
 import { addUserDetails } from "../redux/user/userAuthSlicer";
 import UserProtectRouter from "../protectRoutes/protectRoutes";
 import { USER_SIDEBAR_LINKS } from "../constants/User-sideBar";
-import SideBarWithoutText from "../components/User/Home/SideBarWithoutText";
+import SideBarWithoutText from "../components/Common/companyAdmin-user/SideBarWithoutText";
 
 const BottomBar = dynamic(
   () => import("../components/User/MobileBottom/MobileBottom")

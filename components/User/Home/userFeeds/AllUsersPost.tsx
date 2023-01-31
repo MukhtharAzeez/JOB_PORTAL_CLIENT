@@ -31,6 +31,7 @@ import {
   postComment,
   postLike,
 } from "../../../../api/User/Post/post";
+import { useRouter } from "next/router";
 
 interface props {
   mode: String;
@@ -56,6 +57,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 function AllUsersPost({ mode, post }: props) {
   const { userId } = useSelector(currentUser);
+  const router = useRouter();
 
   const [likes, setLikes] = React.useState(post.likes ? post.likes.length : 0);
   const [comment, setComment] = React.useState("");
@@ -110,9 +112,25 @@ function AllUsersPost({ mode, post }: props) {
       <CardHeader
         avatar={
           post.user.image.length ? (
-            <Avatar alt="User Profile" src={post.user.image} />
+            <Avatar onClick={() => router.push({
+              pathname: "/user/visit-user",
+              query: {
+                friend: post.user._id
+              },
+            },
+              "/user/visit-user"
+            )
+            }  alt="User Profile" src={post.user.image} className="cursor-pointer"/>
           ) : (
-            <Avatar className="bg-gray-500" aria-label="recipe">
+              <Avatar onClick={() => router.push({
+                pathname: "/user/visit-user",
+                query: {
+                  friend: post.user._id
+                },
+              },
+                "/user/visit-user"
+              )
+              } className="bg-gray-500 cursor-pointer" aria-label="Friend">
               {post.user.firstName[0]}
             </Avatar>
           )
