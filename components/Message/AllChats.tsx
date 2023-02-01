@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getCurrentUserDetails } from '../../api/User/Get/user';
 
-function AllChats({ data, currentUser }: any) {
+function AllChats({ data, currentUser, setChat, onlineUsers }: any) {
     const [userData, setUserData] = useState(null)
 
     useEffect(() => {
@@ -13,7 +13,7 @@ function AllChats({ data, currentUser }: any) {
         getUserData();
     }, []);
     return (
-        <div className="relative cursor-pointer hover:bg-gray-200 p-2">
+        <div className="relative cursor-pointer hover:bg-gray-200 p-2" onClick={()=>setChat(data)}>
             {
                 userData?.image.length ? (
                     <div className="flex items-center justify-center w-8 h-8 mx-2 overflow-hidden rounded-full">
@@ -25,7 +25,14 @@ function AllChats({ data, currentUser }: any) {
                     </div>
                 )
             }
-            <div className={`absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-green-500 border-2 border-white`}></div>
+            {
+                onlineUsers.map((item:any) => (item.userId === userData?._id))? (
+                    <div className="absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-green-500 border-2 border-white"></div>
+                ) : (
+                    <div className="absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-red-500 border-2 border-white"></div>
+                )
+            }
+
             <div className="absolute ml-2 top-2 left-10  text-sm font-semibold p-2">{userData?.firstName + " " + userData?.lastName}</div>
         </div>
 

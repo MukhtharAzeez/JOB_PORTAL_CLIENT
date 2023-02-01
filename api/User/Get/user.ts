@@ -38,7 +38,7 @@ export const getFriendsList = async (userId: string) => {
 };
 
 export const getUserChat = async (userId: string) => {
-  const { data } = await instance.get(`/chat/${userId}`, {
+  const { data } = await instance.get(`/chat/user/${userId}`, {
     withCredentials: true,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -58,8 +58,11 @@ export const getMessages = async (chatId: string) => {
   return data;
 };
 
-export const sendMessageToRece = async (senderId:string, chatId:string, text:string) => {
-  console.log(senderId, chatId, text)
+export const sendMessageToReceiver = async (
+  senderId: string,
+  chatId: string,
+  text: string
+) => {
   const { data } = await instance.post(
     `/chat/sendMessage`,
     { senderId, chatId, text },

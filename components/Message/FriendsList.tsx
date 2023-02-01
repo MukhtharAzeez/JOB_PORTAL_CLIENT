@@ -5,7 +5,7 @@ import useSWR from "swr";
 import { getUserChat } from '../../api/User/Get/user';
 import AllChats from './AllChats';
 
-function FriendsList({setChat}:any) {
+function FriendsList({ setChat, onlineUsers }:any) {
     const { userId } = useSelector(currentUser)
 
     const fetcher = async () => {
@@ -27,7 +27,7 @@ function FriendsList({setChat}:any) {
                 {
                     data.map(function (chat: any) {
                         return (
-                            <AllChats onClick={()=>setChat(chat)} key={chat._id} data={chat} currentUser={userId}/>
+                            <AllChats setChat={setChat} key={chat._id} data={chat} currentUser={userId} onlineUsers={onlineUsers}/>
                         )
                     })
                 }
