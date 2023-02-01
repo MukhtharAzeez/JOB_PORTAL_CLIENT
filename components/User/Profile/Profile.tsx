@@ -7,12 +7,15 @@ import { Modal } from "@mui/material";
 import { useState } from "react";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
 import { useSelector } from "react-redux";
+import { sendMessageToFriend } from "../../../api/User/Post/user";
+import { useRouter } from "next/router";
 
 function Profile({ userId, user }: any) {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState('');
   const [connected, setConnected] = useState(false)
   const [friends, setFriends] = useState('')
+  const router = useRouter();
 
   let friend = false
   let curUserId: string = null
@@ -39,6 +42,11 @@ function Profile({ userId, user }: any) {
       setFriends(friends + -1)
     }
     setConnected(!connected)
+  }
+
+  async function sendMessage(curUserId: string, userId: string) {
+    await sendMessageToFriend(curUserId, userId)
+    router.push('/user/inbox')
   }
 
   const fetcher = async () => {
@@ -107,7 +115,7 @@ function Profile({ userId, user }: any) {
                 {connected ?
                   (<>
                     <span onClick={() => { sendConnectionRequest(curUserId, userId) }} className="hover:underline cursor-pointer">Connected</span>
-                    <span>Message</span>
+                    <span onClick={() => sendMessage(curUserId, userId)} className="hover:underline cursor-pointer">Message</span>
                   </>
                   ) : <span onClick={() => { sendConnectionRequest(curUserId, userId) }} className="hover:underline cursor-pointer">Connect</span>}
               </div>)}

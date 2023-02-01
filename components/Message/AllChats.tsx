@@ -33,7 +33,7 @@ function AllChats({ data, currentUser, setChat, onlineUsers }: any) {
                 )
             }
 
-            <div className="absolute ml-2 top-2 left-10  text-sm font-semibold p-2">{userData?.firstName + " " + userData?.lastName}</div>
+            <div className="hidden sm:block absolute ml-2 top-2 left-10  text-sm font-semibold p-2">{userData?.firstName + " " + userData?.lastName}</div>
         </div>
 
     )

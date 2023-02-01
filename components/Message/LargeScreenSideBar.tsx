@@ -17,8 +17,8 @@ function LargeScreenSideBar({setChat, onlineUsers}:any) {
 
   return (
     <>
-      <div className="md:flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0 hidden">
-        <div className="flex flex-row items-center justify-center h-12 w-full">
+      <div className="flex flex-col sm:py-8 sm:pl-6 sm:pr-2 w-16 sm:w-64 bg-white flex-shrink-0">
+        <div className="hidden sm:flex flex-row items-center justify-center h-12 w-full">
           <div className="flex items-center justify-center rounded-2xl text-indigo-700 bg-indigo-100 h-10 w-10">
             <svg
               className="w-6 h-6"
@@ -35,9 +35,9 @@ function LargeScreenSideBar({setChat, onlineUsers}:any) {
               ></path>
             </svg>
           </div>
-          <div className="ml-2 font-bold text-2xl">QuickChat</div>
+          <div className="hidden sm:flex ml-2 font-bold text-2xl">QuickChat</div>
         </div>
-        <div className="flex flex-col items-center bg-indigo-100 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
+        <div className="hidden sm:flex flex-col items-center bg-indigo-100 border border-gray-200 mt-4 w-full  py-6 px-4 rounded-lg">
           <div className="h-20 w-20 rounded-full border overflow-hidden">
             <img
               src={data.image ? data.image : 'https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png'}
@@ -45,8 +45,7 @@ function LargeScreenSideBar({setChat, onlineUsers}:any) {
               className="h-full w-full"
             />
           </div>
-          <div className="text-sm font-semibold mt-2">{data.firstName + " " + data.lastName}</div>
-          <div className="text-xs text-gray-500">Lead UI/UX Designer</div>
+          <div className="xs:hidden md:block text-sm font-semibold mt-2">{data.firstName + " " + data.lastName}</div>
           <div className="flex flex-row items-center mt-3">
             <div className="flex flex-col justify-center h-4 w-8 bg-indigo-500 rounded-full">
               <div className="h-3 w-3 bg-white rounded-full self-end mr-1"></div>
