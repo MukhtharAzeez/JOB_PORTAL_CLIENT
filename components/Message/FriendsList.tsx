@@ -7,13 +7,14 @@ import AllChats from './AllChats';
 
 function FriendsList({ setChat, onlineUsers }:any) {
     const { userId } = useSelector(currentUser)
-
     const fetcher = async () => {
         const friends = await getUserChat(userId);
         return friends;
     };
     const { data, error, isLoading } = useSWR("friends", fetcher);
     if (isLoading || error) return <div>Loading....</div>
+
+    
 
     return (
         <div className="flex flex-col mt-8">

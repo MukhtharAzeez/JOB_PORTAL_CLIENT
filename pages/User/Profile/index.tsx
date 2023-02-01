@@ -23,7 +23,7 @@ function index() {
       <Head>
         <title>Portal-Profile</title>
       </Head>
-      <Box className="bg-gray-200" color={"text.primary"}>
+      <Box className="bg-gray-200 min-h-[100vh]" color={"text.primary"}>
         <NavBar mode={mode} />
         <div className="border ">
           <div className="flex justify-around md:pr-20">

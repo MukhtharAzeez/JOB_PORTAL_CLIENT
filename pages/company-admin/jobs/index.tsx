@@ -10,8 +10,8 @@ import RightBar from "../../../components/User/Home/RightBar";
 import dynamic from "next/dynamic";
 import SideBar from "../../../components/Common/companyAdmin-user/SideBar";
 import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../../constants/Company-admin-sidebar";
-import SideBarWithoutText from "../../../components/User/Home/SideBarWithoutText";
 import AllJobPosts from "../../../components/Company-admin/Job/AllJobPosts";
+import SideBarWithoutText from "../../../components/Common/companyAdmin-user/SideBarWithoutText";
 const BottomBar = dynamic(
   () => import("../../../components/User/MobileBottom/MobileBottom")
 );
@@ -52,7 +52,7 @@ export default function Home({ req }: { req: any }) {
                 <SideBar links={COMPANY_ADMIN_SIDEBAR_LINKS} />
               </div>
               <div className="ml-6 md:hidden">
-                <SideBarWithoutText />
+                <SideBarWithoutText links={COMPANY_ADMIN_SIDEBAR_LINKS}/>
               </div>
             </div>
             <div className="md:w-6/12 sm:w-9/12 w-full mt-32 mr-5 lg:ml-16">

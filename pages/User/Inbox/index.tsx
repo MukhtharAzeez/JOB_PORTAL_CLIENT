@@ -10,7 +10,7 @@ function index() {
   return (
     <div>
       <NavBar mode={mode} />
-      <UserMessage />
+      <UserMessage/>
       <MobileBottom />
     </div>
   );

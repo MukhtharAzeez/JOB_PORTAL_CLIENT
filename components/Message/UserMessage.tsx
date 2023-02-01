@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { io, Socket } from "socket.io-client";
+import { USER_SIDEBAR_LINKS } from "../../constants/User-sideBar";
 import { currentUser } from "../../redux/user/userAuthSlicer";
 import SideBarWithoutText from "../Common/companyAdmin-user/SideBarWithoutText";
 import ChatScreen from "./ChatScreen";
@@ -40,7 +41,7 @@ function UserMessage() {
       <div className="flex  antialiased text-gray-800">
         <div className="flex flex-row h-full w-full overflow-x-hidden">
           <div className="md:mr-14 sm:ml-2 sm:mr-20">
-            <SideBarWithoutText />
+            <SideBarWithoutText links={USER_SIDEBAR_LINKS} />
           </div>
           <LargeScreenSideBar setChat={setChat} onlineUsers={onlineUsers}/>
           {chat ? (

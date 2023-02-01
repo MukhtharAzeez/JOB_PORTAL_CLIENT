@@ -14,6 +14,7 @@ function LargeScreenSideBar({setChat, onlineUsers}:any) {
   };
   const { data, error, isLoading } = useSWR("user", fetcher);
   if (isLoading || error) return <div>Loading....</div>
+  
 
   return (
     <>
