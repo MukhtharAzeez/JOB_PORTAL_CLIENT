@@ -3,11 +3,8 @@ import instance from "../../../axios/axios";
 export const addPostToServer = async (formData: any) => {
   const { data } = await instance.post("/userPost/addPost", formData, {
     withCredentials: true,
-    // headers: {
-    //   Authorization: "Bearer " + localStorage.getItem("token"),
-    // },
     headers: {
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
     },
   });
   return data;
@@ -19,7 +16,7 @@ export const postLike = async (postId: string, userId: string) => {
     {
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     }
   );
@@ -37,7 +34,7 @@ export const postComment = async (
     {
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     }
   );
@@ -49,7 +46,7 @@ export const getPostComment = async (postId: string) => {
     {
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     }
   );
@@ -62,7 +59,7 @@ export const likeComment = async (commentId: string, userId: string) => {
     {
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     }
   );

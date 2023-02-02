@@ -8,7 +8,7 @@ export const getCompanyAdminDetails = async (adminId: any) => {
     {
       withCredentials: true,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("companyToken")}`,
       },
     }
   );
@@ -16,14 +16,12 @@ export const getCompanyAdminDetails = async (adminId: any) => {
 };
 
 export const getAllCompanyPost = async (companyId: any) => {
-  console.log("adminId ", companyId);
-
   const { data } = await instance.get(
     `/companyAdmin/getAllCompanyPosts?companyId=${companyId}`,
     {
       withCredentials: true,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
       },
     }
   );
@@ -36,7 +34,7 @@ export const getAJobPost = async (jobId: any) => {
     {
       withCredentials: true,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
       },
     }
   );
@@ -49,7 +47,7 @@ export const getAppliedUsers = async (jobId: any) => {
     {
       withCredentials: true,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
       },
     }
   );
@@ -62,7 +60,7 @@ export const rejectApplicant = async (jobId: any, applicantId: any) => {
     {
       withCredentials: true,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
       },
     }
   );
@@ -75,7 +73,7 @@ export const acceptApplicant = async (jobId: any, applicantId: any) => {
     {
       withCredentials: true,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
       },
     }
   );

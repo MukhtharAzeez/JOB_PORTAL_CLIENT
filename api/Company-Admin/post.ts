@@ -4,7 +4,7 @@ export const addAJobPost = async (formData: any) => {
   const result = await instance.post(`/companyAdmin/postJob`, formData, {
     withCredentials: true,
     headers: {
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
     },
   });
   return result;
@@ -13,7 +13,7 @@ export const editAPost = async (formData: any) => {
   const result = await instance.post(`/companyAdmin/editAJob`, formData, {
     withCredentials: true,
     headers: {
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
     },
   });
   return result;
@@ -31,7 +31,7 @@ export const acceptApplicant = async (
     {
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
       },
     }
   );

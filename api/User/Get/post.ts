@@ -3,11 +3,8 @@ import instance from "../../../axios/axios";
 export const getAllUsersPost = async () => {
   const { data } = await instance.get("/userPost/getPosts", {
     withCredentials: true,
-    // headers: {
-    //   Authorization: "Bearer " + localStorage.getItem("token"),
-    // },
     headers: {
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
     },
   });
   return data;
@@ -17,7 +14,7 @@ export const getJobsPosts = async () => {
   const { data } = await instance.get("/company/getJobPosts", {
     withCredentials: true,
     headers: {
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
     },
   });
   return data;
@@ -30,7 +27,7 @@ export const applyForJob = async (jobId:string, userId:string) => {
     {
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     }
   );
