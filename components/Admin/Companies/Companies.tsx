@@ -4,7 +4,7 @@ import useSWR from "swr";
 import { getAllCompanies } from '../../../api/Admin/get';
 
 
-function Companies() {
+function Companies({url}:any) {
     const fetcher = async () => {
         const companies = await getAllCompanies();
         return companies;
@@ -51,7 +51,7 @@ function Companies() {
                                     return (
                                         <tr key={company._id}>
                                             <td className="p-2">
-                                                <Link href={{ pathname: "/admin/company/company-details", query: { companyId: company._id } }}>
+                                                <Link href={{ pathname: url, query: { companyId: company._id } }}>
                                                     <div className="flex items-center">
                                                         <svg className="shrink-0 mr-2 sm:mr-3" width="36" height="36" viewBox="0 0 36 36">
                                                             <circle fill="#24292E" cx="18" cy="18" r="18" />

@@ -9,17 +9,16 @@ import NavBar from "../../../components/User/NavBar/NavBar";
 import Profile from "../../../components/User/Profile/Profile";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
 import { USER_SIDEBAR_LINKS } from "../../../constants/User-sideBar";
+import UserProtectRouter from "../../../protectRoutes/protectRoutes";
+import { currentUser } from "../../../redux/user/userAuthSlicer";
 
 function index() {
   const mode = useSelector(currentTheme);
 
-  let userId
-  if (typeof window !== 'undefined') {
-    userId=localStorage.getItem('userId');
-  }
+  const {userId} = useSelector(currentUser);
   
   return (
-    <>
+    <UserProtectRouter>
       <Head>
         <title>Portal-Profile</title>
       </Head>
@@ -40,7 +39,7 @@ function index() {
         </div>
         <MobileBottom />
       </Box>
-    </>
+    </UserProtectRouter>
   );
 }
 

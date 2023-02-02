@@ -10,6 +10,7 @@ import Profile from "../../../components/User/Profile/Profile";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
 import { USER_SIDEBAR_LINKS } from "../../../constants/User-sideBar";
 import { useRouter } from "next/router";
+import UserProtectRouter from "../../../protectRoutes/protectRoutes";
 
 function index() {
     const mode = useSelector(currentTheme);
@@ -17,7 +18,7 @@ function index() {
     const userId = router.query.friend
 
     return (
-        <>
+        <UserProtectRouter>
             <Head>
                 <title>Portal-Profile</title>
             </Head>
@@ -38,7 +39,7 @@ function index() {
                 </div>
                 <MobileBottom />
             </Box>
-        </>
+        </UserProtectRouter>
     );
 }
 

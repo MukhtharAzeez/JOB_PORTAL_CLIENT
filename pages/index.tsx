@@ -16,6 +16,8 @@ import { addUserDetails } from "../redux/user/userAuthSlicer";
 import UserProtectRouter from "../protectRoutes/protectRoutes";
 import { USER_SIDEBAR_LINKS } from "../constants/User-sideBar";
 import SideBarWithoutText from "../components/Common/companyAdmin-user/SideBarWithoutText";
+// import { io } from "socket.io-client";
+
 
 const BottomBar = dynamic(
   () => import("../components/User/MobileBottom/MobileBottom")
@@ -31,6 +33,16 @@ export default function Home({ req }: { req: any }) {
 
   const dispatch = useDispatch()
   const mode = useSelector(currentTheme);
+  // const [socket, setSocket] = useState(null)
+  // const user = useSelector(currentUser)
+
+  // useEffect(() => {
+  //   setSocket(io("http://localhost:8000"))
+  // }, [])
+
+  // useEffect(() => {
+  //   socket?.emit("new-user-add", user.userId);
+  // }, [socket, user])
 
   useEffect(() => {
 

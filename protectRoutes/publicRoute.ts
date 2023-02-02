@@ -1,14 +1,16 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { addUserDetails, currentUser } from "../redux/user/userAuthSlicer";
+import { currentUser } from "../redux/user/userAuthSlicer";
+import { currentCompany } from "../redux/company/companyAuthSlicer";
+import { currentCompanyAdmin } from "../redux/company-admin/CompanyAdminAuthSlicer";
 
 const PublicRoute = ({ children }: any) => {
-  const dispatch = useDispatch();
   const router = useRouter();
 
   const user = useSelector(currentUser);
-
+  const company = useSelector(currentCompany);
+  const companyAdmin = useSelector(currentCompanyAdmin);
 
   useEffect(() => {
     const publicFu = () => {
@@ -16,20 +18,32 @@ const PublicRoute = ({ children }: any) => {
       if (userId) {
         return router.push("/");
       }
-      const firstName = localStorage.getItem("userName");
-      const lastName = "";
-      const email = localStorage.getItem("email");
-      const image = localStorage.getItem("image");
-      const userToken = localStorage.getItem("userToken");
-      dispatch(
-        addUserDetails({
-          result: { firstName, lastName, _id: userId, email, image },
-          accessToken: { access_token: userToken },
-        })
-      );
+      return null
     };
     publicFu();
   }, [user]);
+
+  useEffect(() => {
+    const publicFu = () => {
+      const companyToken = localStorage.getItem("companyToken");
+      if (companyToken) {
+        return router.push("/company");
+      }
+      return null;
+    };
+    publicFu();
+  }, [company]);
+
+  useEffect(() => {
+    const publicFu = () => {
+      const companyAdminToken = localStorage.getItem("companyAdminToken");
+      if (companyAdminToken) {
+        return router.push("/company-admin");
+      }
+      return null;
+    };
+    publicFu();
+  }, [companyAdmin]);
 
   if (user.userId == null) {
     return children;

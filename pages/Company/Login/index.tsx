@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import instance from "../../../axios/axios";
 import { useDispatch } from "react-redux";
 import { addCompanyDetails } from "../../../redux/company/companyAuthSlicer";
+import PublicRoute from "../../../protectRoutes/publicRoute";
 
 const theme = createTheme();
 
@@ -81,20 +82,17 @@ export default function SignIn() {
 
 
     const [showPassword, setShowPassword] = React.useState(false);
-
     const handleClickShowPassword = () => setShowPassword((show) => !show);
-
     const handleMouseDownPassword = (
         event: React.MouseEvent<HTMLButtonElement>
     ) => {
         event.preventDefault();
     };
-
     const SignUpPage = () => router.push("/user/signup");
     const createCompany = () => router.push("/company/create")
 
-
     return (
+        <PublicRoute>
             <ThemeProvider theme={theme}>
                 <Box
                     bgcolor={"white"}
@@ -247,6 +245,6 @@ export default function SignIn() {
                     </Snackbar>
                 </Box>
             </ThemeProvider>
-        
+        </PublicRoute>
     );
 }

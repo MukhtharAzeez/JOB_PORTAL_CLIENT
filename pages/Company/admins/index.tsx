@@ -7,22 +7,17 @@ import SideBar from '../../../components/Common/adminAndCompanySideBar/SideBar/S
 import { COMPANY_SIDE_BAR_LINKS } from '../../../constants/Company-sideBar';
 import Header from '../../../components/Common/adminAndCompanySideBar/Header/Header';
 import Admins from '../../../components/Company/CompanyAdmins/Admins';
+import CompanyProtectRoute from '../../../protectRoutes/companyProtectRoute';
 
 function index() {
-
     const [sidebarOpen, setSidebarOpen] = useState(false);
-
-
-
     return (
+        <CompanyProtectRoute>
         <div className="flex h-screen overflow-hidden">
-
             {/* Sidebar */}
             <SideBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} links={COMPANY_SIDE_BAR_LINKS} />
-
             {/* Content area */}
             <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-
                 {/*  Site header */}
                 <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
                 <main>
@@ -49,6 +44,7 @@ function index() {
                 </main>
             </div>
         </div>
+        </CompanyProtectRoute>
     )
 }
 

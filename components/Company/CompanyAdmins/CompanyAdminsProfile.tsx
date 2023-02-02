@@ -9,16 +9,13 @@ import { Tooltip } from '@mui/material';
 function CompanyAdminsProfile() {
     const router = useRouter()
     const adminId = router.query.adminId
-
     const fetcher = async () => {
         const companyAdminProfile = await getCompanyAdminDetails(adminId);
         return companyAdminProfile;
     };
     const { data, error, isLoading } = useSWR("companyAdminProfile", fetcher);
-
     if (error) return <div>Error....</div>
     if (isLoading) return <div>Loading....</div>
-
     return (
         <div className=" lg:px-16 lg:pb-16">
             <div className="p-8 bg-white shadow mt-14 rounded-lg">

@@ -20,7 +20,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import instance from "../../../axios/axios";
 import { useDispatch } from "react-redux";
- import { addCompanyAdminDetails } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
+import { addCompanyAdminDetails } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
+import PublicRoute from "../../../protectRoutes/publicRoute";
 
 const theme = createTheme();
 
@@ -95,154 +96,156 @@ export default function SignIn() {
 
 
     return (
-        <ThemeProvider theme={theme}>
-            <Box
-                bgcolor={"white"}
-                sx={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                    marginTop: 10,
-                }}
-            >
-                <Container
-                    component="main"
-                    sx={{ marginLeft: { xl: 24, xs: "auto" } }}
-                    maxWidth="xs"
-                >
-                    <CssBaseline />
-                    <Box
-                        sx={{
-                            marginTop: 8,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Typography component="h1" variant="h5">
-                            SIGN IN
-                        </Typography>
-                        <Box
-                            component="form"
-                            noValidate
-                            onSubmit={handleSubmit}
-                            sx={{ mt: 1 }}
-                        >
-                            <Grid container spacing={2}>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        required
-                                        fullWidth
-                                        id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        autoComplete="email"
-                                        variant="filled"
-                                        size="small"
-                                        InputProps={{
-                                            disableUnderline: true,
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <FormControl fullWidth required variant="filled">
-                                        <InputLabel htmlFor="filled-adornment-password">
-                                            Password
-                                        </InputLabel>
-                                        <FilledInput
-                                            id="filled-adornment-password"
-                                            type={showPassword ? "text" : "password"}
-                                            required
-                                            name="password"
-                                            endAdornment={
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        aria-label="toggle password visibility"
-                                                        onClick={handleClickShowPassword}
-                                                        onMouseDown={handleMouseDownPassword}
-                                                        edge="end"
-                                                    >
-                                                        {showPassword ? (
-                                                            <VisibilityOff />
-                                                        ) : (
-                                                            <Visibility />
-                                                        )}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            }
-                                        />
-                                    </FormControl>
-                                </Grid>
-
-                                <Grid item xs={12}>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                value="TermsAndConditions"
-                                                defaultChecked
-                                                sx={{
-                                                    color: "#dc8a64",
-                                                    "&.Mui-checked": {
-                                                        color: "#dc8a64",
-                                                    },
-                                                }}
-                                                color="primary"
-                                            />
-                                        }
-                                        label="Accept Terms And Conditions"
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{
-                                    mt: 3,
-                                    mb: 2,
-                                    backgroundColor: "#dc8a64",
-                                    height: 50,
-                                    "&:hover": { backgroundColor: "#dc8a64" },
-                                }}
-                                style={{ backgroundColor: "#dc8a64" }}
-                            >
-                                {isLoading ? (
-                                    <CircularProgress sx={{ color: "white" }} />
-                                ) : (
-                                    "Sign In"
-                                )}
-                            </Button>
-                        </Box>
-                        <div className="flex justify-center flex-col mt-3">
-                            <p className="text-center">Want to Login as a User? <span onClick={userLoginPage} className="cursor-pointer hover:text-[#dc8a64]">Go to Page</span> </p>
-                        </div>
-                    </Box>
-                </Container>
+        <PublicRoute>
+            <ThemeProvider theme={theme}>
                 <Box
+                    bgcolor={"white"}
                     sx={{
-                        width: "50%",
-                        display: { xs: "none", md: "flex" },
-                        justifyContent: "flex-start",
+                        display: "flex",
+                        flexWrap: "wrap",
+                        alignItems: "center",
+                        marginTop: 10,
                     }}
                 >
-                    <Image
-                        src="https://www.recruiter.com//recruiting/wp-content/uploads/2022/04/sourcing-candidates.jpg"
-                        alt=""
-                        width={560}
-                        height={560}
-                    />
-                </Box>
-                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                    <Alert
-                        onClose={handleClose}
-                        severity="error"
-                        sx={{ width: "100%" }}
+                    <Container
+                        component="main"
+                        sx={{ marginLeft: { xl: 24, xs: "auto" } }}
+                        maxWidth="xs"
                     >
-                        {message}
-                    </Alert>
-                </Snackbar>
-            </Box>
-        </ThemeProvider>
+                        <CssBaseline />
+                        <Box
+                            sx={{
+                                marginTop: 8,
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                            }}
+                        >
+                            <Typography component="h1" variant="h5">
+                                SIGN IN
+                            </Typography>
+                            <Box
+                                component="form"
+                                noValidate
+                                onSubmit={handleSubmit}
+                                sx={{ mt: 1 }}
+                            >
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            required
+                                            fullWidth
+                                            id="email"
+                                            label="Email Address"
+                                            name="email"
+                                            autoComplete="email"
+                                            variant="filled"
+                                            size="small"
+                                            InputProps={{
+                                                disableUnderline: true,
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormControl fullWidth required variant="filled">
+                                            <InputLabel htmlFor="filled-adornment-password">
+                                                Password
+                                            </InputLabel>
+                                            <FilledInput
+                                                id="filled-adornment-password"
+                                                type={showPassword ? "text" : "password"}
+                                                required
+                                                name="password"
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowPassword}
+                                                            onMouseDown={handleMouseDownPassword}
+                                                            edge="end"
+                                                        >
+                                                            {showPassword ? (
+                                                                <VisibilityOff />
+                                                            ) : (
+                                                                <Visibility />
+                                                            )}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                            />
+                                        </FormControl>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    value="TermsAndConditions"
+                                                    defaultChecked
+                                                    sx={{
+                                                        color: "#dc8a64",
+                                                        "&.Mui-checked": {
+                                                            color: "#dc8a64",
+                                                        },
+                                                    }}
+                                                    color="primary"
+                                                />
+                                            }
+                                            label="Accept Terms And Conditions"
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{
+                                        mt: 3,
+                                        mb: 2,
+                                        backgroundColor: "#dc8a64",
+                                        height: 50,
+                                        "&:hover": { backgroundColor: "#dc8a64" },
+                                    }}
+                                    style={{ backgroundColor: "#dc8a64" }}
+                                >
+                                    {isLoading ? (
+                                        <CircularProgress sx={{ color: "white" }} />
+                                    ) : (
+                                        "Sign In"
+                                    )}
+                                </Button>
+                            </Box>
+                            <div className="flex justify-center flex-col mt-3">
+                                <p className="text-center">Want to Login as a User? <span onClick={userLoginPage} className="cursor-pointer hover:text-[#dc8a64]">Go to Page</span> </p>
+                            </div>
+                        </Box>
+                    </Container>
+                    <Box
+                        sx={{
+                            width: "50%",
+                            display: { xs: "none", md: "flex" },
+                            justifyContent: "flex-start",
+                        }}
+                    >
+                        <Image
+                            src="https://www.recruiter.com//recruiting/wp-content/uploads/2022/04/sourcing-candidates.jpg"
+                            alt=""
+                            width={560}
+                            height={560}
+                        />
+                    </Box>
+                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                        <Alert
+                            onClose={handleClose}
+                            severity="error"
+                            sx={{ width: "100%" }}
+                        >
+                            {message}
+                        </Alert>
+                    </Snackbar>
+                </Box>
+            </ThemeProvider>
+        </PublicRoute>
 
     );
 }

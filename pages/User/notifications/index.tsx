@@ -40,30 +40,32 @@ import NavBar from "../../../components/User/NavBar/NavBar";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
 import { USER_SIDEBAR_LINKS } from "../../../constants/User-sideBar";
 import Notifications from "../../../components/Common/notifications/Notifications";
+import UserProtectRouter from "../../../protectRoutes/protectRoutes";
 
 function index() {
     const mode = useSelector(currentTheme);
 
-    let userId
-    if (typeof window !== 'undefined') {
-        userId = localStorage.getItem('userId');
-    }
+
+    // let userId
+    // if (typeof window !== 'undefined') {
+    //     userId = localStorage.getItem('userId');
+    // }
 
     return (
-        <>
+        <UserProtectRouter>
             <Head>
                 <title>Portal-Profile</title>
             </Head>
             <Box className="bg-gray-200 min-h-[100vh]" color={"text.primary"}>
                 <NavBar mode={mode} />
-                <div className="border ">
+                <div className="border px-9">
                     <div className="flex justify-around md:pr-20">
                         <div className="w-2/12 mt-8 hidden md:block">
                             <SideBar links={USER_SIDEBAR_LINKS} />
                         </div>
                         <div className="lg:w-7/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-28 flex justify-center">
                             <Notifications />
-                        </div>                
+                        </div>
                         <div className=" md:w-2/12 md:pr-10  mt-4">
                             <RightBar />
                         </div>
@@ -71,7 +73,7 @@ function index() {
                 </div>
                 <MobileBottom />
             </Box>
-        </>
+        </UserProtectRouter>
     );
 }
 

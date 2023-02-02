@@ -15,13 +15,13 @@ function AllChats({ data, currentUser, setChat, onlineUsers }: any) {
     return (
         <div className="relative cursor-pointer hover:bg-gray-200 p-2" onClick={()=>setChat(data)}>
             {
-                userData?.image.length ? (
+                userData?.image?.length ? (
                     <div className="flex items-center justify-center w-8 h-8 mx-2 overflow-hidden rounded-full">
                         <img src={userData?.image} />
                     </div>
                 ) : (
                     <div className="flex items-center justify-center mx-2 h-8 w-8 bg-indigo-200 rounded-full">
-                        {userData?.firstName[0]}
+                        {userData?.firstName}
                     </div>
                 )
             }
