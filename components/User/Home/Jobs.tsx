@@ -4,49 +4,57 @@ import { getJobsPosts } from "../../../api/User/Get/post";
 import CompanyPosts from "./CompanyPosts/CompanyPosts";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
+import BeenhereIcon from '@mui/icons-material/Beenhere';
 
 interface Props {
   mode: String;
 }
 
 function Jobs({ mode }: Props) {
-  const [jobsData, setJobsData] = useState([])
-  const [hasMore, setHasMore] = useState(true)
-  const [skipCount, setSkipCount] = useState(0)
+  const [jobsData, setJobsData] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [skipCount, setSkipCount] = useState(0);
 
-
-  async function fetchData(){
-    const data = await getJobsPosts(2, skipCount)
-    setJobsData([...jobsData,...data])
-    setSkipCount(skipCount+1) 
-    console.log(data.length)
-    if(data.length == 0) setHasMore(false)
+  async function fetchData() {
+    const data = await getJobsPosts(4, skipCount);
+    setJobsData([...jobsData, ...data]);
+    setSkipCount(skipCount + 1);
+    if (data.length == 0) setHasMore(false);
   }
 
-  async function fetcher(){
-    fetchData()
+  async function fetcher() {
+    fetchData();
   }
 
-  useEffect(()=>{
-    fetcher()
-  })
-  
+  useEffect(() => {
+    fetcher();
+  });
+
   return (
-    <InfiniteScroll 
+    <InfiniteScroll
       dataLength={jobsData.length}
-      next={fetcher} hasMore={hasMore}
-      loader={<PostSkeleton mode={mode} 
-        // endMessage={
-        //   <p style={{ textAlign: 'center' }}>
-        //     <b>Yay! You have seen it all</b>
-        //   </p>
-        // }
-      />}>
-
+      next={fetcher}
+      hasMore={hasMore}
+      endMessage={
+        <div className="w-full flex justify-center">
+          <div className="flex w-11/12 justify-around items-center rounded-lg shadow-lg mb-4 bg-indigo-500 p-4 text-white">
+            <div className="">
+              <h4 className="mb-2 font-bold">Congrats 🍿</h4>
+              <p>You all are Cached up </p>
+            </div>
+            <div className="w-12 flex justify-center">
+              <div className="text-2xl bg-indigo-600 rounded-full p-3">
+                <BeenhereIcon/>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+      loader={<PostSkeleton mode={mode} />}
+    >
       {jobsData.map(function (job: any) {
         return <CompanyPosts key={job._id} mode={mode} post={job} />;
       })}
-
     </InfiniteScroll>
   );
 }

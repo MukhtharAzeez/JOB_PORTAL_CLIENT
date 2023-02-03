@@ -1,37 +1,62 @@
 import * as React from "react";
-import useSWR from "swr";
 import AllUsersPost from "./AllUsersPost";
 import { getAllUsersPost } from "../../../../api/User/Get/post";
 import PostSkeleton from "../../../Common/skeleton/PostSkeleton";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useEffect, useState } from "react";
+import BeenhereIcon from '@mui/icons-material/Beenhere';
 
 interface Props {
   mode: String;
 }
 
-const fetcher = async () => {
-  const posts = await getAllUsersPost();
-  return posts;
-};
-interface props {
-  data: any;
-  error: any;
-  isLoading: boolean;
-}
 
 export default function Post({ mode }: Props) {
-  const { data, error, isLoading }: props = useSWR("posts", fetcher);
+  const [postsData, setPostsData] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [skipCount, setSkipCount] = useState(0);
 
-  if (error) return <PostSkeleton mode={mode} />;
-  if (isLoading) return <PostSkeleton mode={mode} />;
+  async function fetchData() {
+    const data = await getAllUsersPost(4, skipCount);
+    setPostsData([...postsData, ...data]);
+    setSkipCount(skipCount + 1);
+    if (data.length == 0) setHasMore(false);
+  }
 
-  if (data.length == 0) return <PostSkeleton mode={mode} />;
+  async function fetcher() {
+      fetchData();
+  }
+
+  useEffect(() => {
+    fetcher();
+  });
 
   return (
-    <>
-      {data.map(function (post: any) {
+    <InfiniteScroll
+      dataLength={postsData.length}
+      next={fetcher}
+      hasMore={hasMore}
+      endMessage={
+        <div className="w-full flex justify-center">
+          <div className="flex w-11/12  justify-around  items-center rounded-lg shadow-lg mb-4 bg-indigo-500 p-4 text-white">
+            <div className="">
+              <h4 className="mb-2 font-bold">Congrats 🍿</h4>
+              <p>You all are Cached up </p>
+            </div>
+            <div className="w-12 flex justify-center">
+              <div className="text-2xl bg-indigo-600 rounded-full p-3">
+                <BeenhereIcon />
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+      loader={<PostSkeleton mode={mode} />}
+    >
+      {postsData.map(function (post: any) {
         return <AllUsersPost key={post._id} mode={mode} post={post} />;
       })}
-    </>
+    </InfiniteScroll>
   );
 }
 
