@@ -10,23 +10,24 @@ export const addAJobPost = async (formData: any) => {
   return result;
 };
 export const editAPost = async (formData: any) => {
-  const result = await instance.post(`/companyAdmin/editAJob`, formData, {
+  const result = await instance.patch(`/companyAdmin/editAJob`, formData, {
     withCredentials: true,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
     },
   });
   return result;
-};
+};    
 
 export const acceptApplicant = async (
   formData: any,
   jobId: any,
   applicantId: any,
-  adminId: any
+  adminId: any,
+  companyId: any
 ) => {
-  const result = await instance.post(
-    `/jobApplicant/acceptApplicant?jobId=${jobId}&applicantId=${applicantId}&adminId=${adminId}`,
+  const result = await instance.patch(
+    `/jobApplicant/acceptApplicant?jobId=${jobId}&applicantId=${applicantId}&adminId=${adminId}&companyId=${companyId}`,
     formData,
     {
       withCredentials: true,

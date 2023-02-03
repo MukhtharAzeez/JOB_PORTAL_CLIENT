@@ -4,9 +4,10 @@ import { acceptApplicant } from "../../../api/Company-Admin/post";
 import { rejectApplicant } from "../../../api/Company-Admin/get";
 import { currentCompanyAdmin } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
 import { useSelector } from "react-redux";
+import { Alert, Snackbar } from "@mui/material";
 
 export default function ScheduleInterview({ scheduleInterview, setScheduleInterview, jobId, applicantId, accepted, setAccepted }: any) {
-    const { companyAdminId } = useSelector(currentCompanyAdmin)
+    const { companyAdminId, companyId } = useSelector(currentCompanyAdmin)
     const [onlineInterview, setOnlineInterview] = useState(true)
     const [offlineInterview, setOfflineInterview] = useState(false)
     const [directHire, setDirectHire] = useState(false)
@@ -15,6 +16,19 @@ export default function ScheduleInterview({ scheduleInterview, setScheduleInterv
     const [offlineInterviewDate, setOfflineInterviewDate] = useState("")
     const [offlineInterviewTime, setOfflineInterviewTime] = useState("")
     const [offlineInterviewPlace, setOfflineInterviewPlace] = useState("")
+    const [open, setOpen] = React.useState(false);
+    const [message, setMessage] = React.useState("");
+
+
+    const handleSnackBarClose = (
+        event?: React.SyntheticEvent | Event,
+        reason?: string
+    ) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpen(false);
+    };
 
     async function handleClose() {
         await rejectApplicant(jobId, applicantId)
@@ -40,17 +54,47 @@ export default function ScheduleInterview({ scheduleInterview, setScheduleInterv
 
     async function handleSchedule() {
         if (onlineInterview) {
-            await acceptApplicant({ onlineInterviewDate, onlineInterviewTime }, jobId, applicantId, companyAdminId)
-            setScheduleInterview(false)
+            try {
+                await acceptApplicant({ onlineInterviewDate, onlineInterviewTime }, jobId, applicantId, companyAdminId, companyId)
+                setScheduleInterview(false)
+            } catch (error: any) {
+                const type = typeof error.response.data.message;
+                if (type == "string") {
+                    setMessage(error.response.data.message);
+                } else {
+                    setMessage(error.response.data.message[0]);
+                }
+                setOpen(true);
+            }
             return
         }
         if (offlineInterview) {
-            await acceptApplicant({ offlineInterviewDate, offlineInterviewTime, offlineInterviewPlace }, jobId, applicantId, companyAdminId)
-            setScheduleInterview(false)
+            try {
+                await acceptApplicant({ offlineInterviewDate, offlineInterviewTime, offlineInterviewPlace }, jobId, applicantId, companyAdminId, companyId)
+                setScheduleInterview(false)
+            } catch (error: any) {
+                const type = typeof error.response.data.message;
+                if (type == "string") {
+                    setMessage(error.response.data.message);
+                } else {
+                    setMessage(error.response.data.message[0]);
+                }
+                setOpen(true);
+            }
             return
         }
-        await acceptApplicant({ directHire: true }, jobId, applicantId, companyAdminId)
-        setScheduleInterview(false)
+        try {
+            await acceptApplicant({ directHire: true }, jobId, applicantId, companyAdminId, companyId)
+            setScheduleInterview(false)
+        } catch (error: any) {
+            const type = typeof error.response.data.message;
+            if (type == "string") {
+                setMessage(error.response.data.message);
+            } else {
+                setMessage(error.response.data.message[0]);
+            }
+            setOpen(true);
+        }
         return
     }
 
@@ -152,6 +196,15 @@ export default function ScheduleInterview({ scheduleInterview, setScheduleInterv
             ) : (
                 <></>
             )}
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert
+                    onClose={handleSnackBarClose}
+                    severity="error"
+                    sx={{ width: "100%" }}
+                >
+                    {message}
+                </Alert>
+            </Snackbar>
         </div>
     );
 }

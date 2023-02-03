@@ -17,14 +17,14 @@ export default function Post({ mode }: Props) {
   const [skipCount, setSkipCount] = useState(0);
 
   async function fetchData() {
-    const data = await getAllUsersPost(4, skipCount);
+    const data = await getAllUsersPost(5, skipCount);
     setPostsData([...postsData, ...data]);
     setSkipCount(skipCount + 1);
     if (data.length == 0) setHasMore(false);
   }
 
   async function fetcher() {
-      fetchData();
+    fetchData();
   }
 
   useEffect(() => {

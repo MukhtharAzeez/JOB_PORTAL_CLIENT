@@ -21,7 +21,7 @@ export const getCountCompanies = async () => {
 };
 
 export const approveCompany = async (companyId: string) => {
-  const result = await instance.get(
+  const result = await instance.patch(
     `/admin/approveCompany?companyId=${companyId}`,
     {
       withCredentials: true,
