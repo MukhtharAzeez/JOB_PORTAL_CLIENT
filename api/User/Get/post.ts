@@ -10,8 +10,8 @@ export const getAllUsersPost = async () => {
   return data;
 };
 
-export const getJobsPosts = async () => {
-  const { data } = await instance.get("/company/getJobPosts", {
+export const getJobsPosts = async (limit:number,skip:number) => {
+  const { data } = await instance.get(`/company/getJobPosts?limit=${limit}&skip=${skip}`, {
     withCredentials: true,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("userToken")}`,

@@ -18,7 +18,7 @@ function UserMessage() {
   useEffect(()=>{
     console.log("1")
 
-    socket.current = io("http://localhost:8000");
+    socket.current = io(process.env.NEXT_PUBLIC_SOCKET_DOMAIN);
     socket?.current.emit("new-user-add", user.userId);
   },[])
 

@@ -29,7 +29,7 @@ interface props {
 }
 
 
-function AllUsersPost({ mode, post }: props) {
+function CompanyPosts({ mode, post }: props) {
     const { userId } = useSelector(currentUser);
     const [likes, setLikes] = React.useState(post.likes ? post.likes.length : 0);
     const [open, setOpen] = React.useState(false);
@@ -99,7 +99,7 @@ function AllUsersPost({ mode, post }: props) {
                     //     <Avatar alt="User Profile" src={post.user.image} />
                     // ) : (
                     <Avatar className="bg-gray-500" aria-label="recipe">
-                        {post.companyId.company[0]}
+                        {post?.companyId?.company[0]}
                     </Avatar>
                     // )
                 }
@@ -108,7 +108,7 @@ function AllUsersPost({ mode, post }: props) {
                         <MoreVertIcon />
                     </IconButton>
                 }
-                title={post.companyId.company}
+                title={post?.companyId?.company}
                 subheader={moment(post.createdAt).fromNow()}
             />
             <Box
@@ -210,4 +210,4 @@ function AllUsersPost({ mode, post }: props) {
     );
 }
 
-export default AllUsersPost;
+export default CompanyPosts;
