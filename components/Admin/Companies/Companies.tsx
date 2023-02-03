@@ -1,17 +1,36 @@
+import { Pagination } from '@mui/material';
 import Link from 'next/link';
-import React from 'react';
-import useSWR from "swr";
-import { getAllCompanies } from '../../../api/Admin/get';
+import React, { useEffect, useState } from 'react';
+import { getAllCompanies, getCountCompanies } from '../../../api/Admin/get';
 
 
 function Companies({url}:any) {
-    const fetcher = async () => {
-        const companies = await getAllCompanies();
-        return companies;
+    const [companies, setCompanies] = useState([])
+    const [count , setCount] = useState<number>(1)
+
+    async function fetchData(skip:number) {
+        const companies = await getAllCompanies(skip, 10);
+        setCompanies(companies.data)
+    }
+
+    async function fetcher(skip:number) {
+        if (skip == 0) {
+            const data = await getCountCompanies()
+            let int = data.data/10
+            int= Math.ceil(int)
+            setCount(int)
+        }
+        fetchData(skip);
+    }
+
+    useEffect(() => {
+        fetcher(0);
+    }, []);
+
+    async function handleChange(event: any, value: number) {
+        fetcher(value-1);
     };
-    const { data, error, isLoading } = useSWR("companies", fetcher);
-    if (error) return <div>Error....</div>
-    if (isLoading) return <div>Loading....</div>
+    
     return (
         <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-slate-200">
             <header className="px-5 py-4 border-b border-slate-100">
@@ -47,7 +66,7 @@ function Companies({url}:any) {
                         {/* Table body */}
                         <tbody className="text-sm font-medium divide-y divide-slate-100">
                             {
-                                data.data.map(function (company: any) {
+                                companies.map(function (company: any) {
                                     return (
                                         <tr key={company._id}>
                                             <td className="p-2">
@@ -83,6 +102,9 @@ function Companies({url}:any) {
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div className="bg-gray-800 flex justify-center ">
+                <Pagination className="p-4" count={count} onChange={handleChange} variant="outlined" shape="rounded" />
             </div>
         </div>
     );

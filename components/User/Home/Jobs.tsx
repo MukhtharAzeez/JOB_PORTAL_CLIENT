@@ -17,17 +17,18 @@ function Jobs({ mode }: Props) {
 
   async function fetchData() {
     const data = await getJobsPosts(4, skipCount);
-    setJobsData([...jobsData, ...data]);
+    const newData = jobsData.concat(data);
+    setJobsData(newData)
     setSkipCount(skipCount + 1);
     if (data.length == 0) setHasMore(false);
   }
 
   async function fetcher() {
-    fetchData();
+      fetchData();
   }
 
   useEffect(() => {
-    fetcher();
+      fetcher();
   });
 
   return (

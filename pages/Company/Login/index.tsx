@@ -88,7 +88,6 @@ export default function SignIn() {
     ) => {
         event.preventDefault();
     };
-    const SignUpPage = () => router.push("/user/signup");
     const createCompany = () => router.push("/company/create")
 
     return (
@@ -213,9 +212,7 @@ export default function SignIn() {
                                 <p style={{ marginLeft: "48%", paddingBottom: 15 }}>or</p>
                             </Box>
                             <div className="flex justify-center flex-col mt-3">
-                                <p className="text-center">Does not have an account? <span onClick={SignUpPage} className="cursor-pointer hover:text-[#082955]">Sign Up</span> </p>
-                                <p className="text-center">or </p>
-                                <p className="text-center">Want to Login to your page? <span onClick={createCompany} className="cursor-pointer hover:text-[#082955]">Go to Page</span> </p>
+                                <p className="text-center">Want to Create a page? <span onClick={createCompany} className="cursor-pointer hover:text-[#082955]">Go to Page</span> </p>
                             </div>
                         </Box>
                     </Container>

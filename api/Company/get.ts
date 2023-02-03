@@ -1,8 +1,23 @@
 import instance from "../../axios/axios";
 
-export const getAllCompanyAdmins = async (companyId:any) => {
+export const getAllCompanyAdmins = async (companyId:any,skip:number,limit:number) => {
   const result = await instance.get(
-    `/company/getAllCompanyAdmins?companyId=${companyId}`,
+    `/company/getAllCompanyAdmins?companyId=${companyId}&skip=${skip}&limit=${limit}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("companyToken")}`,
+      },
+    }
+  );
+  return result;
+};
+
+export const getCountCompanyAdmins = async (
+  companyId: any
+) => {
+  const result = await instance.get(
+    `/company/getCountCompanyAdmins?companyId=${companyId}`,
     {
       withCredentials: true,
       headers: {

@@ -43,8 +43,8 @@ export default function Create() {
     const udhyogRef = useRef<any>(null);
     const [udhyog, setUdhyog] = useState<any>(null);
 
-    const fssaiRef = useRef<any>(null);
-    const [fssai, setFssai] = useState<any>(null);
+    const incorporationRef = useRef<any>(null);
+    const [incorporation, setIncorporation] = useState<any>(null);
 
 
     const msmeChangeHandler = (e: any) => {
@@ -77,12 +77,12 @@ export default function Create() {
         }
     };
 
-    const fssaiChangeHandler = (e: any) => {
+    const incorporationChangeHandler = (e: any) => {
         const file = e.target.files;
         const fileType = file[0]["type"];
         const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
         if (validImageTypes.includes(fileType)) {
-            setFssai(e.target.files[0])
+            setIncorporation(e.target.files[0])
             setMessage("");
         } else {
             setMessage(
@@ -124,7 +124,7 @@ export default function Create() {
         if (data.get('password').length < 8 || data.get('password').length > 12){ setMessage("Password length must be between 8-12"); setOpen(true); return }
         if (data.get('confirmPassword') !=data.get('password')){ setMessage("Confirm Passwrod length must be between 8-12"); setOpen(true); return }
 
-        if (!msme || !udhyog || !fssai) {
+        if (!msme || !udhyog || !incorporation) {
             setMessage("Upload required Documents !")
             setOpen(true)
             return
@@ -134,11 +134,11 @@ export default function Create() {
         const url1 = await uploadImage(msme)
         setMsme(null)
         const url2 = await uploadImage(udhyog)
-        const url3 = await uploadImage(fssai)
+        const url3 = await uploadImage(incorporation)
 
         data.append("msmeCertificate", url1);
         data.append("udhyogAdhar", url2);
-        data.append("fssaiLicense", url3);
+        data.append("incorporationLicense", url3);
         try {
             
             await createABusinessPage(data)
@@ -371,36 +371,34 @@ export default function Create() {
                                                 </label>
                                             </div>
                                         )}
-                                        {fssai ? (
+                                        {incorporation ? (
                                             <div className="w-1/3 cursor-pointer">
                                                 <img
                                                 className="w-24 ml-4 h-28"
                                                     src=
-                                                    {URL?.createObjectURL(fssai)}
+                                                    {URL?.createObjectURL(incorporation)}
                                                     alt="Default avatar"
-                                                    onClick={() => fssaiRef.current.click()}
+                                                    onClick={() => incorporationRef.current.click()}
                                                 />
                                                 <input
                                                     type="file"
-                                                    onChange={fssaiChangeHandler}
-                                                    ref={fssaiRef}
+                                                    onChange={incorporationChangeHandler}
+                                                    ref={incorporationRef}
                                                     hidden
                                                 />
                                             </div>
                                         ) : (
                                             <div className="flex items-center justify-center w-1/3">
                                                 <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-100 hover:bg-gray-100 dark:border-gray-100 dark:hover:border-gray-100 dark:hover:bg-gray-100">
-                                                    <div className="flex flex-col items-center justify-center pt-5 pb-6" onClick={() => fssaiRef.current.click()}>
-                                                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 text-center"><span className="font-semibold">upload FSSAI license</span></p>
+                                                    <div className="flex flex-col items-center justify-center pt-5 pb-6" onClick={() => incorporationRef.current.click()}>
+                                                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 text-center"><span className="font-semibold">upload incorporation license</span></p>
                                                     </div>
-                                                    <input type="file" onChange={fssaiChangeHandler}
-                                                        ref={fssaiRef} className="hidden" />
+                                                    <input type="file" onChange={incorporationChangeHandler}
+                                                        ref={incorporationRef} className="hidden" />
                                                 </label>
                                             </div>
                                         )}
-
                                     </div>
-
                                     <Grid item xs={12}>
                                         <TextField
                                             required

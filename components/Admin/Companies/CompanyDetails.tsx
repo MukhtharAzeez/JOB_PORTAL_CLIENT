@@ -143,13 +143,13 @@ function CompanyDetails() {
                             <div className="py-2 text-center font-bold uppercase tracking-wide text-gray-800">Udhyog Aadhar</div>
                         </div>
                     </div>
-                    <div className="flex flex-col justify-center items-center max-w-sm mx-auto my-8 cursor-pointer" onClick={() => handleOpen(data.fssaiLicense, 'FSSAI License')}>
+                    <div className="flex flex-col justify-center items-center max-w-sm mx-auto my-8 cursor-pointer" onClick={() => handleOpen(data.incorporation, 'FSSAI License')}>
                         <div style={{
-                            backgroundImage: `url(${data.fssaiLicense})`
+                            backgroundImage: `url(${data.incorporation})`
                         }}
                             className="bg-gray-300 h-96 w-full rounded-lg shadow-md bg-cover bg-center"></div>
                         <div className="w-56 md:w-64 bg-white -mt-10 shadow-lg rounded-lg overflow-hidden">
-                            <div className="py-2 text-center font-bold uppercase tracking-wide text-gray-800">FSSAI License</div>
+                            <div className="py-2 text-center font-bold uppercase tracking-wide text-gray-800">Incorporation License</div>
                         </div>
                     </div>
                 </div>

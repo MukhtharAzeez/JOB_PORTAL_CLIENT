@@ -1,25 +1,39 @@
-import React from 'react';
-import useSWR from "swr";
-import { getAllCompanyAdmins } from '../../../api/Company/get';
-// import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import { getAllCompanyAdmins, getCountCompanyAdmins } from '../../../api/Company/get';
 import { useSelector } from 'react-redux';
 import { currentCompany } from '../../../redux/company/companyAuthSlicer';
 import { useRouter } from 'next/router';
+import { Pagination } from '@mui/material';
 
 
 function Admins() {
     const router = useRouter();
-    const {companyId} =  useSelector(currentCompany)
+    const [companyAdmins, setCompanyAdmins] = useState([])
+    const [count, setCount] = useState<number>(1)
+    const { companyId } = useSelector(currentCompany)
 
-    const fetcher = async () => {
-        const companyAdmins = await getAllCompanyAdmins(companyId);
-        return companyAdmins;
+    async function fetchData(skip:number) {
+        const companyAdmins = await getAllCompanyAdmins(companyId, skip, 10);
+        setCompanyAdmins(companyAdmins.data)
+    }
+
+    async function fetcher(skip:number) {
+        if (skip == 0) {
+            const data = await getCountCompanyAdmins(companyId)
+            let int = data.data / 10
+            int = Math.ceil(int)
+            setCount(int)
+        }
+        fetchData(skip);
+    }
+
+    useEffect(() => {
+        fetcher(0);
+    }, []);
+
+    async function handleChange(event: any, value: number) {
+        fetcher(value - 1);
     };
-    const { data, error, isLoading } = useSWR("companyAdmins", fetcher);
-
-    if (error) return <div>Error....</div>
-    if (isLoading) return <div>Loading....</div>
-
 
     return (
         <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200">
@@ -54,7 +68,7 @@ function Admins() {
                         {/* Table body */}
                         <tbody className="text-sm font-medium divide-y divide-slate-100">
                             {
-                                data.data.map(function (admin: any) {
+                                companyAdmins.map(function (admin: any) {
                                     return (
                                         <tr key={admin._id}>
                                             <td className="p-2">
@@ -62,10 +76,10 @@ function Admins() {
                                                     onClick={() => router.push({
                                                         pathname: "/company/admins/company-admin-profile",
                                                         query: {
-                                                            adminId: admin._id 
+                                                            adminId: admin._id
                                                         },
                                                     },
-                                                    "/company/admins/company-admin-profile" 
+                                                        "/company/admins/company-admin-profile"
                                                     )}>
                                                     <div className="flex items-center">
                                                         <svg className="shrink-0 mr-2 sm:mr-3" width="36" height="36" viewBox="0 0 36 36">
@@ -88,16 +102,17 @@ function Admins() {
                                             <td className="p-2">
                                                 <div className="text-center text-green-500">{admin.pendingHiring}</div>
                                             </td>
-                                            
+
                                         </tr>
                                     )
                                 })
                             }
-
                         </tbody>
                     </table>
-
                 </div>
+            </div>
+            <div className="bg-gray-800 flex justify-center ">
+                <Pagination className="p-4" count={count} onChange={handleChange} variant="outlined" shape="rounded" />
             </div>
         </div>
     );

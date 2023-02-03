@@ -22,7 +22,7 @@ function index() {
         {/*  Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <main>
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto bg-gray-200">
+          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto bg-gray-200 min-h-[100vh]">
             <div className="border rounded-lg shadow">
               <Companies url={"/admin/company/company-details"}/>
             </div>
