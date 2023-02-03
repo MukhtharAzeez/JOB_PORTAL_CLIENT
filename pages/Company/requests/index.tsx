@@ -1,16 +1,16 @@
 import Link from 'next/link';
 import React, { useState } from 'react'
-
 import { Breadcrumbs } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SideBar from '../../../components/Common/adminAndCompanySideBar/SideBar/SideBar';
 import { COMPANY_SIDE_BAR_LINKS } from '../../../constants/Company-sideBar';
 import Header from '../../../components/Common/adminAndCompanySideBar/Header/Header';
 import CompanyProtectRoute from '../../../protectRoutes/companyProtectRoute';
-import Requests from '../../../components/Common/Requests/Requests';
+import EachRequests from '../../../components/Common/Requests/EachRequests';
 
 function index() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
     return (
         <CompanyProtectRoute>
             <div className="flex h-screen overflow-hidden">
@@ -33,7 +33,7 @@ function index() {
                                 </Breadcrumbs>
                             </div>
                             <div className="w-full">
-                                <Requests/>
+                                <EachRequests/>
                             </div>
                         </div>
                     </main>

@@ -28,7 +28,6 @@ const CompanyProtectRoute = ({ children }: any) => {
     };
     publicFu();
   }, [company]);
-
   if (company.companyId != null) {
     return children;
   }

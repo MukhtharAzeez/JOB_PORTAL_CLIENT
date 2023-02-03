@@ -40,3 +40,16 @@ export const getCompanyDetails = async (companyId:any) => {
   );
   return result.data;
 };
+
+export const getAllRequests = async (companyId: any) => {
+  const result = await instance.get(
+    `/company/getAllRequests?companyId=${companyId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("companyToken")}`,
+      },
+    }
+  );
+  return result.data;
+};
