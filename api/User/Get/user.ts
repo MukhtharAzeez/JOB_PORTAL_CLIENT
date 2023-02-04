@@ -88,3 +88,29 @@ export const getUserNotifications = async (userId: string) => {
   );
   return data;
 };
+
+export const userAcceptSchedule = async (requestId: any) => {
+  const { data } = await instance.get(
+    `/user/userAcceptSchedule?requestId=${requestId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};
+
+export const userRejectSchedule = async (requestId: any) => {
+  const { data } = await instance.get(
+    `/user/userRejectSchedule?requestId=${requestId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};
