@@ -7,9 +7,12 @@ import { COMPANY_SIDE_BAR_LINKS } from '../../../constants/Company-sideBar';
 import Header from '../../../components/Common/adminAndCompanySideBar/Header/Header';
 import CompanyProtectRoute from '../../../protectRoutes/companyProtectRoute';
 import EachRequests from '../../../components/Common/Requests/EachRequests';
+import { currentCompany } from '../../../redux/company/companyAuthSlicer';
+import { useSelector } from 'react-redux';
 
 function index() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { companyId } = useSelector(currentCompany)
 
     return (
         <CompanyProtectRoute>
@@ -33,7 +36,7 @@ function index() {
                                 </Breadcrumbs>
                             </div>
                             <div className="w-full">
-                                <EachRequests/>
+                                <EachRequests type={'company'} id={companyId}/>
                             </div>
                         </div>
                     </main>

@@ -75,3 +75,16 @@ export const sendMessageToReceiver = async (
   );
   return data;
 };
+
+export const getUserNotifications = async (userId: string) => {
+  const { data } = await instance.get(
+    `/user/getUserNotifications?userId=${userId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};

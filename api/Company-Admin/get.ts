@@ -79,3 +79,16 @@ export const acceptApplicant = async (jobId: any, applicantId: any) => {
   );
   return data;
 };
+
+export const getCompanyAdminRequests = async (companyAdminId:string) => {
+  const { data } = await instance.get(
+    `/companyAdmin/getCompanyAdminRequests?companyAdminId=${companyAdminId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
+      },
+    }
+  );
+  return data;
+};
