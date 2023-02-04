@@ -178,7 +178,7 @@ function Profile({ userId, user }: any) {
                           data.qualifications.map(function (obj: any, index: number) {
                             return (
                               <div key={obj} >
-                                <p className="mt-1 text-sm font-bold">  {obj} {index == data.skills.length - 1 ? '' : '|'}</p>
+                                <p className="mt-1 text-sm font-bold">  {obj} {index == data.qualifications.length - 1 ? '' : '|'}</p>
                               </div>
                             )
                           })

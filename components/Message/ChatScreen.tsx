@@ -31,6 +31,12 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
         scroll.current.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
+    function handleEnterKey(e:any){
+        if(e.keyCode==13){
+            sendMessages();
+        }
+    }
+
     async function sendMessages() {
         const messageAdd = {
             userId,
@@ -111,6 +117,7 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                         <div className="relative w-full">
                             <input
                                 type="text"
+                                onKeyDown={handleEnterKey}
                                 onChange={(e) => setSendMessage(e.target.value)}
                                 value={sendMessage}
                                 className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"

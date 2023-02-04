@@ -196,7 +196,7 @@ export default function ScheduleInterview({ scheduleInterview, setScheduleInterv
             ) : (
                 <></>
             )}
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Snackbar open={open} autoHideDuration={1000} onClose={handleSnackBarClose}>
                 <Alert
                     onClose={handleSnackBarClose}
                     severity="error"
