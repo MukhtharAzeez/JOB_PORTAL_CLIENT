@@ -107,3 +107,16 @@ export const updateRequest = async (
   );
   return result;
 };
+
+export const getAnApplicantSchedules = async (jobId: any,applicantId:any) => {
+  const result = await instance.get(
+    `/jobApplicant/getAnApplicantSchedules?jobId=${jobId}&applicantId=${applicantId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
+      },
+    }
+  );
+  return result;
+};

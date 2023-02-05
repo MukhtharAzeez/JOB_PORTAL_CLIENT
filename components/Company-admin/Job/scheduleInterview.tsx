@@ -5,8 +5,10 @@ import { rejectApplicant } from "../../../api/Company-Admin/get";
 import { currentCompanyAdmin } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
 import { useSelector } from "react-redux";
 import { Alert, Snackbar } from "@mui/material";
+import { useRouter } from "next/router";
 
-export default function ScheduleInterview({ scheduleInterview, setScheduleInterview, jobId, applicantId, accepted, setAccepted }: any) {
+export default function ScheduleInterview({ scheduleInterview, setScheduleInterview, jobId, applicantId, accepted, setAccepted, online, offline }: any) {
+    const router = useRouter()
     const { companyAdminId, companyId } = useSelector(currentCompanyAdmin)
     const [onlineInterview, setOnlineInterview] = useState(true)
     const [offlineInterview, setOfflineInterview] = useState(false)
@@ -31,7 +33,9 @@ export default function ScheduleInterview({ scheduleInterview, setScheduleInterv
     };
 
     async function handleClose() {
-        await rejectApplicant(jobId, applicantId)
+        if(offline && online){
+            await rejectApplicant(jobId, applicantId)
+        }
         setScheduleInterview(false)
         setAccepted(accepted)
     }
@@ -52,11 +56,23 @@ export default function ScheduleInterview({ scheduleInterview, setScheduleInterv
         setDirectHire(true)
     }
 
+    function goBack(){
+        router.push({
+            pathname: "/company-admin/jobs/jobs-details",
+            query: {
+                jobId: jobId
+            },
+        },
+            "/company-admin/jobs/jobs-details"
+        )
+    }
+
     async function handleSchedule() {
         if (onlineInterview) {
             try {
                 await acceptApplicant({ onlineInterviewDate, onlineInterviewTime }, jobId, applicantId, companyAdminId, companyId)
                 setScheduleInterview(false)
+                goBack()
             } catch (error: any) {
                 const type = typeof error.response.data.message;
                 if (type == "string") {
@@ -72,6 +88,7 @@ export default function ScheduleInterview({ scheduleInterview, setScheduleInterv
             try {
                 await acceptApplicant({ offlineInterviewDate, offlineInterviewTime, offlineInterviewPlace }, jobId, applicantId, companyAdminId, companyId)
                 setScheduleInterview(false)
+                goBack()
             } catch (error: any) {
                 const type = typeof error.response.data.message;
                 if (type == "string") {
@@ -86,6 +103,7 @@ export default function ScheduleInterview({ scheduleInterview, setScheduleInterv
         try {
             await acceptApplicant({ directHire: true }, jobId, applicantId, companyAdminId, companyId)
             setScheduleInterview(false)
+            goBack()
         } catch (error: any) {
             const type = typeof error.response.data.message;
             if (type == "string") {
@@ -132,13 +150,13 @@ export default function ScheduleInterview({ scheduleInterview, setScheduleInterv
                                     <ul
                                         className="flex justify-center space-x-6 text-indigo-800 border-b border-purple-50"
                                     >
-                                        <li onClick={handleOnlineInterview} className={onlineInterview ? "border-b-2 pb-3 border-indigo-600 cursor-pointer" : 'cursor-pointer'}>Schedule online Interview</li>
-                                        <li onClick={handleOfflineInterview} className={offlineInterview ? "border-b-2 pb-3 border-indigo-600 cursor-pointer" : 'cursor-pointer'}>Schedule offline Interview</li>
+                                        {online && <li onClick={handleOnlineInterview} className={onlineInterview ? "border-b-2 pb-3 border-indigo-600 cursor-pointer" : 'cursor-pointer'}>Schedule online Interview</li>}
+                                        {offline && <li onClick={handleOfflineInterview} className={offlineInterview ? "border-b-2 pb-3 border-indigo-600 cursor-pointer" : 'cursor-pointer'}>Schedule offline Interview</li>}
                                         <li onClick={handleDirectHire} className={directHire ? "border-b-2 pb-3 border-indigo-600 cursor-pointer" : 'cursor-pointer'}>Direct Hire</li>
                                     </ul>
                                 </div>
                                 {
-                                    onlineInterview ? (
+                                    onlineInterview && online  ? (
                                         <div className="py-8 border-b border-indigo-50">
                                             <div className="flex gap-4">
                                                 <div className="flex flex-col w-2/4">
@@ -154,7 +172,7 @@ export default function ScheduleInterview({ scheduleInterview, setScheduleInterv
                                     ) : ''
                                 }
                                 {
-                                    offlineInterview ? (
+                                    offlineInterview && offline ? (
                                         <div className="py-8 border-b border-indigo-50">
                                             <div className="flex gap-4">
                                                 <div className="flex flex-col w-2/4">

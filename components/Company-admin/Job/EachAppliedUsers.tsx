@@ -65,10 +65,20 @@ function EachAppliedUsers({ job }: any) {
                     )
                 }
             </td>
-            <td className="p-2">
-                <div className="text-center"><InfoIcon/></div>
-            </td>
-            <ScheduleInterview scheduleInterview={scheduleInterview} setScheduleInterview={setScheduleInterview} jobId={job.jobId} applicantId={job.applicantId._id} accepted={job.accepted} setAccepted={setAccepted} />
+            {
+                accepted && <td className="p-2">
+                    <div onClick={() => router.push({
+                        pathname: "/company-admin/jobs/jobs-details/userSchedules",
+                        query: {
+                            jobId: job.jobId,
+                            applicantId: job.applicantId._id
+                        },
+                    },
+                        "/company-admin/jobs/jobs-details/userSchedules"
+                    )} className="text-center cursor-pointer"><InfoIcon /></div>
+                </td>
+            }
+            <ScheduleInterview scheduleInterview={scheduleInterview} setScheduleInterview={setScheduleInterview} jobId={job.jobId} applicantId={job.applicantId._id} accepted={job.accepted} setAccepted={setAccepted} online={true} offline={true} />
         </tr>
     )
 }
