@@ -114,3 +114,16 @@ export const userRejectSchedule = async (requestId: any) => {
   );
   return data;
 };
+
+export const userRequestToChangeTime = async (requestId: any) => {
+  const { data } = await instance.get(
+    `/user/userRequestToChangeTime?requestId=${requestId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};

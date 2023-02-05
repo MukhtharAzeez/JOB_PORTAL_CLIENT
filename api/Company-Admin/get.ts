@@ -92,3 +92,18 @@ export const getCompanyAdminRequests = async (companyAdminId:string) => {
   );
   return data;
 };
+
+export const updateRequest = async (
+  requestId:string
+) => {
+  const result = await instance.get(
+    `/companyAdmin/updateRequest?requestId=${requestId}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
+      },
+    }
+  );
+  return result;
+};
