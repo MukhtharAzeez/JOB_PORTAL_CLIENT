@@ -68,7 +68,7 @@ function EachAppliedUsers({ job }: any) {
             {
                 accepted && <td className="p-2">
                     <div onClick={() => router.push({
-                        pathname: "/company-admin/jobs/jobs-details/userSchedules",
+                        pathname: "/company-admin/jobs/jobs-details/user-schedules",
                         query: {
                             jobId: job.jobId,
                             applicantId: job.applicantId._id

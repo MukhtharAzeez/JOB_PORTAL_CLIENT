@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { setAScheduleAsCompleted } from '../../../api/Company-Admin/get'
 import ScheduleInterview from '../../Company-admin/Job/scheduleInterview'
 // interface Props {
 //     jobId: string,
@@ -12,6 +13,7 @@ function SchedulesStepper({ data }: any) {
     const [online, setOnline] = useState(true)
     const [offline, setOffline] = useState(true)
     const [accepted, setAccepted] = useState(true)
+    const [completed, setCompleted ] = useState(false)
 
     useEffect(() => {
         if (data?.online?.scheduledAt < data?.offline?.scheduledAt || !data?.offline) {
@@ -60,11 +62,22 @@ function SchedulesStepper({ data }: any) {
         if (data?.hired) {
             setMoveToNextAction(false)
         }
-        if(data?.hired?.hire && data?.hired?.companyApproved && data?.hired?.userAccepted){
+        if (data?.hired?.hire && data?.hired?.companyApproved && data?.hired?.userAccepted) {
             setApplicantHired(true)
         }
-
     }, [])
+
+    async function setAsCompleted(type: string) {
+        await setAScheduleAsCompleted(type,data.applicantId._id , data.jobId._id)
+        setCompleted(true)
+        setMoveToNextAction(true)
+        if(type=='online'){
+            setOnline(false)
+        } else if (type =='offline'){
+            setOffline(false)
+        }
+    }
+
     return (
         <div className="bg-white border rounded-md p-5 px-10">
             <section className="max-w-5xl mx-auto py-10">
@@ -88,11 +101,28 @@ function SchedulesStepper({ data }: any) {
                                                 <div className="md:hidden text-sm font-normal uppercase pt-3 pl-3 text-gray-500"><span className="font-black">Action-1</span> - Online Interview</div>
                                                 <div className="p-3 text-3xl text-gray-800 font uppercase">Online Interview</div>
                                                 <div className="px-3 pb-1">Scheduled an online interview on {data.online.date} at {data.online.time}</div>
-                                                <div className="px-3 pb-1 flex ">Company Approved : {data.online.companyApproved ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
-                                                <div className="px-3 pb-1 flex">Applicant Accepted : {data.online.userAccepted ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
-                                                <div className="px-3 pb-1 flex">Completed : {data.online.completed ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
+                                                <div className="px-3 pb-1 flex ">{data.online.companyApproved ? <p className="text-green-600">Company Approved</p> : <p className="text-red-600">Company not approved Yet</p>}</div>
+                                                <div className="px-3 pb-1 flex">{data.online.userAccepted ? <p className="text-green-600">Applicant Accepted</p> : <p className="text-red-600">Applicant not accepted Yet</p>}</div>
+                                                <div className="px-3 pb-1 flex">{data.online.completed || completed? <p className="text-green-600">Online interview Completed</p> : <p className="text-red-600">Online interview not Completed</p>}</div>
                                             </div>
                                         </div>
+                                        {
+                                            data.online.companyApproved && data.online.userAccepted && (
+                                                <div className="w-full justify-end flex p-2">
+                                                    {
+                                                        data.online.completed || completed ? (
+                                                            <div className="py-1 px-2 rounded-lg border cursor-pointer bg-purple-800 hover:bg-transparent hover:border-purple-800 text-gray-200 hover:text-black">
+                                                                Completed
+                                                            </div>
+                                                        ) : (
+                                                            <div onClick={() => setAsCompleted('online')} className="py-1 px-2 rounded-lg border cursor-pointer bg-purple-800 hover:bg-transparent hover:border-purple-800 text-gray-200 hover:text-black">
+                                                                Mark as Completed
+                                                            </div>
+                                                        )
+                                                    }
+                                                </div>
+                                            )
+                                        }
                                     </div>
                                 </div>
                                 <div className="flex items-start flex-row">
@@ -123,11 +153,28 @@ function SchedulesStepper({ data }: any) {
                                                         <div className="md:hidden text-sm font-normal uppercase pt-3 pl-3 text-gray-500"><span className="font-black">Action-2</span> - Offline Interview</div>
                                                         <div className="p-3 text-3xl text-gray-800 font uppercase">Offline Interview</div>
                                                         <div className="px-3 pb-1">Scheduled an offline interview on {data.offline.date} {data.offline.time} at {data.offline.place}</div>
-                                                        <div className="px-3 pb-1 flex ">Company Approved : {data.offline.companyApproved ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
-                                                        <div className="px-3 pb-1 flex">Applicant Accepted : {data.offline.userAccepted ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
-                                                        <div className="px-3 pb-1 flex">Completed : {data.offline.completed ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
+                                                        <div className="px-3 pb-1 flex ">{data.offline.companyApproved ? <p className="text-green-500">Company approved</p> : <p className="text-red-500">Company not approved Yet</p>}</div>
+                                                        <div className="px-3 pb-1 flex">{data.offline.userAccepted ? <p className="text-green-500">User Accepted</p> : <p className="text-red-500">User not accepted Yet</p>}</div>
+                                                        <div className="px-3 pb-1 flex">{data.offline.completed || completed ? <p className="text-green-500">Offline interview completed</p> : <p className="text-red-500">Offline interview not completed</p>}</div>
                                                     </div>
                                                 </div>
+                                                {
+                                                    data.offline.companyApproved && data.offline.userAccepted && (
+                                                        <div className="w-full justify-end flex p-2">
+                                                            {
+                                                                data.offline.completed || completed ? (
+                                                                    <div className="py-1 px-2 rounded-lg border cursor-pointer bg-purple-800 hover:bg-transparent hover:border-purple-800 text-gray-200 hover:text-black">
+                                                                        Completed
+                                                                    </div>
+                                                                ) : (
+                                                                    <div onClick={() => setAsCompleted('offline')} className="py-1 px-2 rounded-lg border cursor-pointer bg-purple-800 hover:bg-transparent hover:border-purple-800 text-gray-200 hover:text-black">
+                                                                        Mark as Completed
+                                                                    </div>
+                                                                )
+                                                            }
+                                                        </div>
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     </>
@@ -142,7 +189,7 @@ function SchedulesStepper({ data }: any) {
                                             <div className="text-gray-500 text-sm text-center">Offline Interview</div>
                                         </div>
                                         <div className="h-full border-l-4 border-transparent">
-                                                <div className={`border-l-4 mr-4 h-full ${data?.online || data?.hired ? 'border-purple-800' : 'border-gray-300'}  border-dashed`}></div>
+                                            <div className={`border-l-4 mr-4 h-full ${data?.online || data?.hired ? 'border-purple-800' : 'border-gray-300'}  border-dashed`}></div>
                                         </div>
                                     </div>
                                     <div className="flex-auto border rounded  border-gray-300">
@@ -151,21 +198,39 @@ function SchedulesStepper({ data }: any) {
                                                 <div className="md:hidden text-sm font-normal uppercase pt-3 pl-3 text-gray-500"><span className="font-black">Action-1</span> - Offline Interview</div>
                                                 <div className="p-3 text-3xl text-gray-800 font uppercase">Offline Interview</div>
                                                 <div className="px-3 pb-1">Scheduled an offline interview on {data.offline.date} {data.offline.time} at {data.offline.place}</div>
-                                                <div className="px-3 pb-1 flex ">Company Approved : {data.offline.companyApproved ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
-                                                <div className="px-3 pb-1 flex">Applicant Accepted : {data.offline.userAccepted ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
-                                                <div className="px-3 pb-1 flex">Completed : {data.offline.completed ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
+                                                <div className="px-3 pb-1">Scheduled an offline interview on {data.offline.date} {data.offline.time} at {data.offline.place}</div>
+                                                <div className="px-3 pb-1 flex ">{data.offline.companyApproved ? <p className="text-green-500">Company approved</p> : <p className="text-red-500">Company not approved Yet</p>}</div>
+                                                <div className="px-3 pb-1 flex">{data.offline.userAccepted ? <p className="text-green-500">User Accepted</p> : <p className="text-red-500">User not accepted Yet</p>}</div>
+                                                    <div className="px-3 pb-1 flex">{data.offline.completed || completed ? <p className="text-green-500">Offline interview completed</p> : <p className="text-red-500">Offline interview not completed</p>}</div>
                                             </div>
                                         </div>
+                                        {
+                                            data.offline.companyApproved && data.offline.userAccepted && (
+                                                <div className="w-full justify-end flex p-2">
+                                                    {
+                                                            data.offline.completed || completed ? (
+                                                            <div className="py-1 px-2 rounded-lg border cursor-pointer bg-purple-800 hover:bg-transparent hover:border-purple-800 text-gray-200 hover:text-black">
+                                                                Completed
+                                                            </div>
+                                                        ) : (
+                                                            <div onClick={() => setAsCompleted('offline')} className="py-1 px-2 rounded-lg border cursor-pointer bg-purple-800 hover:bg-transparent hover:border-purple-800 text-gray-200 hover:text-black">
+                                                                Mark as Completed
+                                                            </div>
+                                                        )
+                                                    }
+                                                </div>
+                                            )
+                                        }
                                     </div>
                                 </div>
                                 <div className="flex items-start flex-row">
                                     <div className="border-t-4 border-r-4 border-transparent">
-                                            <div className={`w-16 ml-16 h-16 border-l-4 ${data?.online || data?.hired ? 'border-purple-800' : 'border-gray-300'}  border-dashed border-b-4 rounded-bl-full`}></div>
+                                        <div className={`w-16 ml-16 h-16 border-l-4 ${data?.online || data?.hired ? 'border-purple-800' : 'border-gray-300'}  border-dashed border-b-4 rounded-bl-full`}></div>
                                     </div>
                                     <div className="border-t-4 border-transparent flex-auto">
-                                            <div className={`h-16 border-b-4 ${data?.online || data?.hired ? 'border-purple-800' : 'border-gray-300'}  border-dashed`}></div>
+                                        <div className={`h-16 border-b-4 ${data?.online || data?.hired ? 'border-purple-800' : 'border-gray-300'}  border-dashed`}></div>
                                     </div>
-                                        <div className={`w-16 mt-16 mr-16 h-16 border-r-4 ${data?.online || data?.hired ? 'border-purple-800' : 'border-gray-300'}  border-dashed border-t-4 rounded-tr-full`}></div>
+                                    <div className={`w-16 mt-16 mr-16 h-16 border-r-4 ${data?.online || data?.hired ? 'border-purple-800' : 'border-gray-300'}  border-dashed border-t-4 rounded-tr-full`}></div>
                                 </div>
                                 {
                                     data?.online &&
@@ -177,7 +242,7 @@ function SchedulesStepper({ data }: any) {
                                                     <div className="text-gray-500 text-sm text-center">Online Interview</div>
                                                 </div>
                                                 <div className="h-full border-r-4 border-transparent">
-                                                        <div className={`border-l-4 ml-4 h-full ${data?.hired ? 'border-purple-800' : 'border-gray-300'}  border-dashed`}></div>
+                                                    <div className={`border-l-4 ml-4 h-full ${data?.hired ? 'border-purple-800' : 'border-gray-300'}  border-dashed`}></div>
                                                 </div>
                                             </div>
                                             <div className="flex-auto border rounded  border-gray-300">
@@ -186,17 +251,33 @@ function SchedulesStepper({ data }: any) {
                                                         <div className="md:hidden text-sm font-normal uppercase pt-3 pl-3 text-gray-500"><span className="font-black">Action-2</span> - Online Interview</div>
                                                         <div className="p-3 text-3xl text-gray-800 font uppercase">Online Interview</div>
                                                         <div className="px-3 pb-1">Scheduled an online interview on {data.online.date} at {data.online.time}</div>
-                                                        <div className="px-3 pb-1 flex ">Company Approved : {data.online.companyApproved ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
-                                                        <div className="px-3 pb-1 flex">Applicant Accepted : {data.online.userAccepted ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
-                                                        <div className="px-3 pb-1 flex">Completed : {data.online.completed ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
+                                                        <div className="px-3 pb-1 flex ">{data.online.companyApproved ? <p className="text-green-500">Company Approved</p> : <p className="text-red-500">Company not approved Yet</p>}</div>
+                                                        <div className="px-3 pb-1 flex">{data.online.userAccepted ? <p className="text-green-500">Applicant Accepted</p> : <p className="text-red-500">Applicant not accepted Yet</p>}</div>
+                                                        <div className="px-3 pb-1 flex">{data.online.completed ? <p className="text-green-500">Online interview Completed</p> : <p className="text-red-500">Online interview not Completed</p>}</div>
                                                     </div>
                                                 </div>
+                                                {
+                                                    data.online.companyApproved && data.online.userAccepted && (
+                                                        <div className="w-full justify-end flex p-2">
+                                                            {
+                                                                data.online.completed ? (
+                                                                    <div className="py-1 px-2 rounded-lg border cursor-pointer bg-purple-800 hover:bg-transparent hover:border-purple-800 text-gray-200 hover:text-black">
+                                                                        Completed
+                                                                    </div>
+                                                                ) : (
+                                                                    <div onClick={() => setAsCompleted('online')} className="py-1 px-2 rounded-lg border cursor-pointer bg-purple-800 hover:bg-transparent hover:border-purple-800 text-gray-200 hover:text-black">
+                                                                        Mark as Completed
+                                                                    </div>
+                                                                )
+                                                            }
+                                                        </div>
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                     </>
                                 }
                             </>
-
                         )
                     }
                     {
@@ -224,9 +305,9 @@ function SchedulesStepper({ data }: any) {
                                     <div className="flex-auto">
                                         <div className="md:hidden text-sm font-normal uppercase pt-3 pl-3 text-gray-500"><span className="font-black">Final Action</span> - Hiring</div>
                                         <div className="p-3 text-3xl text-gray-800 font uppercase">Hire Applicant </div>
-                                            <div className="px-3 pb-1">Hire the applicant <span className="text-purple-800">{data.applicantId.firstName + " " + data.applicantId.lastName}</span> as {data.jobId.job}</div>
-                                        <div className="px-3 pb-1 flex ">Company Approved : {data.hired.companyApproved ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
-                                        <div className="px-3 pb-1 flex">Applicant Accepted : {data.hired.userAccepted ? <p className="text-green-500">True</p> : <p className="text-red-500">False</p>}</div>
+                                        <div className="px-3 pb-1">Hire the applicant <span className="text-purple-800">{data.applicantId.firstName + " " + data.applicantId.lastName}</span> as {data.jobId.job}</div>
+                                        <div className="px-3 pb-1 flex ">{data.hired.companyApproved ? <p className="text-green-500">Company Approved To Hire</p> : <p className="text-red-500">Company not approved Yet</p>}</div>
+                                        <div className="px-3 pb-1 flex">{data.hired.userAccepted ? <p className="text-green-500">User accepted the Offer</p> : <p className="text-red-500">User not accepted the offer Yet</p>}</div>
                                     </div>
                                 </div>
                             </div>
@@ -244,7 +325,7 @@ function SchedulesStepper({ data }: any) {
             {
                 applicantHired && <div className="w-full flex justify-end">
                     <div className='bg-purple-800 px-4 py-2 text-gray-100 rounded-md cursor-pointer'>
-                        You Hired this applicant {data.applicantId.firstName+" "+data.applicantId.lastName} as {data.jobId.job}
+                        You Hired this applicant {data.applicantId.firstName + " " + data.applicantId.lastName} as {data.jobId.job}
                     </div>
                 </div>
             }

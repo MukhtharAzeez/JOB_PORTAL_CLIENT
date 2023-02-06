@@ -120,3 +120,20 @@ export const getAnApplicantSchedules = async (jobId: any,applicantId:any) => {
   );
   return result;
 };
+
+export const setAScheduleAsCompleted = async (
+  type: string,
+  applicantId: string,
+  jobId: string
+) => {
+  const result = await instance.get(
+    `/jobApplicant/setAScheduleAsCompleted?jobId=${jobId}&applicantId=${applicantId}&type=${type}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
+      },
+    }
+  );
+  return result;
+};

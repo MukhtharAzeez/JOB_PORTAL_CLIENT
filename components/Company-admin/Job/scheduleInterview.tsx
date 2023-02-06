@@ -204,7 +204,7 @@ export default function ScheduleInterview({ scheduleInterview, setScheduleInterv
                             </div>
                             <div className="flex justify-center mt-8">
                                 <button onClick={handleSchedule} className="text-white py-2 px-4 rounded-lg bg-purple-900 hover:bg-purple-800 shadow-md font-medium transition-colors">
-                                    {directHire ? 'Hire' : 'Schedule'}
+                                    {directHire ? 'Hire' : online || offline ? 'Schedule' : ''}
                                 </button>
                             </div>
                         </div>
