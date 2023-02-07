@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
-import NavBar from "../../../components/User/NavBar/NavBar";
+import NavBar from "../../../components/Common/companyAdmin-user/NavBar/NavBar";
 import RightBar from "../../../components/User/Home/RightBar";
 import dynamic from "next/dynamic";
 import SideBar from "../../../components/Common/companyAdmin-user/SideBar";
@@ -46,7 +46,7 @@ export default function Home({ req }: { req: any }) {
           {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" /> */}
         </Head>
         <Box color={"text.primary"} className="bg-gray-200 min-h-[100vh]">
-          <NavBar mode={mode} />
+          <NavBar mode={mode} type={'company-admin'}/>
           <div className="border">
             <div className="flex justify-around">
               <div className="sm:w-2/12 mt-12">

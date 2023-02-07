@@ -2,12 +2,17 @@ import Head from "next/head";
 import React from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import Link from "next/link";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import Person2Icon from "@mui/icons-material/Person2";
 
 interface Props {
   mode: String;
+  type: String;
 }
 
-function NavBar({ mode }: Props) {
+function NavBar({ mode ,type}: Props) {
   return (
     <>
       <Head>
@@ -21,7 +26,8 @@ function NavBar({ mode }: Props) {
         <div className="flex p-2">
           <div className="w-full flex gap-3">
             <span className="px-2 mr-2 border-r border-gray-800">Portal</span>
-            <Link href="/">
+
+            <Link href={type=='user' ? '/' : `/${type}`}>
               <span className="px-1 cursor-pointer hover:text-gray-700 hidden md:block">
                 <HomeIcon />
               </span>
@@ -30,7 +36,7 @@ function NavBar({ mode }: Props) {
             <div className="flex rounded-l-xl">
               <div className="relative mx-auto text-gray-100 -my-1 lg:block hidden">
                 <input
-                  className="border-2 border-gray-100 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none"
+                  className="border-2 border-gray-100 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none text-black"
                   type="search"
                   name="search"
                   placeholder="Search"
@@ -57,25 +63,30 @@ function NavBar({ mode }: Props) {
               </div>
             </div>
 
-            <span className="px-1 cursor-pointer hover:text-gray-700 hidden md:block">
-              <i className="fas fa-th p-2  rounded-full"></i>
-            </span>
-            <span className="px-1 cursor-pointer hover:text-gray-700 hidden md:block">
-              <i className="w-8 fas fa-calendar-alt p-2  rounded-full"></i>
-            </span>
-            <Link href="/user/login">
+            <Link href={`/${type}/schedules`}>
               <span className="px-1 w-8 relative cursor-pointer hover:text-gray-700 hidden md:block">
-                <i className="fas fa-bell p-2  rounded-full"></i>
-                <span className="absolute right-0 top-0 -mt-2 -mr-1 text-xs bg-red-500 text-white font-medium px-2 shadow-lg rounded-full">
+                <EventNoteIcon />
+              </span>
+            </Link>
+            <Link href={`/${type}/inbox`}>
+              <span className="px-1 w-8 relative cursor-pointer hover:text-gray-700 hidden md:block">
+                <ChatBubbleIcon className="w-8" />
+              </span>
+            </Link>
+
+            <Link href={`/${type}/notifications`}>
+              <span className="px-1 w-8 relative cursor-pointer hover:text-gray-700 hidden md:block">
+                <NotificationsIcon />
+                <span className="absolute right-0 top-0 -mt-1 -mr-4 text-xs bg-red-400 text-black font-medium px-2 rounded-full">
                   3
                 </span>
               </span>
             </Link>
           </div>
 
-          <Link href="/user/profile">
+          <Link href={`/${type}/profile`}>
             <span className="w-10 relative float-right mr-3 cursor-pointer hover:text-gray-700">
-              <i className="fas fa-user p-2  rounded-full"></i>
+              <Person2Icon />
               <span className="absolute right-0 top-0 -mt-1 -mr-1 text-xs bg-yellow-500 text-black font-medium px-2 rounded-full">
                 3
               </span>

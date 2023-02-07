@@ -2,7 +2,7 @@ import { ListItemIcon } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 
-function SideBar({links}:any) {
+function SideBar({ links }: any) {
   return (
     <div className="fixed w-1/5 mt-20  hidden sm:block">
       <div className="w-full py-4 px-2 text-gray-900 bg-white rounded-lg text-left capitalize font-medium shadow-2xl">
@@ -15,8 +15,8 @@ function SideBar({links}:any) {
           links.map(function(link:any){
             const Icon = link.icon
             return (
-              <Link href={link.href} key={link.title} className="cursor-pointer px-2 py-1  hover:bg-gray-200 hover:text-gray-700 rounded flex">
-                <span className="w-8 mb-5 relative">
+              <Link href={link.href} key={link.title} className="cursor-pointer px-2  hover:bg-gray-200 hover:text-gray-700 rounded flex">
+                <span className="w-8 my-5 relative">
                   <ListItemIcon className='text-gray-500 mx-4 group-hover:text-gray-800'>
                     <Icon className="text-black"/>
                   </ListItemIcon>
@@ -24,7 +24,7 @@ function SideBar({links}:any) {
                     3
                   </span> */}
                 </span>
-                <span className="mx-5">{link.title}</span>
+                <span className="mx-5 my-5 ">{link.title}</span>
               </Link>
             )
           })

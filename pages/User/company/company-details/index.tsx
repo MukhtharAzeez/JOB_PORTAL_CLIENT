@@ -6,7 +6,7 @@ import SideBar from '../../../../components/Common/companyAdmin-user/SideBar'
 import SideBarWithoutText from '../../../../components/Common/companyAdmin-user/SideBarWithoutText'
 import CompanyProfile from '../../../../components/Company/Profile/CompanyProfile'
 import MobileBottom from '../../../../components/User/MobileBottom/MobileBottom'
-import NavBar from '../../../../components/User/NavBar/NavBar'
+import NavBar from '../../../../components/Common/companyAdmin-user/NavBar/NavBar'
 import { USER_SIDEBAR_LINKS } from '../../../../constants/User-sideBar'
 import UserProtectRouter from '../../../../protectRoutes/protectRoutes'
 import { currentTheme } from '../../../../redux/user/ThemeSlice'
@@ -22,7 +22,7 @@ function index() {
                 <title>Edit-Profile</title>
             </Head>
             <Box className="bg-gray-200 min-h-[100vh]" color={"text.primary"}>
-                <NavBar mode={mode} />
+                <NavBar mode={mode} type={'user'}/>
                 <div className="flex ">
                     <div className="w-1/12 mt-8 ml-16 hidden lg:block">
                         <SideBar links={USER_SIDEBAR_LINKS} />

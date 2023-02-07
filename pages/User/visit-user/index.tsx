@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import RightBar from "../../../components/User/Home/RightBar";
 import SideBar from "../../../components/Common/companyAdmin-user/SideBar";
 import MobileBottom from "../../../components/User/MobileBottom/MobileBottom";
-import NavBar from "../../../components/User/NavBar/NavBar";
+import NavBar from "../../../components/Common/companyAdmin-user/NavBar/NavBar";
 import Profile from "../../../components/User/Profile/Profile";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
 import { USER_SIDEBAR_LINKS } from "../../../constants/User-sideBar";
@@ -23,7 +23,7 @@ function index() {
                 <title>Portal-Profile</title>
             </Head>
             <Box className="bg-gray-200" color={"text.primary"}>
-                <NavBar mode={mode} />
+                <NavBar mode={mode} type={'user'}/>
                 <div className="border ">
                     <div className="flex justify-around md:pr-20">
                         <div className="w-2/12 mt-8 hidden md:block">

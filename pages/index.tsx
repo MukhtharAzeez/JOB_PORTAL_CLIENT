@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import Box from "@mui/material/Box";
 import FormData from "form-data";
-import NavBar from "../components/User/NavBar/NavBar";
+import NavBar from "../components/Common/companyAdmin-user/NavBar/NavBar";
 import SideBar from "../components/Common/companyAdmin-user/SideBar";
 import Feed from "../components/User/Home/Feed";
 import RightBar from "../components/User/Home/RightBar";
@@ -110,7 +110,7 @@ export default function Home({ req }: { req: any }) {
           {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" /> */}
         </Head>
         <Box color={"text.primary"} className="bg-gray-200">
-          <NavBar mode={mode} />
+          <NavBar mode={mode} type={'user'}/>
           <div className="border ">
             <div className="flex justify-around md:pr-20">
               <div className="w-2/12 mt-8 hidden sm:block md:ml-24 lg:ml-0">

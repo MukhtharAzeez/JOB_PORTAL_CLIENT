@@ -127,3 +127,16 @@ export const userRequestToChangeTime = async (requestId: any) => {
   );
   return data;
 };
+
+export const getUserSchedules = async (userId: string,date:Date) => {
+  const { data } = await instance.get(
+    `/user/getUserSchedules?userId=${userId}&date=${date}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};
