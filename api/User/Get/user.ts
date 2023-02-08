@@ -166,3 +166,16 @@ export const getAllAppliedJobs = async (userId: string, skip: number , limit: nu
   );
   return data;
 };
+
+export const getARandomCompany = async () => {
+  const { data } = await instance.get(
+    `/user/getRandomCompany`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};

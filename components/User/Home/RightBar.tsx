@@ -1,12 +1,24 @@
+import Image from "next/image";
 import * as React from "react";
+import useSWR from "swr";
+import { getARandomCompany } from "../../../api/User/Get/user";
+import companyDefaultLogo from '../../../public/image/companyDefaultLogo.jpg'
 
 export default function SideBar() {
+  const fetcher = async () => {
+      const getRandomCompany = await getARandomCompany()
+      return getRandomCompany;
+  };
+  const { data, error, isLoading } = useSWR("getRandomCompany", fetcher);
+  if (error) return <div>Error....</div>
+  if (isLoading) return <div>Loading....</div>
+
   return (
-    <div className="fixed hidden lg:block">
+    <div className="fixed hidden lg:block min-w-[340px] max-w-[340px]">
       <div className="bg-white relative shadow-2xl rounded-lg w-full mt-24 mx-auto max-h-[600px] overflow-scroll scrollbar-hide">
         <div className="flex justify-center">
-          <img
-            src="https://avatars0.githubusercontent.com/u/35900628?v=4"
+          <Image
+            src={data[0].image ? data[0].image : companyDefaultLogo}
             alt=""
             className="rounded-full mx-auto absolute  w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"
           />
@@ -14,10 +26,10 @@ export default function SideBar() {
 
         <div className="mt-32">
           <h1 className="font-bold text-center text-3xl text-gray-900">
-            Pantazi Software
+            {data[0].company}
           </h1>
           <p className="text-center text-sm text-gray-400 font-medium">
-            UI Components Factory
+            {data[0].establishedOn}
           </p>
           <p>
             <span></span>
@@ -27,7 +39,7 @@ export default function SideBar() {
               href="#"
               className="text-gray-200 block rounded-lg text-center font-medium leading-6 px-6 py-3 bg-gray-900 hover:bg-black hover:text-white"
             >
-              Connect with <span className="font-bold">@pantazisoft</span>
+              See All <span className="font-bold">Jobs Posted</span> by {data[0].company}
             </a>
           </div>
           <div className="flex justify-between items-center my-5 px-6">
@@ -61,10 +73,10 @@ export default function SideBar() {
             <h3 className="font-medium text-gray-900 text-left px-6">
               Recent activites
             </h3>
-            <div className="mt-5 w-full flex flex-col items-center overflow-hidden text-sm">
+            <div className="mt-5 w-full flex flex-col items-center overflow-scroll text-sm">
               <a
                 href="#"
-                className="w-full border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150"
+                className="border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150"
               >
                 <img
                   src="https://avatars0.githubusercontent.com/u/35900628?v=4"
@@ -77,7 +89,7 @@ export default function SideBar() {
 
               <a
                 href="#"
-                className="w-full border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150"
+                className=" border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150"
               >
                 <img
                   src="https://avatars0.githubusercontent.com/u/35900628?v=4"
@@ -90,7 +102,7 @@ export default function SideBar() {
 
               <a
                 href="#"
-                className="w-full border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150"
+                className=" border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150"
               >
                 <img
                   src="https://avatars0.githubusercontent.com/u/35900628?v=4"
@@ -104,7 +116,7 @@ export default function SideBar() {
 
               <a
                 href="#"
-                className="w-full border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150"
+                className=" border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150"
               >
                 <img
                   src="https://avatars0.githubusercontent.com/u/35900628?v=4"
@@ -116,7 +128,7 @@ export default function SideBar() {
               </a>
               <a
                 href="#"
-                className="w-full border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150"
+                className="border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150"
               >
                 <img
                   src="https://avatars0.githubusercontent.com/u/35900628?v=4"
