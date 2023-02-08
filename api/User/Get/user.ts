@@ -140,3 +140,29 @@ export const getUserSchedules = async (userId: string,date:Date) => {
   );
   return data;
 };
+
+export const getCountAppliedJobs = async () => {
+  const { data } = await instance.get(
+    `/jobApplicant/getCountAppliedJobs`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};
+
+export const getAllAppliedJobs = async (userId: string, skip: number , limit: number) => {
+  const { data } = await instance.get(
+    `/jobApplicant/getAllAppliedJobs?userId=${userId}&skip=${skip}&limit=${limit}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};

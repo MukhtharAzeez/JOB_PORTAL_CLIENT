@@ -33,7 +33,7 @@ function CompanyPosts({ mode, post }: props) {
     const { userId } = useSelector(currentUser);
     const [likes, setLikes] = React.useState(post.likes ? post.likes.length : 0);
     const [open, setOpen] = React.useState(false);
-    const [message, setMessage] = React.useState({messageType:'' , message:''});
+    const [message, setMessage] = React.useState({ messageType: '', message: '' });
 
     const handleClose = (
         event?: React.SyntheticEvent | Event,
@@ -51,7 +51,7 @@ function CompanyPosts({ mode, post }: props) {
         if (result.data) setLikes(likes + 1);
         else setLikes(likes - 1);
     }
-    async function applyForAJob(postId:string){
+    async function applyForAJob(postId: string, companyId: string) {
         try {
             const mess = {
                 message: "Wait we are proceeding your request !",
@@ -59,7 +59,7 @@ function CompanyPosts({ mode, post }: props) {
             }
             setMessage(mess)
             setOpen(true);
-            await applyForJob(postId, userId);
+            await applyForJob(companyId, postId, userId);
             const mes = {
                 message: "You successfully applied for this job",
                 messageType: "success"
@@ -69,7 +69,7 @@ function CompanyPosts({ mode, post }: props) {
         } catch (error: any) {
             const type = typeof error.response.data.message;
             if (type == "string") {
-                const mes={
+                const mes = {
                     message: error.response.data.message,
                     messageType: "error"
                 }
@@ -82,11 +82,11 @@ function CompanyPosts({ mode, post }: props) {
                 setMessage(mes);
             }
             setOpen(true);
-        }        
+        }
     }
     return (
         <Card
-            className="shadow-2xl shadow-gray-800 rounded-md"
+            className="shadow-2xl shadow-gray-800 rounded-md  max-w-[450px] min-h-[100vh] md:min-w-[450px]"
             sx={{
                 minWidth: { xs: "auto", md: "auto", sm: 400 },
                 margin: 1,
@@ -180,7 +180,7 @@ function CompanyPosts({ mode, post }: props) {
                     <IconButton aria-label="share">
                         <ShareIcon />
                     </IconButton>
-                    <div onClick={()=>applyForAJob(post._id)} className="w-full px-6 py-1 shadow-md ml-4 hover:shadow-inner cursor-pointer bg-gray-100 text-gray-500 hover:text-gray-400 rounded-lg">
+                    <div onClick={() => applyForAJob(post._id, post.companyId._id)} className="w-full px-6 py-1 shadow-md ml-4 hover:shadow-inner cursor-pointer bg-gray-100 text-gray-500 hover:text-gray-400 rounded-lg">
                         <p>Apply</p>
                     </div>
                 </CardActions>
@@ -200,7 +200,7 @@ function CompanyPosts({ mode, post }: props) {
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                 <Alert
                     onClose={handleClose}
-                    severity={message.messageType== "error" ? "error" : message.messageType == "success" ? "success" : "info"}
+                    severity={message.messageType == "error" ? "error" : message.messageType == "success" ? "success" : "info"}
                     sx={{ width: "100%" }}
                 >
                     {message.message}

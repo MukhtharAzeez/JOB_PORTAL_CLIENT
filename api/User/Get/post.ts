@@ -24,9 +24,9 @@ export const getJobsPosts = async (limit:number,skip:number) => {
 };
 
 
-export const applyForJob = async (jobId:string, userId:string) => {
+export const applyForJob = async (companyId: string,jobId: string, userId: string) => {
   const { data } = await instance.get(
-    `/jobApplicant/applyForJob?jobId=${jobId}&userId=${userId}`,
+    `/jobApplicant/applyForJob?jobId=${jobId}&userId=${userId}&companyId=${companyId}`,
     {
       withCredentials: true,
       headers: {

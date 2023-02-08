@@ -1,3 +1,4 @@
+import { Alert, Snackbar } from '@mui/material';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -10,15 +11,36 @@ function Schedules() {
     const [data, setData] = useState([])
     const [month, setMonth] = useState(new Date())
     const [isLoading, setIsLoading] = useState(true)
+    const [open, setOpen] = React.useState(false);
+    const [message, setMessage] = React.useState("");
+
+
+
+    const handleClose = (
+        event?: React.SyntheticEvent | Event,
+        reason?: string
+    ) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        setOpen(false);
+    };
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
 
     async function fetcher() {
         setIsLoading(true)
-        const getUserSchedule = await getUserSchedules(userId, month);
-        setData(getUserSchedule)
-        setIsLoading(false)
+        try {
+            const getUserSchedule = await getUserSchedules(userId, month);
+            setData(getUserSchedule) 
+        } catch (error) {
+            setMessage("Something Happened Please try again")
+            setOpen(true)
+        } finally{
+            setIsLoading(false)
+        }
     }
 
     useEffect(() => {
@@ -36,6 +58,11 @@ function Schedules() {
     }
 
     async function handlePreviousSchedules() {
+        if(month.getMonth() === new Date().getMonth()){
+            setMessage("You can see only pending schedules")
+            setOpen(true)
+            return
+        }
         setMonth(subtractMonths(month, 1))
         fetcher()
     }
@@ -64,7 +91,7 @@ function Schedules() {
                         </div>
                         <h2 className="ml-2 text-xl font-bold leading-none">{moment(month).format('MMMM YYYY')}</h2>
                     </div>
-                    <div className="flex flex-row flex-wrap w-full h-auto gap-2 mt-1 bg-gray-200 pr-2 justify-center pt-4 pb-4">
+                    <div className="flex flex-row flex-wrap w-full h-auto gap-2 mt-1 bg-slate-400 pr-2 justify-center pt-4 pb-4">
                         {
                             isLoading ? (
                                 <div className="">
@@ -76,7 +103,7 @@ function Schedules() {
                                     return (
                                         <>
                                             <div key={index} className="w-[240px] flex flex-col justify-center items-center border-purple-800 bg-white ml-2 p-4 rounded-md border">
-                                                <span className="mx-2 my-1 text-xs font-bold ">{monthNames[date.getMonth()]} {date.getDate()}</span>
+                                                <span className="mx-2 my-1 text-sm font-bold ">{monthNames[date.getMonth()]} {date.getDate()}</span>
                                                 <div className="">
                                                     {
                                                         group.objects.map((schedule: any) => {
@@ -100,6 +127,15 @@ function Schedules() {
                     </div>
                 </div>
             </div>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert
+                    onClose={handleClose}
+                    severity="error"
+                    sx={{ width: "100%" }}
+                >
+                    {message}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

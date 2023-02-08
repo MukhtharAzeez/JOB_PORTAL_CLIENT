@@ -24,9 +24,10 @@ function PostSkeleton({ mode }: Props) {
         <>
             {
                 <Card
-                    sx={{
-                        minWidth: { xs: 380, lg: 500, md: 500, sm: 500 },
-                    }}
+                    // sx={{
+                    //     minWidth: { xs: 380, lg: 500, md: 500, sm: 500 },
+                    // }}
+                    className="min-w-[450px]"
                 >
                     <CardHeader
                         avatar={
