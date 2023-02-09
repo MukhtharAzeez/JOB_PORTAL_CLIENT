@@ -1,9 +1,9 @@
 import { createContext, useEffect, useRef, useState } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import Peer from "simple-peer";
 
 const VideoSocketContext = createContext(null);
-const socket = io('http://localhost:8400');
+
 
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [stream, setStream] = useState(null);
@@ -12,7 +12,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
   const [name, setName] = useState("");
-
+  const [socket, setSocket] = useState<Socket>()
   const myVideo = useRef<HTMLVideoElement>(null);
   const userVideo = useRef<HTMLVideoElement>(null);
   const connectionRef = useRef(null);
@@ -22,16 +22,17 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
-        if(myVideo.current!=undefined){
+        if (myVideo.current != undefined) {
           myVideo.current.srcObject = currentStream;
         }
       });
+    const socket = io('http://localhost:8400');
+    setSocket(socket)
     socket.on("me", (id) => {
-      console.log(id)
       setMe(id);
     });
-    socket.on("callUser", ({ from, name: callerName, signal }) => {
-      setCall({ isReceived: true, from, name: callerName, signal });
+    socket.on("callUser", (data) => {
+      setCall({ isReceived: true, from: data.from, name: data.name, signal: data.signal });
     });
   }, []);
 
@@ -47,8 +48,8 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     peer.signal(call.signal);
     connectionRef.current = peer;
   };
+
   const callUser = (id: string) => {
-    console.log(id)
     const peer = new Peer({ initiator: true, trickle: false, stream });
     peer.on("signal", (data) => {
       socket.emit("callUser", {
@@ -67,6 +68,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     });
     connectionRef.current = peer;
   };
+
   const leaveCall = () => {
     setCallEnded(true);
     connectionRef.current.destroy();
@@ -74,7 +76,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <VideoSocketContext.Provider value={{call, callAccepted,myVideo,userVideo,stream,name,setName,callEnded,me,callUser,leaveCall,answerCall}}>
+    <VideoSocketContext.Provider value={{ call, callAccepted, myVideo, userVideo, stream, name, setName, callEnded, me, callUser, leaveCall, answerCall }}>
       {children}
     </VideoSocketContext.Provider>
   );

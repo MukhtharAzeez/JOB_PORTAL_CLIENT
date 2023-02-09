@@ -41,7 +41,6 @@ const Options = ({ children }:any) => {
     const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(VideoSocketContext);
     const [idToCall, setIdToCall] = useState('');
     const classes = useStyles();
-
     return (
         <Container className={classes.container}>
             <Paper elevation={10} className={classes.paper}>
