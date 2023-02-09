@@ -2,18 +2,24 @@ import { Alert, Snackbar } from '@mui/material';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { getPendingSchedules } from '../../../api/Company-Admin/get';
 import { getUserSchedules } from '../../../api/User/Get/user';
+import { currentCompanyAdmin } from '../../../redux/company-admin/CompanyAdminAuthSlicer';
 import { currentUser } from '../../../redux/user/userAuthSlicer';
+import ScheduleModal from './ScheduleModal';
 
 
 function Schedules() {
     const { userId } = useSelector(currentUser)
+    const { companyId } = useSelector(currentCompanyAdmin)
     const [data, setData] = useState([])
     const [month, setMonth] = useState(new Date())
     const [isLoading, setIsLoading] = useState(true)
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState("");
-
+    const [openModal, setOpenModal] = useState(false);
+    const [currentScheduleTime, setCurrentScheduleTime] = useState(null)
+    const [currentScheduleType, setCurrentScheduleType] = useState('')
 
 
     const handleClose = (
@@ -33,8 +39,13 @@ function Schedules() {
     async function fetcher() {
         setIsLoading(true)
         try {
-            const getUserSchedule = await getUserSchedules(userId, month);
-            setData(getUserSchedule) 
+            if(userId){
+                const getUserSchedule = await getUserSchedules(userId, month);
+                setData(getUserSchedule) 
+            }else if(companyId){
+                const getUserSchedule = await getPendingSchedules(companyId, month);
+                setData(getUserSchedule) 
+            }
         } catch (error) {
             setMessage("Something Happened Please try again")
             setOpen(true)
@@ -72,6 +83,11 @@ function Schedules() {
         fetcher()
     }
 
+    function handleView(time:Date, scheduleType:string){
+        setCurrentScheduleTime(time)
+        setCurrentScheduleType(scheduleType)
+        setOpenModal(true)
+    }
     return (
         <div className="text-gray-700 ">
             <div className="flex flex-grow  overflow-auto">
@@ -106,7 +122,7 @@ function Schedules() {
                                                 <polygon fill="currentColor" points="210.63 228.042 186.588 206.671 207.958 182.63 184.042 161.37 162.671 185.412 138.63 164.042 117.37 187.958 141.412 209.329 120.042 233.37 143.958 254.63 165.329 230.588 189.37 251.958 210.63 228.042"></polygon>
                                                 <polygon fill="currentColor" points="383.958 182.63 360.042 161.37 338.671 185.412 314.63 164.042 293.37 187.958 317.412 209.329 296.042 233.37 319.958 254.63 341.329 230.588 365.37 251.958 386.63 228.042 362.588 206.671 383.958 182.63"></polygon>
                                             </svg>
-                                            <p className="text-xl text-gray-800">Looks like You do not have schedules in this month</p>
+                                            <p className="text-xl text-gray-800">{userId ? 'Looks like You do not have schedules in this month' : companyId ? 'Looks like There is no Pending schedules in this month' : ''}</p>
                                         </div>
                                     </section>
                             ) :  (
@@ -121,7 +137,7 @@ function Schedules() {
                                                         group.objects.map((schedule: any) => {
                                                             const time = new Date(group._id + ' ' + schedule.data.time)
                                                             return (
-                                                                <div key={schedule.data.time} className="cursor-pointer text-center px-1 text-xs p-4 hover:bg-purple-100 rounded-md overflow-scroll scrollbar-hide">
+                                                                <div key={schedule.data.time} onClick={() => handleView(time, schedule.type)} className="cursor-pointer text-center px-1 text-xs p-4 hover:bg-purple-100 rounded-md overflow-scroll scrollbar-hide">
                                                                     <span className="font-light leading-none">{time.toLocaleTimeString()}</span>
                                                                     <br />
                                                                     <span className=" font-medium">{schedule.type} Interview</span>
@@ -134,7 +150,7 @@ function Schedules() {
                                         </>
                                     )
                                 })
-                                    
+                                
                             )
                         }
                     </div>
@@ -149,6 +165,7 @@ function Schedules() {
                     {message}
                 </Alert>
             </Snackbar>
+            <ScheduleModal setOpenModal={setOpenModal} openModal={openModal} time={currentScheduleTime} type={currentScheduleType}userType={userId ? 'user' : 'admin'} />
         </div>
     )
 }

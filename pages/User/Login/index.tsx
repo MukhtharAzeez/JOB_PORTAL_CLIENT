@@ -274,7 +274,6 @@ export default function SignIn({obj}:any) {
               height={480}
             />
           </Box>
-          <div onClick={()=>router.push('/video-call')}>go to video call</div>
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
             <Alert
               onClose={handleClose}

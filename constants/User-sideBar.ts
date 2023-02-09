@@ -5,6 +5,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import BusinessTwoToneIcon from "@mui/icons-material/BusinessTwoTone";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import Person2Icon from "@mui/icons-material/Person2";
+import VideoCallIcon from "@mui/icons-material/VideoCall";
 
 export const USER_SIDEBAR_LINKS = [
   {
@@ -36,6 +37,11 @@ export const USER_SIDEBAR_LINKS = [
     title: "Tidings",
     icon: NotificationsIcon,
     href: "/user/notifications",
+  },
+  {
+    title: "Video Call",
+    icon: VideoCallIcon,
+    href: "/video-call",
   },
   {
     title: "Profile",

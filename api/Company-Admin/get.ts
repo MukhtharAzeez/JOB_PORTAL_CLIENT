@@ -137,3 +137,16 @@ export const setAScheduleAsCompleted = async (
   );
   return result;
 };
+
+export const getPendingSchedules = async (companyId: string, date: Date) => {
+  const { data } = await instance.get(
+    `/companyAdmin/getPendingSchedules?companyId=${companyId}&date=${date}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
+      },
+    }
+  );
+  return data;
+};
