@@ -1,52 +1,55 @@
 import React, { useContext } from 'react';
-import { Grid, Typography, Paper } from '@mui/material'
-
-
 import { VideoSocketContext } from '../../contexts/videoSocketContext';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme:any) =>({
-  video: {
-    width: '550px',
-    [theme.breakpoints.down('xs')]: {
-      width: '300px',
-    },
-  },
-  gridContainer: {
-    justifyContent: 'center',
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
-    },
-  },
-  paper: {
-    padding: '10px',
-    border: '2px solid black',
-    margin: '10px',
-  },
-}));
+import Options from './Options';
+import Notifications from './Notifications';
 
 const VideoPlayer = () => {
-  const { name, callAccepted, myVideo, userVideo, callEnded, stream, call } = useContext(VideoSocketContext);
-  const classes = useStyles();
+  const { callAccepted, myVideo, userVideo, callEnded, stream } = useContext(VideoSocketContext);
   return (
-    <Grid container>
-      {stream && (
-        <Paper className={classes.paper}>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h5" gutterBottom>{name? name : 'no name'}</Typography>
-            <video playsInline muted ref={myVideo} autoPlay className={classes.video} />
-          </Grid>
-        </Paper>
-      )}
-      {callAccepted && !callEnded && (
-        <Paper className={classes.paper}>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h5" gutterBottom>{call?.name ? call?.name : 'No Name'}</Typography>
-            <video playsInline ref={userVideo} autoPlay className={classes.video} />
-          </Grid>
-        </Paper>
-      )}
-    </Grid>
+    <div className="relative bg-black justify-center">
+      
+      {
+        stream && callAccepted && !callEnded ? 
+          (
+            <>
+              <div className="flex py-4 relative justify-center">
+                <video playsInline muted ref={myVideo} autoPlay className="w-full rounded-md h-screen" />
+                <div className="bottom-10 absolute ">
+                  <Options>
+                    <Notifications />
+                  </Options>
+                </div>
+              </div>
+              <div className="absolute bottom-10 right-4 h-48 w-48">
+                <video playsInline muted ref={userVideo} autoPlay className="w-48 h-48 rounded-md" />
+              </div>
+            </>
+          ) : stream && callEnded ? (
+            <>
+              <div className="flex py-4 relative justify-center">
+                <video playsInline muted ref={myVideo} autoPlay className="w-full rounded-md h-screen" />
+                <div className="bottom-10 absolute ">
+                  <Options>
+                    <Notifications />
+                  </Options>
+                </div>
+              </div>
+            </>
+            
+          ) : stream && !callAccepted ? (
+              <>
+                <div className="flex py-4 relative justify-center">
+                  <video playsInline muted ref={myVideo} autoPlay className="w-full rounded-md h-screen"/>
+                  <div className="bottom-10 absolute ">
+                    <Options>
+                      <Notifications />
+                    </Options>
+                  </div>
+                </div>
+              </>
+          ) : ''
+      }
+    </div>
   );
 };
 

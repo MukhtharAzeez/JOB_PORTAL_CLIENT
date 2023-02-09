@@ -18,6 +18,10 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const connectionRef = useRef(null);
 
   useEffect(() => {
+    const socket = io('http://localhost:8400');
+    setSocket(socket)
+  }, [])
+  useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
@@ -26,15 +30,16 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
           myVideo.current.srcObject = currentStream;
         }
       });
-    const socket = io('http://localhost:8400');
-    setSocket(socket)
-    socket.on("me", (id) => {
-      setMe(id);
-    });
-    socket.on("callUser", (data) => {
-      setCall({ isReceived: true, from: data.from, name: data.name, signal: data.signal });
-    });
-  }, []);
+    if (socket) {
+
+      socket.on("me", (id) => {
+        setMe(id);
+      });
+      socket.on("callUser", (data) => {
+        setCall({ isReceived: true, from: data.from, name: data.name, signal: data.signal });
+      });
+    }
+  }, [socket]);
 
   const answerCall = () => {
     setCallAccepted(true);
@@ -72,7 +77,6 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const leaveCall = () => {
     setCallEnded(true);
     connectionRef.current.destroy();
-    window.location.reload();
   };
 
   return (

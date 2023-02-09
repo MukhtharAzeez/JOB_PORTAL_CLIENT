@@ -36,8 +36,6 @@ export default function SignIn({obj}:any) {
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
 
-
-
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -276,6 +274,7 @@ export default function SignIn({obj}:any) {
               height={480}
             />
           </Box>
+          <div onClick={()=>router.push('/video-call')}>go to video call</div>
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
             <Alert
               onClose={handleClose}

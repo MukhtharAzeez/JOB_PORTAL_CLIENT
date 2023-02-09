@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Button, TextField, Grid, Typography, Container, Paper } from '@material-ui/core';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Button, TextField } from '@material-ui/core';
 import { Assignment, Phone, PhoneDisabled } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -27,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
     },
     margin: {
         marginTop: 20,
+        // marginRight: 20,
+        // marginLeft: 20,
     },
     padding: {
         padding: 20,
@@ -37,42 +38,46 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Options = ({ children }:any) => {
-    const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(VideoSocketContext);
+const Options = ({ children }: any) => {
+    const { me, callAccepted, callEnded, leaveCall, callUser } = useContext(VideoSocketContext);
     const [idToCall, setIdToCall] = useState('');
     const classes = useStyles();
+    const [copied, setCopied] = useState(false);
+
+    const copy = () => {
+        if (copied) return;
+        navigator.clipboard.writeText(me);
+        setCopied(true);
+    };
+    async function handleJoin() {
+        if (!idToCall) {
+            return
+        }
+        callUser(idToCall)
+    }
     return (
-        <Container className={classes.container}>
-            <Paper elevation={10} className={classes.paper}>
-                <form className={classes.root} noValidate autoComplete="off">
-                    <Grid container className={classes.gridContainer}>
-                        <Grid item xs={12} md={6} className={classes.padding}>
-                            <Typography gutterBottom variant="h6">Account Info</Typography>
-                            <TextField label="Name" value={name} onChange={(e) => setName(e.target.value)} fullWidth />
-                            <CopyToClipboard text={me}>
-                                <Button variant="contained" color="primary" fullWidth startIcon={<Assignment fontSize="large" />}>
-                                    Copy Your ID
-                                </Button>
-                            </CopyToClipboard>
-                        </Grid>
-                        <Grid item xs={12} md={6} className={classes.padding}>
-                            <Typography gutterBottom variant="h6">Make a call</Typography>
-                            <TextField label="ID to call" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} fullWidth />
-                            {callAccepted && !callEnded ? (
-                                <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="large" />} fullWidth onClick={leaveCall} className={classes.margin}>
-                                    Hang Up
-                                </Button>
-                            ) : (
-                                <Button variant="contained" color="primary" startIcon={<Phone fontSize="large" />} fullWidth onClick={() => callUser(idToCall)} className={classes.margin}>
-                                    Call
-                                </Button>
-                            )}
-                        </Grid>
-                    </Grid>
-                </form>
-                {children}
-            </Paper>
-        </Container>
+        <div className='flex flex-row justify-between relative'>
+            {callAccepted && !callEnded ? (
+                <>
+                    <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="small" />} fullWidth onClick={leaveCall} className={classes.margin}>
+                        Hang Up
+                    </Button>
+                </>
+            ) : (
+                <div>
+                    <div className='flex flex-col'>
+                        <Button onClick={copy} variant="contained" color="primary" startIcon={<Assignment fontSize="small" />} fullWidth className={classes.margin}>
+                            Copy Your Link
+                        </Button>
+                        <TextField label="Paste Receiver Link" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} />
+                        <Button variant="contained" color="primary" startIcon={<Phone fontSize="small" />} fullWidth onClick={handleJoin} className={classes.margin}>
+                            Join
+                        </Button>
+                    </div>
+                </div>
+            )}
+            {children}
+        </div>
     );
 };
 
