@@ -47,6 +47,8 @@ function AppliedJobs() {
         setSkip(value-1)
     };
 
+    
+
     return (
         <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-slate-200">
             <header className="px-5 py-4 border-b border-slate-100">

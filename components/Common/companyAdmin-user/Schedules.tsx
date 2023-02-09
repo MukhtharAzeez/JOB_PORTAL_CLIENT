@@ -58,7 +58,7 @@ function Schedules() {
     }
 
     async function handlePreviousSchedules() {
-        if(month.getMonth() === new Date().getMonth()){
+        if(month.getFullYear() === new Date().getFullYear() && month.getMonth() === new Date().getMonth()){
             setMessage("You can see only pending schedules")
             setOpen(true)
             return
@@ -114,7 +114,7 @@ function Schedules() {
                                     const date = new Date(group._id)
                                     return (
                                         <>
-                                            <div key={index} className="w-[240px] flex flex-col justify-center items-center border-purple-800 bg-white ml-2 p-4 rounded-md border">
+                                            <div key={index} className="w-[240px] flex flex-col justify-center items-center border-purple-800 bg-white ml-2 p-4 rounded-md border max-h-60 overflow-scroll">
                                                 <span className="mx-2 my-1 text-sm font-bold ">{monthNames[date.getMonth()]} {date.getDate()}</span>
                                                 <div className="">
                                                     {

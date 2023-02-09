@@ -1,10 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import companyAdminAuthSlice from "./company-admin/CompanyAdminAuthSlicer";
 import companyAuthSlice from "./company/companyAuthSlicer";
+import progressBarSlice from "./progressBar/ProgressBarSlicer";
 import userSideThemeSlice from "./user/ThemeSlice";
 import userAuthSlice from "./user/userAuthSlicer";
 
 const reducer = combineReducers({
+  progress: progressBarSlice.reducer,
   user: userAuthSlice.reducer,
   userTheme: userSideThemeSlice.reducer,
   company: companyAuthSlice.reducer,
