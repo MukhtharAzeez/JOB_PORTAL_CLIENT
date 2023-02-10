@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { Assignment, Phone, PhoneDisabled } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { Alert, Snackbar } from '@mui/material';
 import { VideoSocketContext } from '../../contexts/videoSocketContext';
 import { useRouter } from 'next/router';
 import { currentCompanyAdmin } from '../../redux/company-admin/CompanyAdminAuthSlicer';
@@ -47,15 +47,33 @@ const Options = ({ children }: any) => {
     const { me, callAccepted, callEnded, leaveCall, callUser } = useContext(VideoSocketContext);
     const [idToCall, setIdToCall] = useState('');
     const classes = useStyles();
-    // const [copied, setCopied] = useState(false);
+    const [copied, setCopied] = useState(false);
     const router = useRouter()
+    const [open, setOpen] = React.useState(false);
+    const [message, setMessage] = React.useState("");
     const { companyAdminId } = useSelector(currentCompanyAdmin)
+    const handleClose = (
+        event?: React.SyntheticEvent | Event,
+        reason?: string
+    ) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        setOpen(false);
+    };
+
     const copy = async () => {
         navigator.clipboard.writeText(me);
         if (router.query.applicantId) {
             const result = await sendMessageToFriend(router.query.applicantId.toString(), companyAdminId, 'company')
-            console.log(result)
-            await sendMessageToReceiver(companyAdminId, result.data._id, `Please paste this id ${me} on the video option input and join`)
+            await sendMessageToReceiver(companyAdminId, result.data._id, `You have an online interview now please paste this id ${me} on the video option input and join`)
+            setMessage("Your Link is send to Applicant, You will get a call from the applicant when he click the link")
+            setOpen(true)
+        }else{
+            setCopied(true)
+            setMessage("Your id is Copied")
+            setOpen(true)
         }
     };
     async function handleJoin() {
@@ -80,7 +98,7 @@ const Options = ({ children }: any) => {
                 <div>
                     <div className='flex flex-col'>
                         <Button onClick={copy} variant="contained" color="primary" startIcon={<Assignment fontSize="small" />} fullWidth className={classes.margin}>
-                            {router.query.applicantId ? 'Send join id' : 'Copy your link'}
+                            {router.query.applicantId  ? 'Send join id' : copied ? 'Copied' :'Copy your link'}
                         </Button>
                         <TextField label="Paste Receiver Link" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} />
                         <Button variant="contained" color="primary" startIcon={<Phone fontSize="small" />} fullWidth onClick={handleJoin} className={classes.margin}>
@@ -90,6 +108,15 @@ const Options = ({ children }: any) => {
                 </div>
             )}
             {children}
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert
+                    onClose={handleClose}
+                    severity="error"
+                    sx={{ width: "100%" }}
+                >
+                    {message}
+                </Alert>
+            </Snackbar>
         </div>
     );
 };
