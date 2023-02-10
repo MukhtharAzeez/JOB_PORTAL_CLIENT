@@ -12,7 +12,7 @@ function index() {
     <UserProtectRouter>
       <div>
         <NavBar mode={mode} type={'user'}/>
-        <UserMessage />
+        <UserMessage type={'user'}/>
         <MobileBottom />
       </div>
     </UserProtectRouter>

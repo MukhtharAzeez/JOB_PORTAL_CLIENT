@@ -1,16 +1,16 @@
-import React from 'react'
-import useSWR from "swr";
+import React, { useEffect, useState } from 'react'
 import { getUserChat } from '../../api/User/Get/user';
 import AllChats from './AllChats';
 
-function Friends({ setChat, onlineUsers, id }: any) {
-
+function Friends({ setChat, onlineUsers, id, type }: any) {
+    const [data, setData] = useState([])
     const fetcher = async () => {
-        const friends = await getUserChat(id,'user');
-        return friends;
+        const friends = await getUserChat(id, 'user');
+        setData(friends)
     };
-    const { data, error, isLoading } = useSWR("friends", fetcher);
-    if (isLoading || error) return <div>Loading....</div>
+    useEffect(() => {
+        fetcher();
+    }, [])
     return (
         <div className="flex flex-col mt-8">
             <div className="flex flex-row items-center justify-between text-xs">
@@ -24,7 +24,7 @@ function Friends({ setChat, onlineUsers, id }: any) {
                 {
                     data.map(function (chat: any) {
                         return (
-                            <AllChats setChat={setChat} key={chat._id} data={chat} currentUser={id} onlineUsers={onlineUsers} />
+                            <AllChats setChat={setChat} key={chat._id} data={chat} currentUser={id} onlineUsers={onlineUsers} type={type} />
                         )
                     })
                 }

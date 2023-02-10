@@ -1,20 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { getMessages, sendMessageToReceiver } from '../../api/User/Get/user';
+import { currentCompanyAdmin } from '../../redux/company-admin/CompanyAdminAuthSlicer';
 import { currentUser } from '../../redux/user/userAuthSlicer';
 
 function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
     const scroll = useRef<HTMLInputElement>();
     const [sendMessage, setSendMessage] = useState("")
+    const [ID, setID] = useState('')
     const { userId } = useSelector(currentUser)
+    const { companyAdminId } = useSelector(currentCompanyAdmin)
     const [messages, setMessages] = useState([])
 
+    useEffect(()=>{
+        if(userId){
+            setID(userId)
+        }
+        if(companyAdminId){
+            setID(companyAdminId)
+        }
+    },[])
     useEffect(() => {
         if (receiveMessages !== null && receiveMessages.chatId === chat?._id) {
             setMessages([...messages, receiveMessages]);
         }
     }, [receiveMessages]);
-
     useEffect(() => {
         const fetchMessage = async () => {
             try {
@@ -25,28 +35,25 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
             }
         };
         fetchMessage();
-    }, [chat, userId]);
-
+    }, [chat, ID]);
     useEffect(() => {
         scroll.current.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
-
     function handleEnterKey(e:any){
         if(e.keyCode==13){
             sendMessages();
         }
     }
-
     async function sendMessages() {
         const messageAdd = {
-            userId,
+            ID,
             chatId: chat._id,
             text:sendMessage,
         };
         setSendMessage("")
-        const data = await sendMessageToReceiver(userId, chat._id, sendMessage)
+        const data = await sendMessageToReceiver(ID, chat._id, sendMessage)
         setMessages([...messages,data])
-        const receiverId = chat.members.find((id: string) => id !== userId);
+        const receiverId = chat.members.find((id: string) => id !== ID);
         setSentMessage({ ...messageAdd, receiverId });
     }
 
@@ -61,7 +68,7 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                                     
                                     return (
                                         <>
-                                            {message.senderId == userId ? (
+                                            {message.senderId == ID ? (
                                                 <div className="col-start-6 col-end-13 p-3 rounded-lg">
                                                     <div className="flex items-center justify-start flex-row-reverse">
                                                         <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">

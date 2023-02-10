@@ -12,7 +12,7 @@ function index() {
     <CompanyAdminProtectRoute>
       <div>
         <NavBar mode={mode} type={'user'}/>
-        <UserMessage />
+        <UserMessage type={'companyAdmin'}/>
         <MobileBottom />
       </div>
     </CompanyAdminProtectRoute>
