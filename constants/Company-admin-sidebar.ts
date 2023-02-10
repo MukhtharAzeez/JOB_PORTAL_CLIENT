@@ -25,7 +25,7 @@ export const COMPANY_ADMIN_SIDEBAR_LINKS = [
   {
     title: "Messages",
     icon: ChatBubbleOutlineOutlinedIcon,
-    href: "/company-admin/messages",
+    href: "/company-admin/inbox",
   },
   {
     title: "Scheduled Interviews",

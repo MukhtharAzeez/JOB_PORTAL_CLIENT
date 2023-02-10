@@ -1,11 +1,16 @@
 import React from 'react'
 import CloseIcon from '@mui/icons-material/Close';
+import { useRouter } from 'next/router';
 
 
 function ScheduleModal({ setOpenModal, openModal ,time, type , userType}: any) {
+    const router = useRouter()
 
     function setClose() {
         setOpenModal(false)
+    }
+    function startOnlineInterview(){
+        router.push('/video-call')
     }
     return (
         openModal && <>
@@ -37,13 +42,13 @@ function ScheduleModal({ setOpenModal, openModal ,time, type , userType}: any) {
                         {type} Interview at {time.toLocaleTimeString()}
                     </div>
                     {type == 'online' && time <= Date.now() && userType=='admin'&&
-                        <button type="button" className="ml-6 px-8 py-3 text-white bg-indigo-900 rounded focus:outline-none" >Start Online Interview</button>
+                        <button type="button" onClick={startOnlineInterview} className="ml-6 px-8 py-3 text-white bg-indigo-900 rounded focus:outline-none" >Start Online Interview</button>
                     }
                     {type == 'online' && time > Date.now() && userType == 'admin' &&
                         <button type="button" className="ml-6 px-8 py-3 text-white bg-red-300 rounded focus:outline-none" >Start Online Interview</button>
                     }
                     {type == 'online' && time <= Date.now() && userType == 'user' &&
-                        <button type="button" className="ml-6 px-8 py-3 text-white bg-indigo-900 rounded focus:outline-none" >Join Online Interview</button>
+                        <button type="button" onClick={startOnlineInterview} className="ml-6 px-8 py-3 text-white bg-indigo-900 rounded focus:outline-none" >Join Online Interview</button>
                     }
                     {type == 'online' && time > Date.now() && userType == 'user' &&
                         <button type="button" className="ml-6 px-8 py-3 text-white bg-red-300 rounded focus:outline-none">Join Online Interview</button>

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { io, Socket } from "socket.io-client";
 import { USER_SIDEBAR_LINKS } from "../../constants/User-sideBar";
+import { currentCompanyAdmin } from "../../redux/company-admin/CompanyAdminAuthSlicer";
 import { currentUser } from "../../redux/user/userAuthSlicer";
 import SideBarWithoutText from "../Common/companyAdmin-user/SideBarWithoutText";
 import ChatScreen from "./ChatScreen";
@@ -14,32 +15,35 @@ function UserMessage() {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [sentMessage, setSentMessage] = useState(null);
   const [receiveMessages, setReceiveMessages] = useState(null);
-
-  useEffect(()=>{
-    console.log("1")
-
+  const [id, setId] = useState(null)
+  const [type, setType]= useState('')
+  const { userId } = useSelector(currentUser)
+  const { companyAdminId } = useSelector(currentCompanyAdmin)
+  useEffect(() => {
+    if(userId){
+      setId(userId)
+      setType('user')
+    }else{
+      setId(companyAdminId)
+      setType('companyAdmin')
+    }
     socket.current = io(process.env.NEXT_PUBLIC_SOCKET_DOMAIN);
     socket?.current.emit("new-user-add", user.userId);
-  },[])
+  }, [])
 
   useEffect(() => {
-    console.log("2")
-
     socket?.current.on("get-user", (users) => {
       setOnlineUsers(users);
     });
   }, [user]);
 
   useEffect(() => {
-    console.log("8")
-
     if (sentMessage !== null) {
       socket.current.emit("send-message", sentMessage);
     }
   }, [sentMessage]);
 
   useEffect(() => {
-    console.log("4")
     socket.current.on("receive-message", (data) => {
       setReceiveMessages(data);
       console.log(data)
@@ -53,7 +57,7 @@ function UserMessage() {
           <div className="md:mr-14 sm:ml-2 sm:mr-20">
             <SideBarWithoutText links={USER_SIDEBAR_LINKS} />
           </div>
-          <LargeScreenSideBar setChat={setChat} onlineUsers={onlineUsers} />
+          <LargeScreenSideBar setChat={setChat} onlineUsers={onlineUsers} id={id} type={type}/>
           {chat ? (
             <ChatScreen chat={chat} setSentMessage={setSentMessage}
               receiveMessages={receiveMessages} />

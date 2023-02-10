@@ -45,7 +45,7 @@ function Profile({ userId, user }: any) {
   }
 
   async function sendMessage(curUserId: string, userId: string) {
-    await sendMessageToFriend(curUserId, userId)
+    await sendMessageToFriend(curUserId, userId,'user')
     router.push('/user/inbox')
   }
 

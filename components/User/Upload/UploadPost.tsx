@@ -25,6 +25,7 @@ export default function PostAddModal({ addPost, setAddPost }: any) {
   });
 
   const handleFile = (e: any) => {
+    console.log(e.target.files)
     setMessage("");
     const file = e.target.files;
     for (let i = 0; i < file.length; i++) {

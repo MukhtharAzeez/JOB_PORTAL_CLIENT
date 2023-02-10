@@ -37,6 +37,7 @@ export default function App({ Component, pageProps }: AppProps) {
     }
 
   },[router])
+  
   return (
     <Provider store={store}>
       <ThemeProvider theme={darkTheme}>

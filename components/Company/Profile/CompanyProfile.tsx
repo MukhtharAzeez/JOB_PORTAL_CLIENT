@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import useSWR from "swr";
-import { getCompanyDetails } from '../../../api/Company/get';
+import { getCompanyDetails, getCountCompanyAdmins } from '../../../api/Company/get';
 import { Modal } from '@mui/material';
 import BusinessTwoToneIcon from '@mui/icons-material/BusinessTwoTone';
 import { getAllCompanyAdmins } from '../../../api/Company/get'
+import { Pagination } from '@mui/material';
+import { sendMessageToFriend } from '../../../api/User/Post/user';
+import { useSelector } from 'react-redux';
+import { currentUser } from '../../../redux/user/userAuthSlicer';
 
 
 function CompanyProfile() {
@@ -15,6 +19,8 @@ function CompanyProfile() {
     const [certificate, setCertificate] = useState('');
     const [representatives, setRepresentatives] = useState(null)
     const [representative, setRepresentative] = useState(false)
+    const [count, setCount] = useState<number>(1)
+    const {userId} = useSelector(currentUser)
 
     const fetcher = async () => {
         const companyDetails = await getCompanyDetails(companyId);
@@ -32,10 +38,29 @@ function CompanyProfile() {
     const handleClose = () => {
         setOpen(false);
     };
-    async function viewCompanyAdmins() {
-        const admins = await getAllCompanyAdmins(companyId)
+    async function viewCompanyAdmins(skip: number) {
+        const admins = await getAllCompanyAdmins(companyId, skip, 10);
         setRepresentatives(admins.data)
         setRepresentative(true)
+    }
+
+    async function fetchAdmins(skip: number) {
+        if (skip == 0) {
+            const data = await getCountCompanyAdmins(companyId)
+            let int = data.data / 10
+            int = Math.ceil(int)
+            setCount(int)
+        }
+        viewCompanyAdmins(skip);
+    }
+
+    async function handleChange(event: any, value: number) {
+        fetchAdmins(value - 1);
+    };
+
+    async function sendMessage(curUserId: string, userId: string) {
+        await sendMessageToFriend(curUserId, userId,'company')
+        router.push('/user/inbox')
     }
 
     return (
@@ -61,7 +86,7 @@ function CompanyProfile() {
                     </div>
                 </div>
                 <div className="space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center">
-                    <button onClick={viewCompanyAdmins} className="text-white py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
+                    <button onClick={() => fetchAdmins(0)} className="text-white py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
                         Representatives
                     </button>
                 </div>
@@ -134,9 +159,9 @@ function CompanyProfile() {
                     <div className="flex md:flex-row flex-col items-start justify-center px-6 py-8 w-full">
                         <div id="popover" className="transition duration-150 ease-in-out md:mt-0 mt-8 top-0 left-0 sm:ml-10 md:ml-10 w-10/12 md:w-1/2">
                             <div className="w-full bg-white rounded shadow-2xl">
-                                <div className="relative bg-gray-200 rounded-t py-4 px-4 xl:px-8 flex justify-between">
+                                <div className="relative bg-gray-400 rounded-t py-4 px-4 xl:px-8 flex justify-between">
                                     <input readOnly className="px-7 w-96 py-2 bg-gray-100 text-base text-gray-600 font-normal leading-normal tracking-normal opacity-50" placeholder="Company Representatives" />
-                                    <div className="text-gray-800 cursor-pointer" onClick={()=>setRepresentative(false)}>close</div>
+                                    <div className="text-gray-800 cursor-pointer" onClick={() => setRepresentative(false)}>close</div>
                                 </div>
                                 {
                                     representatives.map(function (admin: any) {
@@ -144,22 +169,24 @@ function CompanyProfile() {
                                             <div key={admin._id} className="w-full h-full px-4 xl:px-8 pt-3 pb-5">
                                                 <div className="flex justify-between items-center">
                                                     <div className="flex items-center">
-                                                        
                                                         <div>
                                                             <h3 className="mb-2 sm:mb-1 text-gray-800 text-base font-normal leading-4">{admin.name}</h3>
                                                             <p className="text-gray-600 text-xs leading-3">{admin.position}</p>
                                                         </div>
                                                     </div>
                                                     <div className="relative font-normal text-xs sm:text-sm flex items-center text-gray-600">
-                                                        {/* <div onClick={() => sendMessage(userId, admin._id)} className="border p-2 rounded-md hover:text-indigo-400 hover:border-indigo-400 ">
+                                                        <div onClick={() => sendMessage(userId, admin._id)} className="border p-2 rounded-md hover:text-indigo-400 hover:border-indigo-400 ">
                                                             Message
-                                                        </div> */}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         )
                                     })
                                 }
+                                <div className='bg-black flex justify-center'>
+                                    <Pagination className="p-4" count={count} onChange={handleChange} variant="outlined" shape="rounded" />
+                                </div>
                             </div>
                         </div>
                     </div>

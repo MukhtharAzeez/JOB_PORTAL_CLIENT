@@ -34,9 +34,9 @@ function NavBar({ mode ,type}: Props) {
             </Link>
 
             <div className="flex rounded-l-xl">
-              <div className="relative mx-auto text-gray-100 -my-1 lg:block hidden">
+              <div className="relative  text-gray-100 -my-1 ">
                 <input
-                  className="border-2 border-gray-100 bg-white h-10 pl-2 pr-8 rounded-lg text-sm focus:outline-none text-black"
+                  className="border-2 border-gray-100 bg-white h-10 pl-2  rounded-lg text-sm focus:outline-none text-black"
                   type="search"
                   name="search"
                   placeholder="Search"

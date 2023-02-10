@@ -37,8 +37,8 @@ export const getFriendsList = async (userId: string) => {
   return data;
 };
 
-export const getUserChat = async (userId: string) => {
-  const { data } = await instance.get(`/chat/user/${userId}`, {
+export const getUserChat = async (userId: string, type: string) => {
+  const { data } = await instance.get(`/chat/user/${userId}/${type}`, {
     withCredentials: true,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("userToken")}`,

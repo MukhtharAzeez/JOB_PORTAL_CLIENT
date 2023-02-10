@@ -1,20 +1,24 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { currentUser } from "../../redux/user/userAuthSlicer";
-import useSWR from "swr";
+import React, { useEffect, useState } from "react";
+import { getCompanyAdminDetails } from "../../api/Company-Admin/get";
 import { getCurrentUserDetails } from "../../api/User/Get/user";
 import FriendsList from "./FriendsList";
 
 
-function LargeScreenSideBar({setChat, onlineUsers}:any) {
-  const { userId } = useSelector(currentUser)
+function LargeScreenSideBar({setChat, onlineUsers,id, type}:any) {
+  const [data, setData]= useState(null)
   const fetcher = async () => {
-    const user = await getCurrentUserDetails(userId);
-    return user;
+    if(type=='user'){
+      const user = await getCurrentUserDetails(id);
+      setData(user)
+    }else if(type=='companyAdmin'){
+      const user = await getCompanyAdminDetails(id);
+      setData(user)
+    }
   };
-  const { data, error, isLoading } = useSWR("user", fetcher);
-  if (isLoading || error) return <div>Loading....</div>
-  
+
+  useEffect(()=>{
+    fetcher()
+  },[])
 
   return (
     <>
@@ -41,12 +45,12 @@ function LargeScreenSideBar({setChat, onlineUsers}:any) {
         <div className="hidden sm:flex flex-col items-center bg-indigo-100 border border-gray-200 mt-4 w-full  py-6 px-4 rounded-lg">
           <div className="h-20 w-20 rounded-full border overflow-hidden">
             <img
-              src={data.image ? data.image : 'https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png'}
+              src={data?.image ? data?.image : 'https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png'}
               alt="Avatar"
               className="h-full w-full"
             />
           </div>
-          <div className="xs:hidden md:block text-sm font-semibold mt-2">{data.firstName + " " + data.lastName}</div>
+          <div className="xs:hidden md:block text-sm font-semibold mt-2">{type=='user' ? data?.firstName + " " + data?.lastName : data?.name}</div>
           <div className="flex flex-row items-center mt-3">
             <div className="flex flex-col justify-center h-4 w-8 bg-indigo-500 rounded-full">
               <div className="h-3 w-3 bg-white rounded-full self-end mr-1"></div>
@@ -54,7 +58,7 @@ function LargeScreenSideBar({setChat, onlineUsers}:any) {
             <div className="leading-none ml-1 text-xs">Active</div>
           </div>
         </div>
-        <FriendsList setChat={setChat} onlineUsers={onlineUsers}/>
+        <FriendsList setChat={setChat} onlineUsers={onlineUsers} id={id} type={type}/>
       </div>
     </>
   );

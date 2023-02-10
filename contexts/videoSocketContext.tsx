@@ -21,6 +21,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     const socket = io('http://localhost:8400');
     setSocket(socket)
   }, [])
+
   useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
@@ -30,8 +31,8 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
           myVideo.current.srcObject = currentStream;
         }
       });
+      
     if (socket) {
-
       socket.on("me", (id) => {
         setMe(id);
       });

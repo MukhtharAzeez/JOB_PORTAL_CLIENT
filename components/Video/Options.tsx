@@ -4,6 +4,7 @@ import { Assignment, Phone, PhoneDisabled } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { VideoSocketContext } from '../../contexts/videoSocketContext';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,7 +44,7 @@ const Options = ({ children }: any) => {
     const [idToCall, setIdToCall] = useState('');
     const classes = useStyles();
     const [copied, setCopied] = useState(false);
-
+    const router = useRouter()
     const copy = () => {
         if (copied) return;
         navigator.clipboard.writeText(me);
@@ -55,11 +56,15 @@ const Options = ({ children }: any) => {
         }
         callUser(idToCall)
     }
+    function handleCall(){
+        leaveCall()
+        router.back()
+    }
     return (
         <div className='flex flex-row justify-between relative'>
             {callAccepted && !callEnded ? (
                 <>
-                    <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="small" />} fullWidth onClick={leaveCall} className={classes.margin}>
+                    <Button variant="contained" color="secondary" startIcon={<PhoneDisabled fontSize="small" />} fullWidth onClick={handleCall} className={classes.margin}>
                         Hang Up
                     </Button>
                 </>
