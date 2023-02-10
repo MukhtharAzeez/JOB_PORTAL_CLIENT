@@ -9,14 +9,15 @@ import { currentUser } from "../../../redux/user/userAuthSlicer";
 import { useSelector } from "react-redux";
 import { sendMessageToFriend } from "../../../api/User/Post/user";
 import { useRouter } from "next/router";
+import { currentCompanyAdmin } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
 
 function Profile({ userId, user }: any) {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState('');
   const [connected, setConnected] = useState(false)
   const [friends, setFriends] = useState('')
+  const { companyAdminId } = useSelector(currentCompanyAdmin)
   const router = useRouter();
-
   let friend = false
   let curUserId: string = null
   if (user == null) {
@@ -45,8 +46,13 @@ function Profile({ userId, user }: any) {
   }
 
   async function sendMessage(curUserId: string, userId: string) {
-    await sendMessageToFriend(curUserId, userId,'user')
-    router.push('/user/inbox')
+    if(companyAdminId){
+      await sendMessageToFriend(userId, curUserId,  'company')
+      router.push('/company-admin/inbox')
+    }else {
+      await sendMessageToFriend(curUserId, userId, 'user')
+      router.push('/user/inbox')
+    }
   }
 
   const fetcher = async () => {
@@ -119,6 +125,13 @@ function Profile({ userId, user }: any) {
                   </>
                   ) : <span onClick={() => { sendConnectionRequest(curUserId, userId) }} className="hover:underline cursor-pointer">Connect</span>}
               </div>)}
+              {companyAdminId &&
+                <div
+                  className=" text-black font-bold flex justify-around"
+                >
+                  <span onClick={() => sendMessage(companyAdminId, userId)} className="hover:underline cursor-pointer">Message</span>
+                </div>
+              }
             </div>
             <div className="w-full text-center">
               <div className="flex justify-around">

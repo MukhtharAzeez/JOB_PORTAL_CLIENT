@@ -5,6 +5,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { VideoSocketContext } from '../../contexts/videoSocketContext';
 import { useRouter } from 'next/router';
+import { currentCompanyAdmin } from '../../redux/company-admin/CompanyAdminAuthSlicer';
+import { useSelector } from 'react-redux';
+import { sendMessageToFriend } from '../../api/User/Post/user';
+import { sendMessageToReceiver } from '../../api/User/Get/user';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,12 +47,16 @@ const Options = ({ children }: any) => {
     const { me, callAccepted, callEnded, leaveCall, callUser } = useContext(VideoSocketContext);
     const [idToCall, setIdToCall] = useState('');
     const classes = useStyles();
-    const [copied, setCopied] = useState(false);
+    // const [copied, setCopied] = useState(false);
     const router = useRouter()
-    const copy = () => {
-        if (copied) return;
+    const { companyAdminId } = useSelector(currentCompanyAdmin)
+    const copy = async () => {
         navigator.clipboard.writeText(me);
-        setCopied(true);
+        if (router.query.applicantId) {
+            const result = await sendMessageToFriend(router.query.applicantId.toString(), companyAdminId, 'company')
+            console.log(result)
+            await sendMessageToReceiver(companyAdminId, result.data._id, `Please paste this id ${me} on the video option input and join`)
+        }
     };
     async function handleJoin() {
         if (!idToCall) {
@@ -56,7 +64,7 @@ const Options = ({ children }: any) => {
         }
         callUser(idToCall)
     }
-    function handleCall(){
+    function handleCall() {
         leaveCall()
         router.back()
     }
@@ -72,7 +80,7 @@ const Options = ({ children }: any) => {
                 <div>
                     <div className='flex flex-col'>
                         <Button onClick={copy} variant="contained" color="primary" startIcon={<Assignment fontSize="small" />} fullWidth className={classes.margin}>
-                            Copy Your Link
+                            {router.query.applicantId ? 'Send join id' : 'Copy your link'}
                         </Button>
                         <TextField label="Paste Receiver Link" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} />
                         <Button variant="contained" color="primary" startIcon={<Phone fontSize="small" />} fullWidth onClick={handleJoin} className={classes.margin}>

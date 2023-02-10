@@ -20,7 +20,7 @@ function Schedules() {
     const [openModal, setOpenModal] = useState(false);
     const [currentScheduleTime, setCurrentScheduleTime] = useState(null)
     const [currentScheduleType, setCurrentScheduleType] = useState('')
-
+    const [applicantId, setApplicantId]= useState('')
 
     const handleClose = (
         event?: React.SyntheticEvent | Event,
@@ -70,7 +70,7 @@ function Schedules() {
 
     async function handlePreviousSchedules() {
         if(month.getFullYear() === new Date().getFullYear() && month.getMonth() === new Date().getMonth()){
-            setMessage("You can see only pending schedules")
+            setMessage("You can only see pending schedules")
             setOpen(true)
             return
         }
@@ -83,9 +83,10 @@ function Schedules() {
         fetcher()
     }
 
-    function handleView(time:Date, scheduleType:string){
+    function handleView(time:Date, scheduleType:string,applicantId:string){
         setCurrentScheduleTime(time)
         setCurrentScheduleType(scheduleType)
+        setApplicantId(applicantId)
         setOpenModal(true)
     }
     return (
@@ -137,7 +138,7 @@ function Schedules() {
                                                         group.objects.map((schedule: any) => {
                                                             const time = new Date(group._id + ' ' + schedule.data.time)
                                                             return (
-                                                                <div key={schedule.data.time} onClick={() => handleView(time, schedule.type)} className="cursor-pointer text-center px-1 text-xs p-4 hover:bg-purple-100 rounded-md overflow-scroll scrollbar-hide">
+                                                                <div key={schedule.applicantId} onClick={() => handleView(time, schedule.type,schedule.applicantId)} className="cursor-pointer text-center px-1 text-xs p-4 hover:bg-purple-100 rounded-md overflow-scroll scrollbar-hide">
                                                                     <span className="font-light leading-none">{time.toLocaleTimeString()}</span>
                                                                     <br />
                                                                     <span className=" font-medium">{schedule.type} Interview</span>
@@ -165,7 +166,7 @@ function Schedules() {
                     {message}
                 </Alert>
             </Snackbar>
-            <ScheduleModal setOpenModal={setOpenModal} openModal={openModal} time={currentScheduleTime} type={currentScheduleType}userType={userId ? 'user' : 'admin'} />
+            <ScheduleModal setOpenModal={setOpenModal} openModal={openModal} time={currentScheduleTime} type={currentScheduleType} userType={userId ? 'user' : 'admin'} applicantId={applicantId}/>
         </div>
     )
 }

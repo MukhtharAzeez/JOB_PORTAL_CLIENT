@@ -10,6 +10,7 @@ import { addUserDetails } from '../../redux/user/userAuthSlicer';
 const index = () => {
     const dispatch = useDispatch();
     const router = useRouter();
+    
     useEffect(() => {
         const publicFu = () => {
             const userToken = localStorage.getItem("userToken");
@@ -37,8 +38,6 @@ const index = () => {
                 dispatch(addUserDetails({ result: { firstName, lastName, _id: userId, email, image }, accessToken: { access_token: userToken } }));
             }
         };
-
-
         publicFu();
     }, []);
     return (

@@ -3,14 +3,17 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useRouter } from 'next/router';
 
 
-function ScheduleModal({ setOpenModal, openModal ,time, type , userType}: any) {
+function ScheduleModal({ setOpenModal, openModal ,time, type , userType,applicantId}: any) {
     const router = useRouter()
 
     function setClose() {
         setOpenModal(false)
     }
     function startOnlineInterview(){
-        router.push('/video-call')
+        router.push({
+            pathname: '/video-call',
+            query: { applicantId: applicantId }
+        }, '/video-call')
     }
     return (
         openModal && <>
