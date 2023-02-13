@@ -27,10 +27,10 @@ function index() {
                 <div className="border ">
                     <div className="flex justify-around md:pr-20">
                         <div className="w-2/12 mt-8 hidden md:block">
-                            <SideBar links={USER_SIDEBAR_LINKS} />
+                            <SideBar links={USER_SIDEBAR_LINKS} href={'/user/visit-user'}/>
                         </div>
                         <div className="lg:w-5/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-5 flex justify-center">
-                            <Profile userId={userId} user={null} />
+                            <Profile userId={userId} user={null} href={'/user/visit-user'}/>
                         </div>
                         <div className=" md:w-2/12 md:pr-10  mt-4">
                             <RightBar />

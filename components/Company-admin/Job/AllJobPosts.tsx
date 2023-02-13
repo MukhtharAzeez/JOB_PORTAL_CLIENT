@@ -66,17 +66,17 @@ function AllJobPosts() {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="p-2">
+                                            <td className="p-2 ">
                                                 <div className="text-center">{job.adminId.name}</div>
                                             </td>
-                                            <td className="p-2">
+                                            <td className="p-2 ">
                                                 <div className="text-center text-sky-500">{job.adminId.position}</div>
                                             </td>
-                                            <td className="p-2">
-                                                <div className="text-center">{job.jobQualification}</div>
+                                            <td className="p-2 ">
+                                                <div className="text-center  truncate w-36">{job.jobQualification}</div>
                                             </td>
                                             <td className="p-2">
-                                                <div className="text-center text-green-500">{job.benefits}</div>
+                                                <div className="text-center text-green-500 truncate w-36">{job.benefits}</div>
                                             </td>
                                         </tr>
                                     )

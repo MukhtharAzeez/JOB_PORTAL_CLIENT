@@ -47,7 +47,7 @@ function UserMessage({type}:{type:string}) {
       <div className="flex  antialiased text-gray-800">
         <div className="flex flex-row h-full w-full overflow-x-hidden">
           <div className="md:mr-14 sm:ml-2 sm:mr-20">
-            <SideBarWithoutText links={type == 'user' ? USER_SIDEBAR_LINKS : COMPANY_ADMIN_SIDEBAR_LINKS}/>
+            <SideBarWithoutText links={type == 'user' ? USER_SIDEBAR_LINKS : COMPANY_ADMIN_SIDEBAR_LINKS} href={'/company-admin/inbox'} />
           </div>
           <LargeScreenSideBar setChat={setChat} onlineUsers={onlineUsers} />
           {chat ? (

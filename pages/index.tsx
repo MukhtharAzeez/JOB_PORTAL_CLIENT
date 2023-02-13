@@ -50,6 +50,7 @@ export default function Home({ req }: { req: any }) {
       const session = await getSession({ req });
       console.log("github", session);
       if (session) {
+        
         const chars =
           "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const passwordLength = 12;

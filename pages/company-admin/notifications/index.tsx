@@ -55,10 +55,10 @@ export default function Home({ req }: { req: any }) {
                         <div className="flex justify-around">
                             <div className="sm:w-2/12 mt-12">
                                 <div className="hidden md:block">
-                                    <SideBar links={COMPANY_ADMIN_SIDEBAR_LINKS} />
+                                    <SideBar links={COMPANY_ADMIN_SIDEBAR_LINKS} href={'/company-admin/notifications'}/>
                                 </div>
                                 <div className="ml-6 md:hidden">
-                                    <SideBarWithoutText links={COMPANY_ADMIN_SIDEBAR_LINKS} />
+                                    <SideBarWithoutText links={COMPANY_ADMIN_SIDEBAR_LINKS} href={'/company-admin/notifications'}/>
                                 </div>
                             </div>
                             <div className="md:w-6/12 sm:w-9/12 w-full mt-32 mr-5 lg:ml-16">

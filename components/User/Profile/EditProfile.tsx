@@ -7,9 +7,11 @@ import { useRouter } from "next/router";
 import { uploadImage } from "../../../api/User/ThirdParty/cloudinary";
 import { updateUserProfile } from "../../../api/User/Post/user";
 import { getCurrentUserDetails } from "../../../api/User/Get/user";
+import { useSelector } from "react-redux";
+import { currentUser } from "../../../redux/user/userAuthSlicer";
 
 function EditProfile() {
-  const userId = localStorage.getItem("userId");
+  const { userId } = useSelector(currentUser)
 
   const fetcher = async () => {
     const profile:any = await getCurrentUserDetails(userId);
@@ -26,7 +28,6 @@ function EditProfile() {
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [save, setSave] = useState(false)
-
 
   const proImageRef = useRef<any>(null);
   const [proImg, setProImg] = useState<any>(null);
@@ -46,7 +47,6 @@ function EditProfile() {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
 
@@ -179,6 +179,7 @@ function EditProfile() {
         setMessage(error.response.data.message[0]);
       }
       setOpen(true);
+      setSave(false)
     }
   }
 

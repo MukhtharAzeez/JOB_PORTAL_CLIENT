@@ -2,7 +2,7 @@ import { ListItemIcon } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 
-function SideBarWithoutText({links}:any) {
+function SideBarWithoutText({links,href}:any) {
   return (
     <div className="fixed w-1/10 mt-20 xs:w-0 hidden sm:block">
       <div className="w-full py-4 px-2 text-gray-900 bg-white rounded-lg text-left capitalize font-medium shadow-2xl">
@@ -16,9 +16,9 @@ function SideBarWithoutText({links}:any) {
             const Icon = link.icon
             return (
               <Link key={link.title} href={link.href}>
-                <span className="cursor-pointer pL-2 pt-0 hover:bg-gray-200 hover:text-gray-700 rounded flex mb-5">
-                  <ListItemIcon className='pl-2 w-2'>
-                    <Icon className="text-black mt-2" />
+                <span className={`cursor-pointer  pt-0 ${link.href == href ? 'bg-gray-800' : 'bg-white hover:bg-gray-200 hover:text-gray-700'} rounded flex mb-5`}>
+                  <ListItemIcon className='flex justify-center'>
+                    <Icon className={`${link.href === href ? 'text-gray-200' : 'text-black'} my-2`} />
                   </ListItemIcon>
                 </span>
               </Link>

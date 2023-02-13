@@ -5,6 +5,7 @@ export const updateUserProfile = async (formData: any) => {
     withCredentials: true,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      "Content-Type": "application/json",
     },
   });
   return result;

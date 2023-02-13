@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { getMessages, sendMessageToReceiver } from '../../api/User/Get/user';
@@ -65,7 +66,6 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                         <div className="grid grid-cols-12 gap-y-2  mb-14 overflow-y-scroll" >
                             {
                                 messages.map(function (message: any) {
-                                    
                                     return (
                                         <>
                                             {message.senderId == ID ? (
@@ -78,6 +78,9 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                                                             <div>
                                                                 {message.text}
                                                             </div>
+                                                            <div className="text-xs flex justify-end">
+                                                                <p className='text-xs text-gray-600'>{moment(message.createdAt).format("")}</p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -89,6 +92,9 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                                                         </div>
                                                         <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
                                                             <div>{message.text}</div>
+                                                                <div className="text-xs flex justify-end">
+                                                                    <p className='text-xs text-gray-600'>today 23-45</p>
+                                                                </div>
                                                         </div>
                                                     </div>
                                                 </div>

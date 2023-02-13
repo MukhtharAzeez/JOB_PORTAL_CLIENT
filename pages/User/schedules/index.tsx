@@ -29,10 +29,10 @@ function index() {
                     <div className="flex justify-around md:ml-14">
                         <div className="sm:w-2/12 mt-8">
                             <div className="hidden md:block">
-                                <SideBar links={USER_SIDEBAR_LINKS} />
+                                <SideBar links={USER_SIDEBAR_LINKS} href={'/user/schedules'}/>
                             </div>
                             <div className="ml-6 md:hidden">
-                                <SideBarWithoutText links={USER_SIDEBAR_LINKS} />
+                                <SideBarWithoutText links={USER_SIDEBAR_LINKS} href={'/user/schedules'}/>
                             </div>
                         </div>
                         <div className="md:w-9/12 sm:w-9/12 w-full mt-28 mr-5 lg:ml-16 bg-white shadow-md rounded-md">
