@@ -5,6 +5,14 @@ import { currentCompany } from '../../../redux/company/companyAuthSlicer';
 import { useRouter } from 'next/router';
 import { Pagination } from '@mui/material';
 
+interface CompanyAdmin {
+    _id: string
+    name: string
+    position: string
+    totalHiring: number
+    totalRejections: number
+    pendingHiring: number
+}
 
 function Admins() {
     const router = useRouter();
@@ -68,7 +76,7 @@ function Admins() {
                         {/* Table body */}
                         <tbody className="text-sm font-medium divide-y divide-slate-100">
                             {
-                                companyAdmins.map(function (admin: any) {
+                                companyAdmins.map(function (admin: CompanyAdmin) {
                                     return (
                                         <tr key={admin._id}>
                                             <td className="p-2">

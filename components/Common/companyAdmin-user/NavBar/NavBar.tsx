@@ -87,9 +87,6 @@ function NavBar({ mode ,type}: Props) {
           <Link href={`/${type}/profile`}>
             <span className="w-10 relative float-right mr-3 cursor-pointer hover:text-gray-700">
               <Person2Icon />
-              <span className="absolute right-0 top-0 -mt-1 -mr-1 text-xs bg-yellow-500 text-black font-medium px-2 rounded-full">
-                3
-              </span>
             </span>
           </Link>
         </div>

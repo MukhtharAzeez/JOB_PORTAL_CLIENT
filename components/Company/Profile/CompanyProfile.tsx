@@ -11,6 +11,15 @@ import { useSelector } from 'react-redux';
 import { currentUser } from '../../../redux/user/userAuthSlicer';
 
 
+interface CompanyAdmin {
+    _id: string
+    name: string
+    position: string
+    totalHiring: number
+    totalRejections: number
+    pendingHiring: number
+}
+
 function CompanyProfile() {
     const router = useRouter()
     const companyId = router.query.companyId
@@ -23,7 +32,7 @@ function CompanyProfile() {
     const {userId} = useSelector(currentUser)
 
     const fetcher = async () => {
-        const companyDetails = await getCompanyDetails(companyId);
+        const companyDetails = await getCompanyDetails(companyId.toString());
         return companyDetails;
     };
     const { data, error, isLoading } = useSWR("companyDetails", fetcher);
@@ -164,7 +173,7 @@ function CompanyProfile() {
                                     <div className="text-gray-800 cursor-pointer" onClick={() => setRepresentative(false)}>close</div>
                                 </div>
                                 {
-                                    representatives.map(function (admin: any) {
+                                    representatives.map(function (admin: CompanyAdmin) {
                                         return (
                                             <div key={admin._id} className="w-full h-full px-4 xl:px-8 pt-3 pb-5">
                                                 <div className="flex justify-between items-center">

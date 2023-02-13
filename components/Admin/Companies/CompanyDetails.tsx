@@ -20,7 +20,7 @@ function CompanyDetails() {
 
 
     const fetcher = async () => {
-        const companyDetails = await getCompanyDetails(companyId);
+        const companyDetails = await getCompanyDetails(companyId.toString());
         setApproved(companyDetails.approved)
         return companyDetails;
     };

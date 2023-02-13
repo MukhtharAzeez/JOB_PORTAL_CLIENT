@@ -2,7 +2,18 @@ import { ListItemIcon } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 
-function SideBar({ links,href }: any) {
+interface Link {
+  href: string,
+  title: string,
+  icon: any,
+}
+
+interface Props{
+  links:Array<Link>
+  href:string
+}
+
+function SideBar({ links, href }: Props) {
   return (
     <div className="fixed w-1/5 mt-20  hidden sm:block">
       <div className="w-full py-4 px-2 text-gray-900 bg-white rounded-lg text-left capitalize font-medium shadow-2xl">
@@ -12,7 +23,7 @@ function SideBar({ links,href }: any) {
           className="w-8 h-8 mx-auto mb-5 "
         />
         {
-          links.map(function(link:any){
+          links.map(function (link: Link) {
             const Icon = link.icon
             return (
               <Link href={link.href} key={link.title} className={`cursor-pointer px-2 ${link.href === href ? 'bg-gray-800' : 'bg-white hover:bg-gray-200 hover:text-gray-700'}  rounded flex`}>

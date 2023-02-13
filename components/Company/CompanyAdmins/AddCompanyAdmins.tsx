@@ -17,7 +17,7 @@ function AddCompanyAdmins() {
     const [message, setMessage] = useState('')
     const [save, setSave] = useState(false)
 
-    const handleEdit = async (e: any) => {
+    const handleEdit = async (e: React.ChangeEvent<HTMLButtonElement>) => {
         const { name, value } = e.target;
         setAdminData({ ...adminData, [name]: value });
     };
@@ -32,7 +32,7 @@ function AddCompanyAdmins() {
         setOpen(false);
     };
 
-    async function handleSubmit(event: any) {
+    async function handleSubmit(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         if (!adminData.name || !adminData.email || !adminData.position || !adminData.employeeId || !adminData.businessMobile || !adminData.authority) {
             setMessage("Fill all the required fields")

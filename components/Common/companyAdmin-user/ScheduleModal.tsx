@@ -2,14 +2,22 @@ import React from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import { useRouter } from 'next/router';
 
+interface Props {
+    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
+    openModal: boolean,
+    time: number | Date,
+    type: string,
+    userType: string,
+    applicantId: string
+}
 
-function ScheduleModal({ setOpenModal, openModal ,time, type , userType,applicantId}: any) {
+function ScheduleModal({ setOpenModal, openModal, time, type, userType, applicantId }: Props) {
     const router = useRouter()
 
     function setClose() {
         setOpenModal(false)
     }
-    function startOnlineInterview(){
+    function startOnlineInterview() {
         router.push({
             pathname: '/video-call',
             query: { applicantId: applicantId }
@@ -42,9 +50,9 @@ function ScheduleModal({ setOpenModal, openModal ,time, type , userType,applican
                         <h1 className="text-purple-900 font-bold text-2xl">Details of the Schedule</h1>
                     </div>
                     <div className="flex justify-center mt-8">
-                        {type} Interview at {time.toLocaleTimeString()}
+                        {type} Interview at {time instanceof Date && time.toLocaleTimeString()}
                     </div>
-                    {type == 'online' && time <= Date.now() && userType=='admin'&&
+                    {type == 'online' && time <= Date.now() && userType == 'admin' &&
                         <button type="button" onClick={startOnlineInterview} className="ml-6 px-8 py-3 text-white bg-indigo-900 rounded focus:outline-none" >Start Online Interview</button>
                     }
                     {type == 'online' && time > Date.now() && userType == 'admin' &&

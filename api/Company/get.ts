@@ -28,7 +28,7 @@ export const getCountCompanyAdmins = async (
   return result;
 };
 
-export const getCompanyDetails = async (companyId:any) => {
+export const getCompanyDetails = async (companyId:string) => {
   const result = await instance.get(
     `/admin/getCompanyDetails?companyId=${companyId}`,
     {

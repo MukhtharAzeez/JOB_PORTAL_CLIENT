@@ -4,7 +4,7 @@ import useSWR from "swr";
 import { getARandomCompany } from "../../../api/User/Get/user";
 import companyDefaultLogo from '../../../public/image/companyDefaultLogo.jpg'
 
-export default function SideBar() {
+export default function RightBar() {
   const fetcher = async () => {
       const getRandomCompany = await getARandomCompany()
       return getRandomCompany;

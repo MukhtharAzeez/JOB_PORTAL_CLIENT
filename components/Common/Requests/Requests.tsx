@@ -7,10 +7,50 @@ import { acceptApplicant } from '../../../api/Company-Admin/post';
 import { Alert, Snackbar } from "@mui/material";
 import { updateRequest } from '../../../api/Company-Admin/get';
 
-function Requests({ request, type }: any) {
+interface Request {
+    _id: string
+    message: string
+    company: {
+        _id: string
+        company: string
+    }
+    job: {
+        _id:string
+        job:string
+        benefits:string
+        jobDescription:string
+    }
+    applicant:{
+        _id: string
+        firstName: string
+        lastName: string
+        qualifications: Array<string>
+        skills: Array<string>
+    }
+    admin: {
+        _id: string
+        name: string
+    }
+    accepted: boolean
+    type: string
+    createdAt: Date
+    updatedAt: Date
+    changeRequest: boolean
+    reScheduled: boolean
+    userAccepted: boolean
+    companyApproved: boolean
+    userRequestToChange: boolean
+}
+
+interface Props {
+    request: Request
+    type: string
+}
+
+function Requests({ request, type }: Props) {
     const [accepted, setAccepted] = useState(request.accepted)
     const [userChangeRequest, setUserChangeRequest] = useState(request?.changeRequest)
-    const [reScheduled, setReScheduled ]= useState(request?.reScheduled)
+    const [reScheduled, setReScheduled] = useState(request?.reScheduled)
     const [reSchedule, setReSchedule] = useState(false)
     const [onlineInterviewDate, setOnlineInterviewDate] = useState("")
     const [onlineInterviewTime, setOnlineInterviewTime] = useState("")
@@ -54,11 +94,11 @@ function Requests({ request, type }: any) {
         setUserChangeRequest(true)
         setAccepted(null)
     }
-    async function scheduleNewTime(){
+    async function scheduleNewTime() {
         setReSchedule(true)
     }
 
-    async function updateSchedule(newSchedule:any){
+    async function updateSchedule(newSchedule: any) {
         try {
             await acceptApplicant(newSchedule, request.job._id, request.applicant._id, request.admin, request.company)
             await updateRequest(request._id)
@@ -167,7 +207,7 @@ function Requests({ request, type }: any) {
                             </div>
                         }
                         {
-                            type == 'user' && !userChangeRequest &&(
+                            type == 'user' && !userChangeRequest && (
                                 accepted == null ? (
                                     <>
                                         <button type="button" onClick={acceptByUser} className="inline-block px-4 py-1.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-800 hover:shadow-lg focus:bg-purple-800 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out" data-mdb-ripple="true">Accept</button>
@@ -186,7 +226,7 @@ function Requests({ request, type }: any) {
                             )
                         }
                         {
-                            request.type != "hire" && type == 'user' && userChangeRequest && 
+                            request.type != "hire" && type == 'user' && userChangeRequest &&
                             <button type="button" className="inline-block px-3.5 py-1 border-2 bg-purple-600 border-purple-600 text-white font-medium text-xs leading-tight uppercase rounded hover:bg-purple-800 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" data-mdb-ripple="true">Requested to change the time</button>
                         }
                         {
@@ -207,34 +247,34 @@ function Requests({ request, type }: any) {
                                 <div className="flex gap-4">
                                     <div className="flex flex-col w-2/4">
                                         <label htmlFor="date" className="lowercase text-purple-600">Choose the date</label>
-                                            <input name="onlineInterviewDate" type="date" value={onlineInterviewDate} onChange={(e) => setOnlineInterviewDate(e.target.value)} className="border-indigo-400 rounded focus:border-indigo-600 focus:rounded" />
+                                        <input name="onlineInterviewDate" type="date" value={onlineInterviewDate} onChange={(e) => setOnlineInterviewDate(e.target.value)} className="border-indigo-400 rounded focus:border-indigo-600 focus:rounded" />
                                     </div>
                                     <div className="flex flex-col w-2/4">
                                         <label htmlFor="time" className="lowercase text-purple-600">Choose the time</label>
-                                            <input name="onlineInterviewTime" type="time" value={onlineInterviewTime} onChange={(e) => setOnlineInterviewTime(e.target.value)} className="border-indigo-400 rounded focus:border-indigo-600 focus:rounded" />
+                                        <input name="onlineInterviewTime" type="time" value={onlineInterviewTime} onChange={(e) => setOnlineInterviewTime(e.target.value)} className="border-indigo-400 rounded focus:border-indigo-600 focus:rounded" />
                                     </div>
                                 </div>
-                                    < button type="button" onClick={() => updateSchedule({ onlineInterviewDate, onlineInterviewTime })} className="mt-4 inline-block px-3.5 py-1 border-2 bg-purple-600 border-purple-600 text-white font-medium text-xs leading-tight uppercase rounded hover:bg-purple-800 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" data-mdb-ripple="true">Update</button>
+                                < button type="button" onClick={() => updateSchedule({ onlineInterviewDate, onlineInterviewTime })} className="mt-4 inline-block px-3.5 py-1 border-2 bg-purple-600 border-purple-600 text-white font-medium text-xs leading-tight uppercase rounded hover:bg-purple-800 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" data-mdb-ripple="true">Update</button>
                             </div>
                         }
                         {
                             type == 'companyAdmin' && request.type == 'offline' && reSchedule && !reScheduled &&
                             <div className="py-8 border-b border-indigo-50">
-                                    <div className="flex gap-4">
-                                        <div className="flex flex-col w-2/4">
-                                            <label htmlFor="date" className="uppercase text-indigo-900">Choose the date</label>
-                                            <input name="offlineInterviewDate" value={offlineInterviewDate} onChange={(e) => setOfflineInterviewDate(e.target.value)} type="date" className="border-indigo-400 rounded focus:border-indigo-600 focus:rounded" />
-                                        </div>
-                                        <div className="flex flex-col w-2/4">
-                                            <label htmlFor="time" className="uppercase text-indigo-900">Choose the time</label>
-                                            <input name="offlineInterviewTime" value={offlineInterviewTime} onChange={(e) => setOfflineInterviewTime(e.target.value)} type="time" className="border-indigo-400 rounded focus:border-indigo-600 focus:rounded" />
-                                        </div>
+                                <div className="flex gap-4">
+                                    <div className="flex flex-col w-2/4">
+                                        <label htmlFor="date" className="uppercase text-indigo-900">Choose the date</label>
+                                        <input name="offlineInterviewDate" value={offlineInterviewDate} onChange={(e) => setOfflineInterviewDate(e.target.value)} type="date" className="border-indigo-400 rounded focus:border-indigo-600 focus:rounded" />
                                     </div>
-                                    <div className="flex flex-col w-full mt-4">
-                                        <label htmlFor="location" className="uppercase text-indigo-900">Mention the location</label>
-                                        <input name="offlineInterviewPlace" value={offlineInterviewPlace} onChange={(e) => setOfflineInterviewPlace(e.target.value)} type="text" placeholder="Specify the location where the interview is gonna happen" className="border-indigo-400 rounded focus:border-indigo-600 focus:rounded" />
-                                    </div>  
-                                    < button type="button" onClick={() => updateSchedule({ offlineInterviewDate, offlineInterviewTime, offlineInterviewPlace })} className="mt-4 inline-block px-3.5 py-1 border-2 bg-purple-600 border-purple-600 text-white font-medium text-xs leading-tight uppercase rounded hover:bg-purple-800 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" data-mdb-ripple="true">Update</button>
+                                    <div className="flex flex-col w-2/4">
+                                        <label htmlFor="time" className="uppercase text-indigo-900">Choose the time</label>
+                                        <input name="offlineInterviewTime" value={offlineInterviewTime} onChange={(e) => setOfflineInterviewTime(e.target.value)} type="time" className="border-indigo-400 rounded focus:border-indigo-600 focus:rounded" />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full mt-4">
+                                    <label htmlFor="location" className="uppercase text-indigo-900">Mention the location</label>
+                                    <input name="offlineInterviewPlace" value={offlineInterviewPlace} onChange={(e) => setOfflineInterviewPlace(e.target.value)} type="text" placeholder="Specify the location where the interview is gonna happen" className="border-indigo-400 rounded focus:border-indigo-600 focus:rounded" />
+                                </div>
+                                < button type="button" onClick={() => updateSchedule({ offlineInterviewDate, offlineInterviewTime, offlineInterviewPlace })} className="mt-4 inline-block px-3.5 py-1 border-2 bg-purple-600 border-purple-600 text-white font-medium text-xs leading-tight uppercase rounded hover:bg-purple-800 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" data-mdb-ripple="true">Update</button>
                             </div>
                         }
                     </div>

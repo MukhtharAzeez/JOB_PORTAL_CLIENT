@@ -1,19 +1,59 @@
 import React, { useEffect, useState } from 'react'
 import { setAScheduleAsCompleted } from '../../../api/Company-Admin/get'
 import ScheduleInterview from '../../Company-admin/Job/scheduleInterview'
-// interface Props {
-//     jobId: string,
-//     applicantId: string
-// }
+interface Props {
+    data: {
+        _id: string,
+        companyId: string,
+        jobId: {
+            _id: string
+            job: string
+        },
+        applicantId: {
+            _id: string,
+            firstName: string,
+            lastName: string
+        },
+        accepted: boolean,
+        createdAt: Date,
+        updatedAt: Date,
+        online: {
+            date: string,
+            time: string,
+            completed: boolean,
+            companyApproved: boolean,
+            userAccepted: boolean,
+            scheduledAdmin: string,
+            scheduledAt: number
+        },
+        offline: {
+            date: string,
+            time: string,
+            place: string,
+            completed: boolean,
+            companyApproved: boolean,
+            userAccepted: boolean,
+            scheduledAdmin: string,
+            scheduledAt: number
+        },
+        hired: {
+            hire: boolean,
+            companyApproved: boolean,
+            userAccepted: boolean,
+            hireAdmin: string,
+            scheduledAt: number
+        },
+    }
+}
 
-function SchedulesStepper({ data }: any) {
+function SchedulesStepper({ data }: Props) {
     const [moveToNextAction, setMoveToNextAction] = useState(false)
     const [applicantHired, setApplicantHired] = useState(false)
     const [scheduleInterview, setScheduleInterview] = useState(false)
     const [online, setOnline] = useState(true)
     const [offline, setOffline] = useState(true)
     const [accepted, setAccepted] = useState(true)
-    const [completed, setCompleted ] = useState(false)
+    const [completed, setCompleted] = useState(false)
 
     useEffect(() => {
         if (data?.online?.scheduledAt < data?.offline?.scheduledAt || !data?.offline) {
@@ -68,12 +108,12 @@ function SchedulesStepper({ data }: any) {
     }, [])
 
     async function setAsCompleted(type: string) {
-        await setAScheduleAsCompleted(type,data.applicantId._id , data.jobId._id)
+        await setAScheduleAsCompleted(type, data.applicantId._id, data.jobId._id)
         setCompleted(true)
         setMoveToNextAction(true)
-        if(type=='online'){
+        if (type == 'online') {
             setOnline(false)
-        } else if (type =='offline'){
+        } else if (type == 'offline') {
             setOffline(false)
         }
     }
@@ -103,7 +143,7 @@ function SchedulesStepper({ data }: any) {
                                                 <div className="px-3 pb-1">Scheduled an online interview on {data.online.date} at {data.online.time}</div>
                                                 <div className="px-3 pb-1 flex ">{data.online.companyApproved ? <p className="text-green-600">Company Approved</p> : <p className="text-red-600">Company not approved Yet</p>}</div>
                                                 <div className="px-3 pb-1 flex">{data.online.userAccepted ? <p className="text-green-600">Applicant Accepted</p> : <p className="text-red-600">Applicant not accepted Yet</p>}</div>
-                                                <div className="px-3 pb-1 flex">{data.online.completed || completed? <p className="text-green-600">Online interview Completed</p> : <p className="text-red-600">Online interview not Completed</p>}</div>
+                                                <div className="px-3 pb-1 flex">{data.online.completed || completed ? <p className="text-green-600">Online interview Completed</p> : <p className="text-red-600">Online interview not Completed</p>}</div>
                                             </div>
                                         </div>
                                         {
@@ -201,14 +241,14 @@ function SchedulesStepper({ data }: any) {
                                                 <div className="px-3 pb-1">Scheduled an offline interview on {data.offline.date} {data.offline.time} at {data.offline.place}</div>
                                                 <div className="px-3 pb-1 flex ">{data.offline.companyApproved ? <p className="text-green-500">Company approved</p> : <p className="text-red-500">Company not approved Yet</p>}</div>
                                                 <div className="px-3 pb-1 flex">{data.offline.userAccepted ? <p className="text-green-500">User Accepted</p> : <p className="text-red-500">User not accepted Yet</p>}</div>
-                                                    <div className="px-3 pb-1 flex">{data.offline.completed || completed ? <p className="text-green-500">Offline interview completed</p> : <p className="text-red-500">Offline interview not completed</p>}</div>
+                                                <div className="px-3 pb-1 flex">{data.offline.completed || completed ? <p className="text-green-500">Offline interview completed</p> : <p className="text-red-500">Offline interview not completed</p>}</div>
                                             </div>
                                         </div>
                                         {
                                             data.offline.companyApproved && data.offline.userAccepted && (
                                                 <div className="w-full justify-end flex p-2">
                                                     {
-                                                            data.offline.completed || completed ? (
+                                                        data.offline.completed || completed ? (
                                                             <div className="py-1 px-2 rounded-lg border cursor-pointer bg-purple-800 hover:bg-transparent hover:border-purple-800 text-gray-200 hover:text-black">
                                                                 Completed
                                                             </div>

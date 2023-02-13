@@ -2,7 +2,18 @@ import { ListItemIcon } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 
-function SideBarWithoutText({links,href}:any) {
+interface Link {
+  href: string,
+  title: string,
+  icon: any,
+}
+
+interface Props {
+  links: Array<Link>
+  href: string
+}
+
+function SideBarWithoutText({links,href}:Props) {
   return (
     <div className="fixed w-1/10 mt-20 xs:w-0 hidden sm:block">
       <div className="w-full py-4 px-2 text-gray-900 bg-white rounded-lg text-left capitalize font-medium shadow-2xl">
@@ -12,7 +23,7 @@ function SideBarWithoutText({links,href}:any) {
           className="w-8 h-8 mx-auto mb-5 "
         />
         {
-          links.map(function (link: any) {
+          links.map(function (link: Link) {
             const Icon = link.icon
             return (
               <Link key={link.title} href={link.href}>

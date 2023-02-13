@@ -118,10 +118,10 @@ export default function Home({ req }: { req: any }) {
                 {/* <SideBar links={USER_SIDEBAR_LINKS} /> */}
                 <div className="sm:w-2/12">
                   <div className="hidden md:block">
-                    <SideBar links={USER_SIDEBAR_LINKS} />
+                    <SideBar links={USER_SIDEBAR_LINKS}  href={'/'}/>
                   </div>
                   <div className="ml-6 md:hidden">
-                    <SideBarWithoutText links={USER_SIDEBAR_LINKS}/>
+                    <SideBarWithoutText links={USER_SIDEBAR_LINKS} href={'/'}/>
                   </div>
                 </div>
               </div>

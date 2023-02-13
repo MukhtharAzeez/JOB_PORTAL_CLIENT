@@ -3,8 +3,20 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { getAllCompanies, getCountCompanies } from '../../../api/Admin/get';
 
+interface Props{
+    url:string
+}
+interface Company{
+    _id:string,
+    company:string,
+    establishedOn:string,
+    email:string,
+    panCardNumber:number,
+    approved:boolean,
+    type:string
+}
 
-function Companies({url}:any) {
+function Companies({ url }: Props) {
     const [companies, setCompanies] = useState([])
     const [count , setCount] = useState<number>(1)
 
@@ -66,7 +78,7 @@ function Companies({url}:any) {
                         {/* Table body */}
                         <tbody className="text-sm font-medium divide-y divide-slate-100">
                             {
-                                companies.map(function (company: any) {
+                                companies.map(function (company: Company) {
                                     return (
                                         <tr key={company._id}>
                                             <td className="p-2">
