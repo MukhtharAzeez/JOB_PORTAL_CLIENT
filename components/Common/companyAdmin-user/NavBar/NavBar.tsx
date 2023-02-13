@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { currentUser } from "../../../../redux/user/userAuthSlicer";
 import { sendMessageToFriend } from "../../../../api/User/Post/user";
 import { useRouter } from "next/router";
+import { currentCompanyAdmin } from "../../../../redux/company-admin/CompanyAdminAuthSlicer";
 
 interface Props {
   mode: String;
@@ -26,8 +27,9 @@ function NavBar({ mode, type }: Props) {
   const router = useRouter()
   const [showModal, setShowModal] = React.useState(false);
   const [userSearchResult, setUserSearchResult] = useState([])
-  const { userId }= useSelector(currentUser)
-  const [searched , setSearched] = useState(false)
+  const { userId } = useSelector(currentUser)
+  const { companyAdminId } = useSelector(currentCompanyAdmin)
+  const [searched, setSearched] = useState(false)
 
   async function handleInputChange(e: any) {
     if (e.target.value.length == 0) {
@@ -39,19 +41,34 @@ function NavBar({ mode, type }: Props) {
     setSearched(true)
   }
 
-  async function messageUser(searchUserId:string){
-    console.log(userId , searchUserId)
-    await sendMessageToFriend(userId, searchUserId, 'user')
-    setShowModal(false)
-    router.push({
-      pathname: "/user/inbox",
-      query: {
-        senderId: userId,
-        receiverId: searchUserId
+  async function messageUser(searchUserId: string) {
+    if(userId){
+      await sendMessageToFriend(userId, searchUserId, 'user')
+      router.push({
+        pathname: "/user/inbox",
+        query: {
+          senderId: userId,
+          receiverId: searchUserId
+        },
       },
-    },
-      "/user/inbox"
-    )
+        "/user/inbox"
+      )
+      setShowModal(false)
+      return 
+    }
+    if(companyAdminId){
+      await sendMessageToFriend(searchUserId, companyAdminId, 'company')
+      router.push({
+        pathname: "/company-admin/inbox",
+        query: {
+          senderId: searchUserId,
+          receiverId: companyAdminId
+        },
+      },
+        "/company-admin/inbox"
+      )
+    }
+    setShowModal(false)
   }
 
   return (
@@ -149,9 +166,9 @@ function NavBar({ mode, type }: Props) {
                   </div>
                 ) : (
                   <div className="flex justify-center py-20">
-                      {
-                        searched ? (<Image width={240} height={240} src={noSearchResults} alt="" />) : (<Image width={240} height={240} src={searchUsers} alt="" />)
-                      }
+                    {
+                      searched ? (<Image width={240} height={240} src={noSearchResults} alt="" />) : (<Image width={240} height={240} src={searchUsers} alt="" />)
+                    }
                   </div>
                 )
               }

@@ -11,7 +11,7 @@ function index() {
   return (
     <CompanyAdminProtectRoute>
       <div>
-        <NavBar mode={mode} type={'user'}/>
+        <NavBar mode={mode} type={'company-admin'}/>
         <UserMessage type={'companyAdmin'}/>
         <MobileBottom />
       </div>
