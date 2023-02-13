@@ -5,6 +5,18 @@ import { useSelector } from 'react-redux';
 import { getAllAppliedJobs, getCountAppliedJobs } from '../../../api/User/Get/user';
 import { currentUser } from '../../../redux/user/userAuthSlicer';
 
+interface Job {
+    _id:string
+    jobId: {
+        image: string
+        job: string
+    }
+    companyId: {
+        company: string
+    }
+    createdAt: Date
+    accepted: boolean
+}
 
 function AppliedJobs() {
     const { userId } = useSelector(currentUser)
@@ -12,17 +24,14 @@ function AppliedJobs() {
     const [count, setCount] = useState<number>(1)
     const [row, setRow] = useState(10)
     const [skip, setSkip]= useState(0)
-
     async function fetchData(skip: number) {
         const appliedJobs = await getAllAppliedJobs(userId, skip, row);
         console.log(appliedJobs)
         setAppliedJobs(appliedJobs)
     }
-
     async function fetcher(skip: number) {
         if (skip == 0) {
             const data = await getCountAppliedJobs()
-
             let int = data / row
             int = Math.ceil(int)
             console.log(int)
@@ -30,25 +39,19 @@ function AppliedJobs() {
         }
         fetchData(skip);
     }
-
     useEffect(() => {
         if(row>=0){
             fetcher(skip);
         }
     }, [row,skip]);
-
     function handleRowNumberChange(e:any){
         if(e.keyCode==13){
             setRow(e.target.value)
         }
     }
-
     async function handleChange(event: any, value: number) {
         setSkip(value-1)
     };
-
-    
-
     return (
         <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-slate-200">
             <header className="px-5 py-4 border-b border-slate-100">
@@ -78,7 +81,7 @@ function AppliedJobs() {
                         {/* Table body */}
                         <tbody className="text-sm font-medium divide-y divide-slate-100">
                             {
-                                appliedJobs.map(function (jobs: any) {
+                                appliedJobs.map(function (jobs: Job) {
                                     console.log(jobs.createdAt)
                                     return (
                                         <tr key={jobs._id}>
@@ -121,7 +124,6 @@ function AppliedJobs() {
                             </svg>
                         </button>
                     </div>
-
                     <div className="w-full">
                         <Tooltip title="Press enter key after type">
                             <input type="number"

@@ -5,7 +5,16 @@ import { currentUser } from '../../redux/user/userAuthSlicer';
 import CompanyAdmins from './CompanyAdmins';
 import Friends from './Friends';
 
-function FriendsList({ setChat, onlineUsers }: any) {
+interface OnlineUsers {
+    userId: string
+    socketId: string
+}
+interface Props {
+    setChat: any
+    onlineUsers: Array<OnlineUsers>
+}
+
+function FriendsList({ setChat, onlineUsers }: Props) {
     const [id, setId] = useState(null)
     const [type, setType] = useState(null)
     const { userId } = useSelector(currentUser)

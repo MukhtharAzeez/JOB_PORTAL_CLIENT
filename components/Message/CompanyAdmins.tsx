@@ -2,7 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { getUserChat } from '../../api/User/Get/user';
 import AllChats from './AllChats';
 
-function CompanyAdmins({ setChat, onlineUsers, id ,type}: any) {
+interface OnlineUsers {
+    userId: string
+    socketId: string
+}
+interface Props {
+    id: string
+    setChat: any
+    onlineUsers: Array<OnlineUsers>
+    type: string
+}
+interface Chat {
+    _id: string
+    members: Array<string>
+    type: string
+    createdAt: Date
+    updatedAt: Date
+}
+
+function CompanyAdmins({ setChat, onlineUsers, id ,type}: Props) {
     const [data, setData] = useState([])
     const fetcher = async () => {
         const friends = await getUserChat(id, 'company');
@@ -22,7 +40,7 @@ function CompanyAdmins({ setChat, onlineUsers, id ,type}: any) {
             </div>
             <div className="flex flex-col space-y-1 mt-4 -mx-2 overflow-y-scroll">
                 {
-                    data.map(function (chat: any) {
+                    data.map(function (chat: Chat) {
                         return (
                             <AllChats setChat={setChat} key={chat._id} data={chat} currentUser={id} onlineUsers={onlineUsers} type={type}/>
                         )

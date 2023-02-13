@@ -2,7 +2,26 @@ import React, { useEffect, useState } from 'react'
 import { getCompanyAdminDetails } from '../../api/Company-Admin/get';
 import { getCurrentUserDetails } from '../../api/User/Get/user';
 
-function AllChats({ data, currentUser, setChat, onlineUsers ,type}: any) {
+interface Data {
+    _id: string
+    members: Array<string>
+    type: string
+    createdAt: Date
+    updatedAt: Date
+}
+interface OnlineUsers {
+    userId: string
+    socketId: string
+}
+interface Props {
+    data: Data
+    currentUser: string
+    setChat: any
+    onlineUsers: Array<OnlineUsers>
+    type: string
+}
+
+function AllChats({ data, currentUser, setChat, onlineUsers ,type}: Props) {
     const [userData, setUserData] = useState(null)
     const [companyAdminData, setCompanyAdminData] = useState(null)
 

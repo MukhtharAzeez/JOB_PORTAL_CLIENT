@@ -10,7 +10,6 @@ interface Props {
   mode: String;
 }
 
-
 export default function Post({ mode }: Props) {
   const [postsData, setPostsData] = useState([]);
   const [hasMore, setHasMore] = useState(true);

@@ -5,6 +5,17 @@ import { currentCompanyAdmin } from '../../../redux/company-admin/CompanyAdminAu
 import { getAllCompanyPost } from '../../../api/Company-Admin/get';
 import { useRouter } from 'next/router';
 
+interface Job {
+    _id: string
+    job: string
+    adminId: {
+        _id: string
+        name: string
+        position: string
+    }
+    jobQualification: string
+    benefits: string
+}
 
 function AllJobPosts() {
     const router = useRouter();
@@ -48,7 +59,7 @@ function AllJobPosts() {
                         {/* Table body */}
                         <tbody className="text-sm font-medium divide-y divide-slate-100">
                             {
-                                data.map(function (job: any) {
+                                data.map(function (job: Job) {
                                     return (
                                         <tr key={job._id}>
                                             <td className="p-2">
@@ -56,7 +67,7 @@ function AllJobPosts() {
                                                     onClick={() => router.push({
                                                         pathname: "/company-admin/jobs/jobs-details",
                                                         query: {
-                                                            jobId:job._id
+                                                            jobId: job._id
                                                         },
                                                     },
                                                         "/company-admin/jobs/jobs-details"

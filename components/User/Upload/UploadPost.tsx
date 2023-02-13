@@ -5,7 +5,12 @@ import { useSelector } from "react-redux";
 import { addPostToServer } from "../../../api/User/Post/post";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
 
-export default function PostAddModal({ addPost, setAddPost }: any) {
+interface Props {
+  addPost: boolean
+  setAddPost: any
+}
+
+export default function PostAddModal({ addPost, setAddPost }: Props) {
   const { userId } = useSelector(currentUser);
   const [files, setFile] = useState([]);
   const [image, setImage] = useState([]);

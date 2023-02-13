@@ -4,7 +4,26 @@ import { acceptApplicant, rejectApplicant } from '../../../api/Company-Admin/get
 import ScheduleInterview from './scheduleInterview';
 import InfoIcon from '@mui/icons-material/Info';
 
-function EachAppliedUsers({ job }: any) {
+interface Job {
+    jobId: string
+    applicantId: {
+        _id: string
+        firstName: string
+        lastName: string
+        image: string
+        mobile: string
+        country: string
+        city: string
+        email: string
+    }
+    accepted: boolean
+}
+
+interface Props {
+    job: Job
+}
+
+function EachAppliedUsers({ job }: Props) {
     const router = useRouter();
     const [scheduleInterview, setScheduleInterview] = useState(false)
     const [accepted, setAccepted] = useState(job.accepted)

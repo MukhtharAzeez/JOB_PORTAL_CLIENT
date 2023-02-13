@@ -2,7 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { getUserChat } from '../../api/User/Get/user';
 import AllChats from './AllChats';
 
-function Friends({ setChat, onlineUsers, id, type }: any) {
+interface OnlineUsers {
+    userId: string
+    socketId: string
+}
+interface Props {
+    setChat: any
+    onlineUsers: Array<OnlineUsers>
+    id: string
+    type: string
+}
+
+function Friends({ setChat, onlineUsers, id, type }: Props) {
     const [data, setData] = useState([])
     const fetcher = async () => {
         const friends = await getUserChat(id, 'user');

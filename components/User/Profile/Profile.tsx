@@ -11,7 +11,20 @@ import { sendMessageToFriend } from "../../../api/User/Post/user";
 import { useRouter } from "next/router";
 import { currentCompanyAdmin } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
 
-function Profile({ userId, user }: any) {
+interface User {
+  _id: string
+  firstName: string
+  lastName: string
+
+}
+
+interface Props {
+  userId: string;
+  user: User
+
+}
+
+function Profile({ userId, user }: Props) {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState('');
   const [connected, setConnected] = useState(false)
@@ -188,7 +201,7 @@ function Profile({ userId, user }: any) {
                       <span className="text-lg leading-relaxed text-blueGray-700 flex flex-wrap justify-center gap-2">
                         <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
                         {
-                          data.qualifications.map(function (obj: any, index: number) {
+                          data.qualifications.map(function (obj: string, index: number) {
                             return (
                               <div key={obj} >
                                 <p className="mt-1 text-sm font-bold">  {obj} {index == data.qualifications.length - 1 ? '' : '|'}</p>
@@ -207,7 +220,7 @@ function Profile({ userId, user }: any) {
                   <div className="w-full lg:w-9/12 px-4">
                     <span className="mb-4 text-lg leading-relaxed text-blueGray-700 flex flex-wrap justify-center gap-2">
                       {
-                        data.skills.map(function (obj: any, index: number) {
+                        data.skills.map(function (obj: string, index: number) {
                           return (
                             <div key={obj} >
                               <p className="mt-1 text-sm font-bold">  {obj} {index == data.skills.length - 1 ? '' : '|'}</p>

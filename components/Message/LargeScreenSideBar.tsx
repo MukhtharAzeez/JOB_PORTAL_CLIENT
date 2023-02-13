@@ -6,8 +6,16 @@ import FriendsList from "./FriendsList";
 import { currentCompanyAdmin } from "../../redux/company-admin/CompanyAdminAuthSlicer";
 import { getCompanyAdminDetails } from "../../api/Company-Admin/get";
 
+interface OnlineUsers {
+  userId: string
+  socketId: string
+}
+interface Props {
+  setChat: any
+  onlineUsers: Array<OnlineUsers>
+}
 
-function LargeScreenSideBar({setChat, onlineUsers}:any) {
+function LargeScreenSideBar({setChat, onlineUsers}:Props) {
   const { userId } = useSelector(currentUser)
   const { companyAdminId } = useSelector(currentCompanyAdmin)
   const [data, setData] = useState(null)

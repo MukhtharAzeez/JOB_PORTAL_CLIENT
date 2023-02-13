@@ -51,8 +51,8 @@ function UserComment({ comment }: any) {
           </div>
           {replies
             ? comment.replies.map(function (reply: any, index: number) {
-                <CommentReplies key={index} reply={reply} />;
-              })
+              <CommentReplies key={index} reply={reply} />;
+            })
             : ""}
         </div>
       </div>
