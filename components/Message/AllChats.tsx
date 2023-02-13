@@ -24,7 +24,6 @@ interface Props {
 function AllChats({ data, currentUser, setChat, onlineUsers ,type}: Props) {
     const [userData, setUserData] = useState(null)
     const [companyAdminData, setCompanyAdminData] = useState(null)
-
     useEffect(() => {
         const idToFetch = data.members.find((id: string) => id != currentUser);
         if(data.type=='user' && type =='user'){
@@ -74,7 +73,7 @@ function AllChats({ data, currentUser, setChat, onlineUsers ,type}: Props) {
                             </div>
                         ) : (
                             <div className="flex items-center justify-center mx-2 h-8 w-8 bg-indigo-200 rounded-full">
-                                {userData?.firstName}
+                                {userData?.firstName[0]}
                             </div>
                         )
                     }

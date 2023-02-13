@@ -179,3 +179,16 @@ export const getARandomCompany = async () => {
   );
   return data;
 };
+
+export const getUsersBySearching = async (name:string) => {
+  const { data } = await instance.get(
+    `/user/getUsersBySearching/${name}`,
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return data;
+};
