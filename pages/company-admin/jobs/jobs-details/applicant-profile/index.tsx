@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { useSelector } from "react-redux";
 import { currentTheme } from "../../../../../redux/user/ThemeSlice";
 import NavBar from "../../../../../components/Common/companyAdmin-user/NavBar/NavBar";
-import RightBar from "../../../../../components/User/Home/RightBar";
+import RightBar from "../../../../../components/Common/companyAdmin-user/RightBar";
 import dynamic from "next/dynamic";
 import SideBar from "../../../../../components/Common/companyAdmin-user/SideBar";
 import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../../../../constants/Company-admin-sidebar";
@@ -55,9 +55,9 @@ export default function Index({ req }: { req: any }) {
                                 </div>
                             </div>
                             <div className="md:w-6/12 w-full mt-5 mr-5 lg:ml-16 p-5">
-                                <Profile userId={userId} user={false} />
+                                <Profile userId={userId.toString()} user={false} />
                             </div>
-                            <div className="w-2/12 mt-8 hidden lg:block mr-16">
+                            <div className="w-2/12 mt-8 hidden lg:block mr-20">
                                 <RightBar />
                             </div>
                         </div>

@@ -1,13 +1,27 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import * as React from "react";
+import { useSelector } from "react-redux";
 import useSWR from "swr";
+import { getRandomUser } from "../../../api/Company-Admin/get";
 import { getARandomCompany } from "../../../api/User/Get/user";
 import companyDefaultLogo from '../../../public/image/companyDefaultLogo.jpg'
+import { currentCompanyAdmin } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
+import { currentUser } from "../../../redux/user/userAuthSlicer";
 
 export default function RightBar() {
+  const router = useRouter();
+  const { userId } = useSelector(currentUser)
+  const { companyAdminId } = useSelector(currentCompanyAdmin)
   const fetcher = async () => {
+    if (userId) {
       const getRandomCompany = await getARandomCompany()
       return getRandomCompany;
+    }
+    if (companyAdminId) {
+      const getRandomCompany = await getRandomUser()
+      return getRandomCompany;
+    }
   };
   const { data, error, isLoading } = useSWR("getRandomCompany", fetcher);
   if (error) return <div>Error....</div>
@@ -15,18 +29,19 @@ export default function RightBar() {
 
   return (
     <div className="fixed hidden lg:block min-w-[340px] max-w-[340px]">
-      <div className="bg-white relative shadow-2xl rounded-lg w-full mt-24 mx-auto max-h-[600px] overflow-scroll scrollbar-hide">
+      <div className="bg-white relative shadow-2xl rounded-lg w-full mt-24 mx-auto max-h-[680px]  scrollbar-hide">
         <div className="flex justify-center">
           <Image
             src={data[0].image ? data[0].image : companyDefaultLogo}
             alt=""
+            width={100}
+            height={100}
             className="rounded-full mx-auto absolute  w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"
           />
         </div>
-
         <div className="mt-32">
           <h1 className="font-bold text-center text-3xl text-gray-900">
-            {data[0].company}
+            {userId ? data[0].company : data[0].firstName + " " + data[0].lastName}
           </h1>
           <p className="text-center text-sm text-gray-400 font-medium">
             {data[0].establishedOn}
@@ -35,12 +50,21 @@ export default function RightBar() {
             <span></span>
           </p>
           <div className="my-5 px-6">
-            <a
-              href="#"
-              className="text-gray-200 block rounded-lg text-center font-medium leading-6 px-6 py-3 bg-gray-900 hover:bg-black hover:text-white"
+            <div
+              onClick={() => router.push({
+                pathname: `/company-admin/user/${data[0]._id}`,
+              },
+              )}
+              className="cursor-pointer text-gray-200 block rounded-lg text-center font-medium leading-6 px-6 py-3 bg-gray-900 hover:bg-black hover:text-white"
             >
-              See All <span className="font-bold">Jobs Posted</span> by {data[0].company}
-            </a>
+              {
+                userId ? (
+                  <>See All <span className="font-bold">Jobs Posted</span> by {data[0].company}</>
+                ) : (
+                    <>Go to <span className="font-bold">{data[0].firstName + " " + data[0].lastName}</span> Profile </>
+                )
+              }
+            </div>
           </div>
           <div className="flex justify-between items-center my-5 px-6">
             <a
@@ -73,7 +97,7 @@ export default function RightBar() {
             <h3 className="font-medium text-gray-900 text-left px-6">
               Recent activites
             </h3>
-            <div className="mt-5 w-full flex flex-col items-center overflow-scroll text-sm">
+            <div className="mt-5 w-full flex flex-col items-center max-h-[250px] overflow-y-scroll text-sm">
               <a
                 href="#"
                 className="border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150"

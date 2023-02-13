@@ -43,7 +43,7 @@ function NavBar({ mode ,type}: Props) {
                 />
                 <button
                   type="submit"
-                  className="absolute right-0 top-0 mt-3 mr-2"
+                  className="absolute right-0 top-0 mt-3 mr-5"
                 >
                   <svg
                     className="text-gray-600 h-4 w-4 fill-current"

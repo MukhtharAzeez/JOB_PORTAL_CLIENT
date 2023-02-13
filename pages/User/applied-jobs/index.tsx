@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import Head from "next/head";
 import React from "react";
 import { useSelector } from "react-redux";
-import RightBar from "../../../components/User/Home/RightBar";
+import RightBar from "../../../components/Common/companyAdmin-user/RightBar";
 import SideBar from "../../../components/Common/companyAdmin-user/SideBar";
 import MobileBottom from "../../../components/User/MobileBottom/MobileBottom";
 import NavBar from "../../../components/Common/companyAdmin-user/NavBar/NavBar";

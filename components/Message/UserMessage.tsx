@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { io, Socket } from "socket.io-client";
+import { findChat } from "../../api/chat/get";
 import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../constants/Company-admin-sidebar";
 import { USER_SIDEBAR_LINKS } from "../../constants/User-sideBar";
 import { currentCompanyAdmin } from "../../redux/company-admin/CompanyAdminAuthSlicer";
@@ -10,6 +12,7 @@ import ChatScreen from "./ChatScreen";
 import LargeScreenSideBar from "./LargeScreenSideBar";
 
 function UserMessage({type}:{type:string}) {
+  const router = useRouter();
   const [chat, setChat] = useState(null)
   const socket = useRef<Socket>();
   const user = useSelector(currentUser);
@@ -17,9 +20,20 @@ function UserMessage({type}:{type:string}) {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [sentMessage, setSentMessage] = useState(null);
   const [receiveMessages, setReceiveMessages] = useState(null);
+  const {senderId, receiverId} = router.query
+
+  async function getChat() {
+    if(senderId && receiverId){
+      const result = await findChat(senderId.toString(), receiverId.toString())
+      setChat(result[0])
+    }
+  }
 
   useEffect(()=>{
-    console.log(companyAdmin.companyAdminId)
+    getChat()
+  },[])
+
+  useEffect(()=>{
     socket.current = io(process.env.NEXT_PUBLIC_SOCKET_DOMAIN);
     socket?.current.emit("new-user-add", user.userId ? user.userId : companyAdmin.companyAdminId);
   },[])

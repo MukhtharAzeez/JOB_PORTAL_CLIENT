@@ -148,3 +148,13 @@ export const getPendingSchedules = async (companyId: string, date: Date) => {
   );
   return data;
 };
+
+export const getRandomUser = async () => {
+  const { data } = await instance.get(`/companyAdmin/getRandomUser`, {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("companyAdminToken")}`,
+    },
+  });
+  return data;
+};

@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import Head from "next/head";
 import React from "react";
 import { useSelector } from "react-redux";
-import RightBar from "../../../components/User/Home/RightBar";
+import RightBar from "../../../components/Common/companyAdmin-user/RightBar";
 import SideBar from "../../../components/Common/companyAdmin-user/SideBar";
 import MobileBottom from "../../../components/User/MobileBottom/MobileBottom";
 import NavBar from "../../../components/Common/companyAdmin-user/NavBar/NavBar";
@@ -30,7 +30,7 @@ function index() {
                             <SideBar links={USER_SIDEBAR_LINKS} href={'/user/visit-user'}/>
                         </div>
                         <div className="lg:w-5/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-5 flex justify-center">
-                            <Profile userId={userId} user={null} href={'/user/visit-user'}/>
+                            <Profile userId={userId.toString()} user={null}/>
                         </div>
                         <div className=" md:w-2/12 md:pr-10  mt-4">
                             <RightBar />

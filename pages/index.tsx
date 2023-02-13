@@ -5,7 +5,7 @@ import FormData from "form-data";
 import NavBar from "../components/Common/companyAdmin-user/NavBar/NavBar";
 import SideBar from "../components/Common/companyAdmin-user/SideBar";
 import Feed from "../components/User/Home/Feed";
-import RightBar from "../components/User/Home/RightBar";
+import RightBar from "../components/Common/companyAdmin-user/RightBar";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { getSession, useSession } from "next-auth/react";
 import dynamic from "next/dynamic";

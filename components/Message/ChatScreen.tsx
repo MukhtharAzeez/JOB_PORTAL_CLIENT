@@ -79,7 +79,7 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                                                                 {message.text}
                                                             </div>
                                                             <div className="text-xs flex justify-end">
-                                                                <p className='text-xs text-gray-600'>{moment(message.createdAt).format("")}</p>
+                                                                <p className='text-xs text-gray-600'>{moment(message.createdAt).format("DD MMM YYYY")}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -93,7 +93,7 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                                                         <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
                                                             <div>{message.text}</div>
                                                                 <div className="text-xs flex justify-end">
-                                                                    <p className='text-xs text-gray-600'>today 23-45</p>
+                                                                    <p className='text-xs text-gray-600'>{moment(message.createdAt).format("DD MMM YYYY")}</p>
                                                                 </div>
                                                         </div>
                                                     </div>

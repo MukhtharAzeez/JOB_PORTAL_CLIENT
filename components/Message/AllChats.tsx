@@ -27,7 +27,6 @@ function AllChats({ data, currentUser, setChat, onlineUsers ,type}: Props) {
 
     useEffect(() => {
         const idToFetch = data.members.find((id: string) => id != currentUser);
-        console.log(data.type, type)
         if(data.type=='user' && type =='user'){
             const getUserData = async () => {
                 const data = await getCurrentUserDetails(idToFetch);
@@ -61,6 +60,7 @@ function AllChats({ data, currentUser, setChat, onlineUsers ,type}: Props) {
             getCompanyAdminData();
         }
     }, []);
+    
     return (
         currentUser && 
         <>

@@ -11,16 +11,9 @@ import { sendMessageToFriend } from "../../../api/User/Post/user";
 import { useRouter } from "next/router";
 import { currentCompanyAdmin } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
 
-interface User {
-  _id: string
-  firstName: string
-  lastName: string
-
-}
-
 interface Props {
   userId: string;
-  user: User
+  user: boolean
 
 }
 
@@ -61,10 +54,26 @@ function Profile({ userId, user }: Props) {
   async function sendMessage(curUserId: string, userId: string) {
     if(companyAdminId){
       await sendMessageToFriend(userId, curUserId,  'company')
-      router.push('/company-admin/inbox')
+      router.push({
+        pathname: "/company-admin/inbox",
+        query: {
+          senderId: userId,
+          receiverId: curUserId
+        },
+      },
+        "/user/inbox"
+      )
     }else {
       await sendMessageToFriend(curUserId, userId, 'user')
-      router.push('/user/inbox')
+      router.push({
+        pathname: "/user/inbox",
+        query: {
+          senderId: curUserId,
+          receiverId: userId
+        },
+      },
+        "/user/inbox"
+      )
     }
   }
 
