@@ -21,12 +21,13 @@ interface Props {
     type: string
 }
 
-function AllChats({ data, currentUser, setChat, onlineUsers ,type}: Props) {
+function AllChats({ data, currentUser, setChat, onlineUsers, type }: Props) {
+    const [idToFetch] = useState(data.members.find((id: string) => id != currentUser))
+    console.log(onlineUsers, idToFetch)
     const [userData, setUserData] = useState(null)
     const [companyAdminData, setCompanyAdminData] = useState(null)
     useEffect(() => {
-        const idToFetch = data.members.find((id: string) => id != currentUser);
-        if(data.type=='user' && type =='user'){
+        if (data.type == 'user' && type == 'user') {
             const getUserData = async () => {
                 const data = await getCurrentUserDetails(idToFetch);
                 setUserData(data);
@@ -42,7 +43,7 @@ function AllChats({ data, currentUser, setChat, onlineUsers ,type}: Props) {
             };
             getUserData();
         }
-        if(data.type=='company' && type=='companyAdmin'){
+        if (data.type == 'company' && type == 'companyAdmin') {
             const getCompanyAdminData = async () => {
                 const data = await getCurrentUserDetails(idToFetch);
                 setUserData(data);
@@ -59,9 +60,9 @@ function AllChats({ data, currentUser, setChat, onlineUsers ,type}: Props) {
             getCompanyAdminData();
         }
     }, []);
-    
+
     return (
-        currentUser && 
+        currentUser &&
         <>
             {
                 userData &&
@@ -78,16 +79,19 @@ function AllChats({ data, currentUser, setChat, onlineUsers ,type}: Props) {
                         )
                     }
                     {
-                        onlineUsers?.map((item: any) => (item.userId === userData?._id)) ? (
-                            <div className="absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-green-500 border-2 border-white"></div>
-                        ) : (
-                            <div className="absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-red-500 border-2 border-white"></div>
-                        )
+                            onlineUsers && onlineUsers.map((item: any) => {
+                            return (
+                                item.userId == idToFetch ? (
+                                    <div className="absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-green-500 border-2 border-white"></div>
+                                ) : (
+                                    <div className="absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-red-500 border-2 border-white"></div>
+                                )
+                            )
+                        })
                     }
                     <div className="hidden sm:block absolute ml-2 top-2 left-10  text-sm font-semibold p-2">{userData?.firstName + " " + userData?.lastName}</div>
                 </div>
             }
-
             {
                 companyAdminData &&
                 <div className="relative cursor-pointer hover:bg-gray-200 p-2" onClick={() => setChat(data)}>
@@ -103,18 +107,21 @@ function AllChats({ data, currentUser, setChat, onlineUsers ,type}: Props) {
                         )
                     }
                     {
-                        onlineUsers.map((item: any) => (item.userId === userData?._id)) ? (
-                            <div className="absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-green-500 border-2 border-white"></div>
-                        ) : (
-                            <div className="absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-red-500 border-2 border-white"></div>
-                        )
+                        onlineUsers && onlineUsers.map((item: any) => {
+                            return (
+                                item.userId == idToFetch ? (
+                                    <div className="absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-green-500 border-2 border-white"></div>
+                                ) : (
+                                    <div className="absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-red-500 border-2 border-white"></div>
+                                )
+                            )
+                        })
                     }
-
                     <div className="hidden sm:block absolute ml-2 top-2 left-10  text-sm font-semibold p-2"> {companyAdminData?.name}</div>
                 </div>
             }
         </>
-        
+
     )
 }
 

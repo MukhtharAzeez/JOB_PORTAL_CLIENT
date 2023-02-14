@@ -33,7 +33,7 @@ export const COMPANY_ADMIN_SIDEBAR_LINKS = [
     href: "/company-admin/schedules",
   },
   {
-    title: "Notifications",
+    title: "Tidings",
     icon: NotificationsNoneOutlinedIcon,
     href: "/company-admin/notifications",
   },

@@ -76,7 +76,7 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                                                         </div>
                                                         <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
                                                             <div className='max-w-[200px] lg:max-w-md'>
-                                                                <p className=" break-words">{message.text}</p>
+                                                                <p className="break-words">{message.text}</p>
                                                             </div>
                                                             <div className="text-xs flex justify-end">
                                                                 <p className='text-xs text-gray-600'>{moment(message.createdAt).format("DD MMM YYYY")}</p>

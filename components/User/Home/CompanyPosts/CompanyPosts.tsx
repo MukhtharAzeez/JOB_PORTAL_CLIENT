@@ -130,19 +130,19 @@ function CompanyPosts({ mode, post }: props) {
             </Box>
             <CardContent className="max-h-48 overflow-scroll">
                 <div className="flex pl-2">
-                    <h4 className="font-bold">{post.job}</h4>
+                    <h4 className="font-bold max-w-sm  break-words">{post.job}</h4>
                 </div>
                 <div className="">
-                    <Typography variant="body2" color="text.secondary" className="p-2">
+                    <Typography variant="body2" color="text.secondary" className="p-2 max-w-[200px] lg:max-w-md  break-words">
                         <p className="font-bold">About</p>{post.jobDescription}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" className="p-2">
+                    <Typography variant="body2" color="text.secondary" className="p-2 max-w-[200px] lg:max-w-md  break-words">
                         <p className="font-bold">Benefits</p>{post.benefits}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" className="p-2">
+                    <Typography variant="body2" color="text.secondary" className="p-2 max-w-[200px] lg:max-w-md  break-words">
                         <p className="font-bold">Required Qualifications</p>{post.jobQualification}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" className="p-2">
+                    <Typography variant="body2" color="text.secondary" className="p-2 max-w-[200px] lg:max-w-md  break-words">
                         <p className="font-bold">Applicants must have</p>{post.applications}
                     </Typography>
                 </div>

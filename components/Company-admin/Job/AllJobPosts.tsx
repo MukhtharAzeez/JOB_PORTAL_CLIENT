@@ -73,12 +73,12 @@ function AllJobPosts() {
                                                         "/company-admin/jobs/jobs-details"
                                                     )}>
                                                     <div className="flex items-center">
-                                                        <div className="text-slate-800">{job.job}</div>
+                                                        <div className="text-slate-800 truncate w-36">{job.job}</div>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="p-2 ">
-                                                <div className="text-center">{job.adminId.name}</div>
+                                                <div className="text-center truncate w-36">{job.adminId.name}</div>
                                             </td>
                                             <td className="p-2 ">
                                                 <div className="text-center text-sky-500">{job.adminId.position}</div>

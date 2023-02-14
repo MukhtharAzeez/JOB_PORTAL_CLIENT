@@ -68,6 +68,7 @@ function UserMessage({type}:{type:string}) {
   }, [socket]);
 
   return (
+    socket && 
     <div className="pt-20  mb-14 fixed w-full">
       <div className="flex  antialiased text-gray-800">
         <div className="flex flex-row h-full w-full overflow-x-hidden">

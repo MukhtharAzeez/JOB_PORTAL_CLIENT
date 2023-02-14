@@ -40,10 +40,12 @@ function AppliedJobs() {
         fetchData(skip);
     }
     useEffect(() => {
+        alert(row>=0)
         if(row>=0){
             fetcher(skip);
         }
     }, [row,skip]);
+
     function handleRowNumberChange(e:any){
         if(e.keyCode==13){
             setRow(e.target.value)
