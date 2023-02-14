@@ -55,7 +55,7 @@ export default function Index({ req }: { req: any }) {
                                 </div>
                             </div>
                             <div className="md:w-6/12 w-full mt-5 mr-5 lg:ml-16 p-5">
-                                <Profile userId={userId.toString()} user={false} />
+                                <Profile userId={userId} user={false} />
                             </div>
                             <div className="w-2/12 mt-8 hidden lg:block mr-20">
                                 <RightBar />

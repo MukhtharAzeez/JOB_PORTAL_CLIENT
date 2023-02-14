@@ -19,6 +19,8 @@ interface Request {
         job:string
         benefits:string
         jobDescription:string
+        jobQualification: string
+        applications: string
     }
     applicant:{
         _id: string
@@ -118,7 +120,7 @@ function Requests({ request, type }: Props) {
         <ol className="w-full">
             <li className="border-l-2 border-purple-600">
                 <div className="md:flex flex-start ">
-                    <div className="block p-6 rounded-lg shadow-lg bg-gray-100 w-full mx-6 my-6">
+                    <div className="block p-6 rounded-lg shadow-lg bg-gray-100 w-full md:mx-6 my-6">
                         <div className="flex justify-between mb-4">
                             {
                                 type != 'user' ? (
@@ -204,6 +206,9 @@ function Requests({ request, type }: Props) {
                                 <div className="flex flex-wrap">
                                     <p className='font-bold '>Benefits: <span className="italic font-thin">{request.job.benefits}</span></p>
                                 </div>
+                                <div className="flex flex-wrap">
+                                    <p className='font-bold '>Qualifications: <span className="italic font-thin">{request.job.jobQualification}</span></p>
+                                </div>
                             </div>
                         }
                         {
@@ -226,11 +231,11 @@ function Requests({ request, type }: Props) {
                             )
                         }
                         {
-                            request.type != "hire" && type == 'user' && userChangeRequest &&
+                            request.type != "hired" && type == 'user' && userChangeRequest &&
                             <button type="button" className="inline-block px-3.5 py-1 border-2 bg-purple-600 border-purple-600 text-white font-medium text-xs leading-tight uppercase rounded hover:bg-purple-800 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" data-mdb-ripple="true">Requested to change the time</button>
                         }
                         {
-                            request.type != "hire" && type == 'user' && !userChangeRequest &&
+                            request.type != "hired" && type == 'user' && !userChangeRequest &&
                             <button type="button" onClick={requestToChangeTime} className="inline-block px-3.5 py-1 border-2 bg-purple-600 border-purple-600 text-white font-medium text-xs leading-tight uppercase rounded hover:bg-purple-800 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" data-mdb-ripple="true">Request to Change the time</button>
                         }
                         {

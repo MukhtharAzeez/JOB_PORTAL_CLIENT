@@ -33,16 +33,6 @@ export default function Home({ req }: { req: any }) {
 
   const dispatch = useDispatch()
   const mode = useSelector(currentTheme);
-  // const [socket, setSocket] = useState(null)
-  // const user = useSelector(currentUser)
-
-  // useEffect(() => {
-  //   setSocket(io("http://localhost:8000"))
-  // }, [])
-
-  // useEffect(() => {
-  //   socket?.emit("new-user-add", user.userId);
-  // }, [socket, user])
 
   useEffect(() => {
 

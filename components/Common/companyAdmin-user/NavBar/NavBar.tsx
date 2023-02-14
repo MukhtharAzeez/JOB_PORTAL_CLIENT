@@ -7,6 +7,7 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Person2Icon from "@mui/icons-material/Person2";
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 import searchUsers from '../../../../public/image/searchUsers.png'
 import noSearchResults from '../../../../public/image/noSearchResults.webp'
 import Image from "next/image";
@@ -34,6 +35,7 @@ function NavBar({ mode, type }: Props) {
   async function handleInputChange(e: any) {
     if (e.target.value.length == 0) {
       setUserSearchResult([])
+      setSearched(false)
       return
     }
     const result = await getUsersBySearching(e.target.value)
@@ -89,6 +91,7 @@ function NavBar({ mode, type }: Props) {
               </span>
             </Link>
             <PersonSearchIcon className="cursor-pointer" onClick={() => setShowModal(true)} />
+            {type == 'user' && <FindInPageIcon className="cursor-pointer" onClick={() => setShowModal(true)} />}
             <Link href={`/${type}/schedules`}>
               <span className="px-1 w-8 relative cursor-pointer hover:text-gray-700 hidden md:block">
                 <EventNoteIcon />
@@ -167,7 +170,7 @@ function NavBar({ mode, type }: Props) {
                 ) : (
                   <div className="flex justify-center py-20">
                     {
-                      searched ? (<Image width={240} height={240} src={noSearchResults} alt="" />) : (<Image width={240} height={240} src={searchUsers} alt="" />)
+                      searched ? (<Image width={320} height={320} src={noSearchResults} alt="" />) : (<Image width={240} height={240} src={searchUsers} alt="" />)
                     }
                   </div>
                 )
