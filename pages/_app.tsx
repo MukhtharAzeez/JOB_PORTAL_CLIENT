@@ -4,10 +4,11 @@ import { SessionProvider } from "next-auth/react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Provider } from "react-redux";
 import store from "../redux/store";
-import { useProgressStore } from "../zustand";
+import { messageStore, useProgressStore } from "../zustand";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Progress } from "../components/Progress";
+import { io } from "socket.io-client";
 
 
 const darkTheme = createTheme({
@@ -19,6 +20,12 @@ const darkTheme = createTheme({
 export default function App({ Component, pageProps }: AppProps) {
   const setIsAnimating = useProgressStore((state)=>state.setIsAnimating);
   const isAnimating = useProgressStore((state)=>state.isAnimating);
+  const setSocket = messageStore((state) => state.setSocket);
+  useEffect(() => {
+    const socket = io(process.env.NEXT_PUBLIC_SOCKET_DOMAIN);
+    setSocket(socket)
+  }, [])
+  
   const router = useRouter();
   useEffect(()=>{
     const handleStart=()=>{

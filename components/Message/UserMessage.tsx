@@ -1,25 +1,29 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { io, Socket } from "socket.io-client";
 import { findChat } from "../../api/chat/get";
 import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../constants/Company-admin-sidebar";
 import { USER_SIDEBAR_LINKS } from "../../constants/User-sideBar";
 import { currentCompanyAdmin } from "../../redux/company-admin/CompanyAdminAuthSlicer";
 import { currentUser } from "../../redux/user/userAuthSlicer";
+import { messageStore } from "../../zustand";
 import SideBarWithoutText from "../Common/companyAdmin-user/SideBarWithoutText";
 import ChatScreen from "./ChatScreen";
 import LargeScreenSideBar from "./LargeScreenSideBar";
 
 function UserMessage({type}:{type:string}) {
+  const socket = messageStore((state) => state.socket);
+  const chat = messageStore((state) => state.chat);
+  const setChat = messageStore((state) => state.setChat); 
+  const onlineUsers = messageStore((state) => state.onlineUsers);
+  const setOnlineUsers = messageStore((state) => state.setOnlineUsers); 
+  const sendMessage = messageStore((state) => state.sendMessage);
+  const setSendMessage = messageStore((state) => state.setSendMessage);
+  const receiveMessages = messageStore((state) => state.receiveMessages);
+  const setReceiveMessages = messageStore((state) => state.setReceiveMessages);
   const router = useRouter();
-  const [chat, setChat] = useState(null)
-  const socket = useRef<Socket>();
   const user = useSelector(currentUser);
   const companyAdmin = useSelector(currentCompanyAdmin)
-  const [onlineUsers, setOnlineUsers] = useState([]);
-  const [sentMessage, setSentMessage] = useState(null);
-  const [receiveMessages, setReceiveMessages] = useState(null);
   const {senderId, receiverId} = router.query
 
   async function getChat() {
@@ -33,28 +37,35 @@ function UserMessage({type}:{type:string}) {
     getChat()
   },[])
 
+
+
   useEffect(()=>{
-    socket.current = io(process.env.NEXT_PUBLIC_SOCKET_DOMAIN);
-    socket?.current.emit("new-user-add", user.userId ? user.userId : companyAdmin.companyAdminId);
-  },[])
-
-  useEffect(() => {
-    socket?.current.on("get-user", (users) => {
-      setOnlineUsers(users);
-    });
-  }, [user ? user : companyAdmin]);
-
-  useEffect(() => {
-    if (sentMessage !== null) {
-      socket.current.emit("send-message", sentMessage);
+    if(socket){
+      socket.emit("new-user-add", user.userId ? user.userId : companyAdmin.companyAdminId);
     }
-  }, [sentMessage]);
+  },[socket])
 
   useEffect(() => {
-    socket.current.on("receive-message", (data) => {
-      setReceiveMessages(data);
-    });
-  }, []);
+    if(socket){
+      socket.on("get-user", (users) => {
+        setOnlineUsers(users);
+      });
+    }
+  }, [user ? user : companyAdmin, socket]);
+
+  useEffect(() => {
+    if (sendMessage !== null && socket) {
+      socket.emit("send-message", sendMessage);
+    }
+  }, [sendMessage, socket]);
+
+  useEffect(() => {
+    if(socket){
+      socket.on("receive-message", (data) => {
+        setReceiveMessages(data);
+      });
+    }
+  }, [socket]);
 
   return (
     <div className="pt-20  mb-14 fixed w-full">
@@ -65,7 +76,7 @@ function UserMessage({type}:{type:string}) {
           </div>
           <LargeScreenSideBar setChat={setChat} onlineUsers={onlineUsers} />
           {chat ? (
-            <ChatScreen chat={chat} setSentMessage={setSentMessage}
+            <ChatScreen chat={chat} setSentMessage={setSendMessage}
               receiveMessages={receiveMessages} />
           ) :
             (

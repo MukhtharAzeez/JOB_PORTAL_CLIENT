@@ -78,7 +78,7 @@ function AllChats({ data, currentUser, setChat, onlineUsers ,type}: Props) {
                         )
                     }
                     {
-                        onlineUsers.map((item: any) => (item.userId === userData?._id)) ? (
+                        onlineUsers?.map((item: any) => (item.userId === userData?._id)) ? (
                             <div className="absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-green-500 border-2 border-white"></div>
                         ) : (
                             <div className="absolute bottom-2 left-9 w-3 h-3 mr-1 rounded-full bg-red-500 border-2 border-white"></div>
