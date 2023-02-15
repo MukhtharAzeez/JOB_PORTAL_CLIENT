@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
+import MobileBottom from '../../components/Common/companyAdmin-user/MobileBottom/MobileBottom';
 import VideoPlayer from '../../components/Video/VideoPlayer'
 import { ContextProvider } from '../../contexts/videoSocketContext'
 import { addCompanyAdminDetails } from '../../redux/company-admin/CompanyAdminAuthSlicer';
@@ -44,6 +45,9 @@ const index = () => {
         <ContextProvider>
             <div className=" bg-black">
                 <VideoPlayer />
+            </div>
+            <div className="sm:hidden">
+                <MobileBottom />
             </div>
         </ContextProvider>
     )

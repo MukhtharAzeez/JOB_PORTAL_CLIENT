@@ -14,7 +14,7 @@ import AllJobPosts from "../../../components/Company-admin/Job/AllJobPosts";
 import SideBarWithoutText from "../../../components/Common/companyAdmin-user/SideBarWithoutText";
 import CompanyAdminProtectRoute from "../../../protectRoutes/companyAdminProtectRoute";
 const BottomBar = dynamic(
-  () => import("../../../components/User/MobileBottom/MobileBottom")
+  () => import("../../../components/Common/companyAdmin-user/MobileBottom/MobileBottom")
 );
 
 /**
@@ -65,7 +65,9 @@ export default function Home({ req }: { req: any }) {
               </div>
             </div>
           </div>
-          <BottomBar />
+          <div className="sm:hidden">
+            <BottomBar />
+          </div>
         </Box>
       </ThemeProvider>
     </CompanyAdminProtectRoute>

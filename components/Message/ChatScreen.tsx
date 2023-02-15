@@ -1,3 +1,6 @@
+import { Box } from '@mui/material';
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
@@ -12,15 +15,16 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
     const { userId } = useSelector(currentUser)
     const { companyAdminId } = useSelector(currentCompanyAdmin)
     const [messages, setMessages] = useState([])
+    const [emojiPicker, setEmojiPicker] = React.useState(false);
 
-    useEffect(()=>{
-        if(userId){
+    useEffect(() => {
+        if (userId) {
             setID(userId)
         }
-        if(companyAdminId){
+        if (companyAdminId) {
             setID(companyAdminId)
         }
-    },[])
+    }, [])
     useEffect(() => {
         if (receiveMessages !== null && receiveMessages.chatId === chat?._id) {
             setMessages([...messages, receiveMessages]);
@@ -40,24 +44,25 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
     useEffect(() => {
         scroll.current.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
-    function handleEnterKey(e:any){
-        if(e.keyCode==13){
+    function handleEnterKey(e: any) {
+        if (e.keyCode == 13) {
             sendMessages();
+            setEmojiPicker(false)
         }
     }
     async function sendMessages() {
+        if (sendMessage.trim().length == 0) return setSendMessage("");
         const messageAdd = {
             ID,
             chatId: chat._id,
-            text:sendMessage,
+            text: sendMessage,
         };
         setSendMessage("")
-        const data = await sendMessageToReceiver(ID, chat._id, sendMessage)
-        setMessages([...messages,data])
+        const data = await sendMessageToReceiver(ID, chat._id, sendMessage);
+        setMessages([...messages, data])
         const receiverId = chat.members.find((id: string) => id !== ID);
         setSentMessage({ ...messageAdd, receiverId });
     }
-
     return (
         <div className="flex flex-col flex-auto h-full md:p-6">
             <div className=" relative flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 md:mt-4 min-h-[82vh]  max-h-[82vh] " >
@@ -72,7 +77,7 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                                                 <div className="col-start-6 col-end-13 p-3 rounded-lg">
                                                     <div className="flex items-center justify-start flex-row-reverse">
                                                         <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                                                            
+
                                                         </div>
                                                         <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
                                                             <div className='max-w-[200px] lg:max-w-md'>
@@ -88,15 +93,15 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                                                 <div className="col-start-1 col-end-8 p-3 rounded-lg">
                                                     <div className="flex flex-row items-center">
                                                         <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-500 flex-shrink-0">
-                                                            
+
                                                         </div>
                                                         <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                                                                <div className='max-w-[200px] lg:max-w-md'>
-                                                                    <p className=" break-words">{message.text}</p>
-                                                                </div>
-                                                                <div className="text-xs flex justify-end">
-                                                                    <p className='text-xs text-gray-600'>{moment(message.createdAt).format("DD MMM YYYY")}</p>
-                                                                </div>
+                                                            <div className='max-w-[200px] lg:max-w-md'>
+                                                                <p className=" break-words">{message.text}</p>
+                                                            </div>
+                                                            <div className="text-xs flex justify-end">
+                                                                <p className='text-xs text-gray-600'>{moment(message.createdAt).format("DD MMM YYYY")}</p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -110,34 +115,19 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                     </div>
                 </div>
                 <div className="flex flex-row absolute items-center h-16 rounded-xl bg-white w-full px-4 bottom-0 border shadow-lg">
-                    <div>
-                        <button className="flex items-center justify-center text-gray-400 hover:text-gray-600">
-                            <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                                ></path>
-                            </svg>
-                        </button>
-                    </div>
                     <div className="flex-grow ml-4">
                         <div className="relative w-full">
                             <input
                                 type="text"
                                 onKeyDown={handleEnterKey}
-                                onChange={(e) => setSendMessage(e.target.value)}
+                                onChange={(e) => {
+                                    setEmojiPicker(false)
+                                    setSendMessage(e.target.value)
+                                }}
                                 value={sendMessage}
                                 className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                             />
-                            <button className="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600">
+                            <button onClick={() => setEmojiPicker(true)} className="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600">
                                 <svg
                                     className="w-6 h-6"
                                     fill="none"
@@ -156,7 +146,11 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                         </div>
                     </div>
                     <div className="ml-4">
-                        <button onClick={sendMessages} className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0">
+                        <button onClick={() => {
+                            sendMessages()
+                            setEmojiPicker(false)
+                        }}
+                            className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0">
                             <span>Send</span>
                             <span className="ml-2">
                                 <svg
@@ -178,6 +172,19 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                     </div>
                 </div>
             </div>
+            <Box
+                className={
+                    emojiPicker ? "absolute z-50 block justify-center" : "hidden"
+                }
+            >
+                <Picker
+                    data={data}
+                    previewPosition="none"
+                    onEmojiSelect={(e: any) => {
+                        setSendMessage(sendMessage + e.native)
+                    }}
+                />
+            </Box>
         </div>
     )
 }

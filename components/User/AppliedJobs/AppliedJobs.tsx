@@ -26,7 +26,6 @@ function AppliedJobs() {
     const [skip, setSkip]= useState(0)
     async function fetchData(skip: number) {
         const appliedJobs = await getAllAppliedJobs(userId, skip, row);
-        console.log(appliedJobs)
         setAppliedJobs(appliedJobs)
     }
     async function fetcher(skip: number) {
@@ -40,7 +39,6 @@ function AppliedJobs() {
         fetchData(skip);
     }
     useEffect(() => {
-        alert(row>=0)
         if(row>=0){
             fetcher(skip);
         }

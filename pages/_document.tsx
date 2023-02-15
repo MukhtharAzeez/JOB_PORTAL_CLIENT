@@ -2,13 +2,9 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 
 export default function Document() {
-
-
   return (
-   
     <Html lang="en">
       <Head>
-
         {/* <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css" />*/}
         <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" /> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
@@ -18,6 +14,5 @@ export default function Document() {
         <NextScript />
       </body>
     </Html>
-
   );
 }

@@ -50,9 +50,8 @@ function AddJob() {
         if (jobImage) {
             url = await uploadImage(jobImage)
         } else {
-            url = "https://w7.pngwing.com/pngs/798/436/png-transparent-computer-icons-user-profile-avatar-profile-heroes-black-profile-thumbnail.png"
+            url = ""
         }
-
         try {
             jobData.image = url
             await addAJobPost(jobData);

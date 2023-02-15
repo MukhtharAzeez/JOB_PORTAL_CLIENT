@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import UserMessage from "../../../components/Message/UserMessage";
-import MobileBottom from "../../../components/User/MobileBottom/MobileBottom";
+import MobileBottom from "../../../components/Common/companyAdmin-user/MobileBottom/MobileBottom";
 import NavBar from "../../../components/Common/companyAdmin-user/NavBar/NavBar";
 import UserProtectRouter from "../../../protectRoutes/protectRoutes";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
@@ -13,7 +13,9 @@ function index() {
       <div>
         <NavBar mode={mode} type={'user'}/>
         <UserMessage type={'user'}/>
-        <MobileBottom />
+        <div className="sm:hidden">
+          <MobileBottom />
+        </div>
       </div>
     </UserProtectRouter>
   );

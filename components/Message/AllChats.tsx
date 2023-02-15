@@ -23,7 +23,6 @@ interface Props {
 
 function AllChats({ data, currentUser, setChat, onlineUsers, type }: Props) {
     const [idToFetch] = useState(data.members.find((id: string) => id != currentUser))
-    console.log(onlineUsers, idToFetch)
     const [userData, setUserData] = useState(null)
     const [companyAdminData, setCompanyAdminData] = useState(null)
     useEffect(() => {

@@ -4,7 +4,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import RightBar from "../../../components/Common/companyAdmin-user/RightBar";
 import SideBar from "../../../components/Common/companyAdmin-user/SideBar";
-import MobileBottom from "../../../components/User/MobileBottom/MobileBottom";
+import MobileBottom from "../../../components/Common/companyAdmin-user/MobileBottom/MobileBottom";
 import NavBar from "../../../components/Common/companyAdmin-user/NavBar/NavBar";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
 import { USER_SIDEBAR_LINKS } from "../../../constants/User-sideBar";
@@ -46,7 +46,9 @@ function index() {
                         </div>
                     </div>
                 </div>
-                <MobileBottom />
+                <div className="sm:hidden">
+                    <MobileBottom />
+                </div>
             </Box>
         </UserProtectRouter>
     );

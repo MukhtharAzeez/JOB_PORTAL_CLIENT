@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import SideBar from '../../../../components/Common/companyAdmin-user/SideBar'
 import SideBarWithoutText from '../../../../components/Common/companyAdmin-user/SideBarWithoutText'
 import CompanyProfile from '../../../../components/Company/Profile/CompanyProfile'
-import MobileBottom from '../../../../components/User/MobileBottom/MobileBottom'
+import MobileBottom from '../../../../components/Common/companyAdmin-user/MobileBottom/MobileBottom'
 import NavBar from '../../../../components/Common/companyAdmin-user/NavBar/NavBar'
 import { USER_SIDEBAR_LINKS } from '../../../../constants/User-sideBar'
 import UserProtectRouter from '../../../../protectRoutes/protectRoutes'
@@ -35,7 +35,9 @@ function index() {
                     </div>
                 </div>
 
-                <MobileBottom />
+                <div className="sm:hidden">
+                    <MobileBottom />
+                </div>
             </Box>
         </UserProtectRouter>
     )
