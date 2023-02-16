@@ -37,7 +37,7 @@ interface Props {
     color: string
 }
 
-export default function Login({ type, image, color}: Props) {
+export function Login({ type, image, color}: Props) {
     const dispatch = useDispatch();
     const setId = allUsersIdStore((state)=>state.setId)
     const router = useRouter();

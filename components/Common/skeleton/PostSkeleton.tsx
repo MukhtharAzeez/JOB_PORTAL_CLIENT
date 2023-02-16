@@ -19,7 +19,7 @@ interface Props {
     mode: String;
 }
 
-function PostSkeleton({ mode }: Props) {
+export function PostSkeleton({ mode }: Props) {
     return (
         <>
             {
@@ -99,5 +99,3 @@ function PostSkeleton({ mode }: Props) {
         </>
     );
 }
-
-export default PostSkeleton

@@ -4,11 +4,11 @@ import { findChat } from "../../api/chat/get";
 import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../constants/Company-admin-sidebar";
 import { USER_SIDEBAR_LINKS } from "../../constants/User-sideBar";
 import { messageStore } from "../../zustand";
-import SideBarWithoutText from "../Common/companyAdmin-user/SideBarWithoutText";
-import ChatScreen from "./ChatScreen";
-import LargeScreenSideBar from "./LargeScreenSideBar";
+import { SideBarWithoutText } from "../Common";
+import { ChatScreen } from "./ChatScreen";
+import { LargeScreenSideBar } from "./LargeScreenSideBar";
 
-function UserMessage({type}:{type:string}) {
+export function UserMessage({type}:{type:string}) {
   const socket = messageStore((state) => state.socket);
   const chat = messageStore((state) => state.chat);
   const setChat = messageStore((state) => state.setChat); 
@@ -26,24 +26,9 @@ function UserMessage({type}:{type:string}) {
       setChat(result[0])
     }
   }
-
   useEffect(()=>{
     getChat()
   },[])
-
-  // useEffect(()=>{
-  //   if(socket){
-  //     socket.emit("new-user-add", user.userId ? user.userId : companyAdmin.companyAdminId);
-  //   }
-  // },[socket])
-
-  // useEffect(() => {
-  //   if(socket){
-  //     socket.on("get-user", (users) => {
-  //       setOnlineUsers(users);
-  //     });
-  //   }
-  // }, [user ? user : companyAdmin, socket]);
   useEffect(() => {
     if (sendMessage !== null && socket) {
       socket.emit("send-message", sendMessage);

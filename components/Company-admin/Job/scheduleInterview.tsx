@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { Alert, Snackbar } from "@mui/material";
 import { useRouter } from "next/router";
 
-export default function ScheduleInterview({ scheduleInterview, setScheduleInterview, jobId, applicantId, accepted, setAccepted, online, offline }: any) {
+export function ScheduleInterview({ scheduleInterview, setScheduleInterview, jobId, applicantId, accepted, setAccepted, online, offline }: any) {
     const router = useRouter()
     const { companyAdminId, companyId } = useSelector(currentCompanyAdmin)
     const [onlineInterview, setOnlineInterview] = useState(true)

@@ -7,15 +7,13 @@ import { addAJobPost } from '../../../api/Company-Admin/post';
 import { uploadImage } from '../../../api/User/ThirdParty/cloudinary';
 import { currentCompanyAdmin } from '../../../redux/company-admin/CompanyAdminAuthSlicer';
 
-function AddJob() {
+export function AddJob() {
     const router = useRouter();
     const [message, setMessage] = React.useState("");
     const [open, setOpen] = React.useState(false);
     const { companyAdminId, companyId } = useSelector(currentCompanyAdmin)
     const [jobData, setJobData] = useState({ companyId: companyId, adminId: companyAdminId, image: null })
     const [save, setSave] = useState(false)
-
-
     const jobImageRef = useRef<any>(null);
     const [jobImage, setJobImage] = useState<any>(null);
 
@@ -112,10 +110,8 @@ function AddJob() {
                                         <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-blue-400 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                         </svg>
-
                                         <p className="pointer-none text-gray-500 "><span className="text-sm">Drag and drop</span> files here <br /> or <a href="" id="" className="text-blue-600 hover:underline">select a file</a> from your computer</p>
                                     </div>
-
                                     <input type="file" className="hidden" onChange={jobImageChangeHandler} ref={jobImageRef} />
                                 </label>
                                 {open ? <Alert severity="error" variant="outlined" className="m-2">{message}</Alert> : ''}
@@ -195,9 +191,6 @@ function AddJob() {
                 </div>
             </div>
             </form>
-            {/* </section > */}
         </>
     )
 }
-
-export default AddJob

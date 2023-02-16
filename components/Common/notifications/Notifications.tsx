@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Notifications() {
+export function Notifications() {
     return (
         <div className="flex flex-col gap-1">
             <div className="flex flex-col p-2 bg-white shadow-md hover:shadow-lg rounded-md">
@@ -59,5 +59,3 @@ function Notifications() {
         </div>
     )
 }
-
-export default Notifications

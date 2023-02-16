@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function SidebarLinkGroup({
+export function SidebarLinkGroup({
   children,
   activecondition,
 }:any) {

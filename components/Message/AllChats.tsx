@@ -21,7 +21,7 @@ interface Props {
     type: string
 }
 
-function AllChats({ data, currentUser, setChat, onlineUsers, type }: Props) {
+export function AllChats({ data, currentUser, setChat, onlineUsers, type }: Props) {
     const [idToFetch] = useState(data.members.find((id: string) => id != currentUser))
     const [userData, setUserData] = useState(null)
     const [companyAdminData, setCompanyAdminData] = useState(null)
@@ -128,5 +128,3 @@ function AllChats({ data, currentUser, setChat, onlineUsers, type }: Props) {
         </>
     )
 }
-
-export default AllChats

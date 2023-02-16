@@ -6,7 +6,7 @@ import { Tooltip } from '@mui/material';
 
 
 
-function CompanyAdminsProfile() {
+export function CompanyAdminsProfile() {
     const router = useRouter()
     const adminId = router.query.adminId
     const fetcher = async () => {
@@ -81,5 +81,3 @@ function CompanyAdminsProfile() {
         </div>
     );
 }
-
-export default CompanyAdminsProfile;

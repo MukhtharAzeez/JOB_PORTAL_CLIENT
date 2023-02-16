@@ -46,7 +46,7 @@ interface Props {
     }
 }
 
-function SchedulesStepper({ data }: Props) {
+export function SchedulesStepper({ data }: Props) {
     const [moveToNextAction, setMoveToNextAction] = useState(false)
     const [applicantHired, setApplicantHired] = useState(false)
     const [scheduleInterview, setScheduleInterview] = useState(false)
@@ -373,5 +373,3 @@ function SchedulesStepper({ data }: Props) {
         </div>
     )
 }
-
-export default SchedulesStepper

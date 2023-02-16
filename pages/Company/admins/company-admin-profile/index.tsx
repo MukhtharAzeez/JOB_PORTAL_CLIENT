@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import SideBar from '../../../../components/Common/adminAndCompanySideBar/SideBar/SideBar';
+import SideBar from '../../../../components/Common/adminAndCompanySideBar/SideBar/CompanyAndAdminSideBar';
 import CompanyAdminsProfile from '../../../../components/Company/CompanyAdmins/CompanyAdminsProfile';
 import Header from '../../../../components/Common/adminAndCompanySideBar/Header/Header';
 import { Breadcrumbs } from '@mui/material';

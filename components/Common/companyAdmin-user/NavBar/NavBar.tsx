@@ -26,7 +26,7 @@ interface Props {
   type: String;
 }
 
-function NavBar({ mode, type }: Props) {
+export function NavBar({ mode, type }: Props) {
   const router = useRouter()
   // const id = allUsersIdStore((state)=>state.id)
   const [showModal, setShowModal] = React.useState(false);
@@ -190,5 +190,3 @@ function NavBar({ mode, type }: Props) {
     </>
   );
 }
-
-export default NavBar;

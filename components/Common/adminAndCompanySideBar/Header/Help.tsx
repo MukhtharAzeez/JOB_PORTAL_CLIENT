@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Transition from '../../../../utils/Transition';
 
 
-function Help() {
+export function Help() {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -102,5 +102,3 @@ function Help() {
     </div>
   )
 }
-
-export default Help;

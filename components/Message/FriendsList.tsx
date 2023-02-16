@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { currentCompanyAdmin } from '../../redux/company-admin/CompanyAdminAuthSlicer';
 import { currentUser } from '../../redux/user/userAuthSlicer';
-import CompanyAdmins from './CompanyAdmins';
-import Friends from './Friends';
+import { CompanyAdmins } from './CompanyAdmins';
+import { Friends } from './Friends';
 
 interface OnlineUsers {
     userId: string
@@ -14,7 +14,7 @@ interface Props {
     onlineUsers: Array<OnlineUsers>
 }
 
-function FriendsList({ setChat, onlineUsers }: Props) {
+export function FriendsList({ setChat, onlineUsers }: Props) {
     const [id, setId] = useState(null)
     const [type, setType] = useState(null)
     const { userId } = useSelector(currentUser)
@@ -37,12 +37,9 @@ function FriendsList({ setChat, onlineUsers }: Props) {
         ) : id ? (
             <>
                 <CompanyAdmins setChat={setChat} onlineUsers={onlineUsers} id={id} type={type} />
-                {/* <Friends setChat={setChat} onlineUsers={onlineUsers} id={id} type={type} /> */}
             </>
         ) : (
             <></>
         )
     )
 }
-
-export default FriendsList

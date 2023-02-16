@@ -23,7 +23,7 @@ interface Props {
     job: Job
 }
 
-function EachAppliedUsers({ job }: Props) {
+export function EachAppliedUsers({ job }: Props) {
     const router = useRouter();
     const [scheduleInterview, setScheduleInterview] = useState(false)
     const [accepted, setAccepted] = useState(job.accepted)
@@ -101,5 +101,3 @@ function EachAppliedUsers({ job }: Props) {
         </tr>
     )
 }
-
-export default EachAppliedUsers

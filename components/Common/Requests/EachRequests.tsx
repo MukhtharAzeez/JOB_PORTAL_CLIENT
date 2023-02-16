@@ -44,7 +44,7 @@ interface Request {
     userRequestToChange: boolean
 }
 
-function EachRequests({ type, id }: Props) {
+export function EachRequests({ type, id }: Props) {
     const fetcher = async () => {
         if (type == 'company') {
             const allCompanyRequests = await getAllRequests(id);
@@ -72,4 +72,3 @@ function EachRequests({ type, id }: Props) {
         </>
     )
 }
-export default EachRequests

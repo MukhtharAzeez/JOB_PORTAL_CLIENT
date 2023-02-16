@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 import Transition from '../../../../utils/Transition';
 
-function UserMenu() {
+export function UserMenu() {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -90,5 +90,3 @@ function UserMenu() {
     </div>
   )
 }
-
-export default UserMenu;

@@ -9,7 +9,7 @@ import companyDefaultLogo from '../../../public/image/companyDefaultLogo.jpg'
 import { currentCompanyAdmin } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
 
-export default function RightBar() {
+export function RightBar() {
   const router = useRouter();
   const { userId } = useSelector(currentUser)
   const { companyAdminId } = useSelector(currentCompanyAdmin)

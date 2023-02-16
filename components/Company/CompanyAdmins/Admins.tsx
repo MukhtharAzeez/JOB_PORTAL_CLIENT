@@ -14,17 +14,15 @@ interface CompanyAdmin {
     pendingHiring: number
 }
 
-function Admins() {
+export function Admins() {
     const router = useRouter();
     const [companyAdmins, setCompanyAdmins] = useState([])
     const [count, setCount] = useState<number>(1)
     const { companyId } = useSelector(currentCompany)
-
     async function fetchData(skip:number) {
         const companyAdmins = await getAllCompanyAdmins(companyId, skip, 10);
         setCompanyAdmins(companyAdmins.data)
     }
-
     async function fetcher(skip:number) {
         if (skip == 0) {
             const data = await getCountCompanyAdmins(companyId)
@@ -34,22 +32,18 @@ function Admins() {
         }
         fetchData(skip);
     }
-
     useEffect(() => {
         fetcher(0);
     }, []);
-
     async function handleChange(event: any, value: number) {
         fetcher(value - 1);
     };
-
     return (
         <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-sm border border-slate-200">
             <header className="px-5 py-4 border-b border-slate-100">
                 <h2 className="font-semibold text-slate-800">All Admins</h2>
             </header>
             <div className="p-3">
-
                 {/* Table */}
                 <div className="overflow-x-auto scrollbar-hide">
                     <table className="table-auto w-full">
@@ -110,7 +104,6 @@ function Admins() {
                                             <td className="p-2">
                                                 <div className="text-center text-green-500">{admin.pendingHiring}</div>
                                             </td>
-
                                         </tr>
                                     )
                                 })
@@ -125,5 +118,3 @@ function Admins() {
         </div>
     );
 }
-
-export default Admins;

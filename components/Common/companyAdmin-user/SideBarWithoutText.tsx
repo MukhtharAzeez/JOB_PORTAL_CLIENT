@@ -13,7 +13,7 @@ interface Props {
   href: string
 }
 
-function SideBarWithoutText({links,href}:Props) {
+export function SideBarWithoutText({links,href}:Props) {
   return (
     <div className="fixed w-1/10 mt-20 xs:w-0 hidden sm:block">
       <div className="w-full py-4 px-2 text-gray-900 bg-white rounded-lg text-left capitalize font-medium shadow-2xl">
@@ -40,5 +40,3 @@ function SideBarWithoutText({links,href}:Props) {
     </div>
   );
 }
-
-export default SideBarWithoutText;

@@ -6,7 +6,6 @@ import { getPendingSchedules } from '../../../api/Company-Admin/get';
 import { getUserSchedules } from '../../../api/User/Get/user';
 import { currentCompanyAdmin } from '../../../redux/company-admin/CompanyAdminAuthSlicer';
 import { currentUser } from '../../../redux/user/userAuthSlicer';
-import ScheduleModal from './ScheduleModal';
 
 interface Schedule {
     applicantId: string,
@@ -28,7 +27,7 @@ interface Data {
     objects: Array<Schedule>
 }
 
-function Schedules() {
+export function Schedules() {
     const { userId } = useSelector(currentUser)
     const { companyId } = useSelector(currentCompanyAdmin)
     const [data, setData] = useState([])
@@ -189,7 +188,4 @@ function Schedules() {
         </div>
     )
 }
-
-export default Schedules
-
 

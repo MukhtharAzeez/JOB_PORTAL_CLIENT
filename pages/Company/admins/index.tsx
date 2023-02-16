@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import { Breadcrumbs } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import SideBar from '../../../components/Common/adminAndCompanySideBar/SideBar/SideBar';
+import SideBar from '../../../components/Common/adminAndCompanySideBar/SideBar/CompanyAndAdminSideBar';
 import { COMPANY_SIDE_BAR_LINKS } from '../../../constants/Company-sideBar';
 import Header from '../../../components/Common/adminAndCompanySideBar/Header/Header';
 import Admins from '../../../components/Company/CompanyAdmins/Admins';

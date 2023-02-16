@@ -30,7 +30,7 @@ import companySignup from '../../../public/image/companySignup.png'
 
 const theme = createTheme();
 
-export default function Create() {companySignup
+export function Create() {companySignup
     const router = useRouter();
     const [isLoading, setIsLoading] = React.useState(false);
     const [open, setOpen] = React.useState(false);

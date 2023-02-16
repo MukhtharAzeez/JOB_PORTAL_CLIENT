@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import Link from 'next/link'
 import Transition from '../../../../utils/Transition';
 
-function SearchModal({
+export function SearchModal({
   id,
   searchId,
   modalOpen,
@@ -185,5 +185,3 @@ function SearchModal({
     </>
   );
 }
-
-export default SearchModal;

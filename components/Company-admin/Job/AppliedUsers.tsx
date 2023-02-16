@@ -5,10 +5,9 @@ import { getAppliedUsers } from '../../../api/Company-Admin/get';
 import EachAppliedUsers from './EachAppliedUsers';
 
 
-function AppliedUsers() {
+export function AppliedUsers() {
     const router = useRouter();
     const jobId = router.query.jobId
-
     const fetcher = async () => {
         const appliedUsers = await getAppliedUsers(jobId);
         return appliedUsers;
@@ -69,10 +68,7 @@ function AppliedUsers() {
                         </tbody>
                     </table>
                 </div>
-            </div>
-           
+            </div>          
         </div>
     );
 }
-
-export default AppliedUsers;

@@ -8,7 +8,7 @@ import { sendEmail } from "../../../api/email";
 import BusinessTwoToneIcon from '@mui/icons-material/BusinessTwoTone';
 
 
-function CompanyDetails() {
+export function CompanyDetails() {
     const router = useRouter()
     const companyId = router.query.companyId
     const [open, setOpen] = useState(false);
@@ -175,5 +175,3 @@ function CompanyDetails() {
         </div>
     );
 }
-
-export default CompanyDetails;

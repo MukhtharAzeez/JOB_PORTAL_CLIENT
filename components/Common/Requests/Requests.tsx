@@ -49,7 +49,7 @@ interface Props {
     type: string
 }
 
-function Requests({ request, type }: Props) {
+export function Requests({ request, type }: Props) {
     const [accepted, setAccepted] = useState(request.accepted)
     const [userChangeRequest, setUserChangeRequest] = useState(request?.changeRequest)
     const [reScheduled, setReScheduled] = useState(request?.reScheduled)
@@ -297,5 +297,3 @@ function Requests({ request, type }: Props) {
         </ol>
     )
 }
-
-export default Requests

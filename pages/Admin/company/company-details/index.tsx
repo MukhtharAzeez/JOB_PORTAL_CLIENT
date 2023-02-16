@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import SideBar from '../../../../components/Common/adminAndCompanySideBar/SideBar/SideBar';
+import SideBar from '../../../../components/Common/adminAndCompanySideBar/SideBar/CompanyAndAdminSideBar';
 import Header from '../../../../components/Common/adminAndCompanySideBar/Header/Header';
 import { Breadcrumbs } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import Link from 'next/link';
 import { ADMIN_SIDE_BAR_LINKS } from '../../../../constants/Admin_sideBar';
-import CompanyDetails from '../../../../components/Admin/Companies/CompanyDetails';
+import { CompanyDetails } from '../../../../components/Admin';
 
 
 function index() {

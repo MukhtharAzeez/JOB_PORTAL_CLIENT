@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { useState, useEffect, useRef } from 'react';
 
 
-function SideBar({ sidebarOpen, setSidebarOpen, links }: any) {
+export function CompanyAndAdminSideBar({ sidebarOpen, setSidebarOpen, links }: any) {
     const trigger = useRef(null);
     const sidebar = useRef(null);
 
@@ -134,5 +134,3 @@ function SideBar({ sidebarOpen, setSidebarOpen, links }: any) {
         </div>
     );
 }
-
-export default SideBar;

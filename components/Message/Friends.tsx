@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getUserChat } from '../../api/User/Get/user';
-import AllChats from './AllChats';
+import { AllChats } from './AllChats';
 
 interface OnlineUsers {
     userId: string
@@ -13,7 +13,7 @@ interface Props {
     type: string
 }
 
-function Friends({ setChat, onlineUsers, id, type }: Props) {
+export function Friends({ setChat, onlineUsers, id, type }: Props) {
     const [data, setData] = useState([])
     const fetcher = async () => {
         const friends = await getUserChat(id, 'user');
@@ -43,5 +43,3 @@ function Friends({ setChat, onlineUsers, id, type }: Props) {
         </div>
     )
 }
-
-export default Friends

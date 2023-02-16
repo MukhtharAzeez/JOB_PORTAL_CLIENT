@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Companies from "../../../components/Admin/Companies/Companies";
+import { Companies } from "../../../components/Admin";
 import Header from "../../../components/Common/adminAndCompanySideBar/Header/Header";
-import SideBar from "../../../components/Common/adminAndCompanySideBar/SideBar/SideBar";
+import SideBar from "../../../components/Common/adminAndCompanySideBar/SideBar/CompanyAndAdminSideBar";
 import { ADMIN_SIDE_BAR_LINKS } from "../../../constants/Admin_sideBar";
 
 

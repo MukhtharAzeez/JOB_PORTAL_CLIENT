@@ -10,7 +10,7 @@ import { getAJobPost } from '../../../api/Company-Admin/get';
 import { editAPost } from '../../../api/Company-Admin/post';
 
 
-function EditJob() {
+export function EditJob() {
     const router = useRouter();
     const jobId = router.query.jobId
     const [message, setMessage] = React.useState("");
@@ -218,9 +218,6 @@ function EditJob() {
                     </div>
                 </div>
             </form>
-            {/* </section > */}
         </>
     )
 }
-
-export default EditJob

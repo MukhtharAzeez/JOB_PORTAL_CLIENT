@@ -7,9 +7,7 @@ import { addAdmin } from '../../../api/Company/post';
 import { sendEmail } from '../../../api/email';
 import { currentCompany } from '../../../redux/company/companyAuthSlicer';
 
-function AddCompanyAdmins() {
-
-
+export function AddCompanyAdmins() {
     const { companyId } = useSelector(currentCompany)
     const router = useRouter();
     const [adminData, setAdminData] = useState({ name: null, email: null, position: null, employeeId: null, businessMobile: null, authority: null ,company: companyId})
@@ -196,7 +194,6 @@ function AddCompanyAdmins() {
                                     </label>
                                 </li>
                             </ul>
-
                         </form>
                     </div>
                 </div>
@@ -214,5 +211,3 @@ function AddCompanyAdmins() {
         </>
     )
 }
-
-export default AddCompanyAdmins

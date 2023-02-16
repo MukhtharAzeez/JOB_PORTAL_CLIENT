@@ -10,7 +10,6 @@ import { sendMessageToFriend } from '../../../api/User/Post/user';
 import { useSelector } from 'react-redux';
 import { currentUser } from '../../../redux/user/userAuthSlicer';
 
-
 interface CompanyAdmin {
     _id: string
     name: string
@@ -20,7 +19,7 @@ interface CompanyAdmin {
     pendingHiring: number
 }
 
-function CompanyProfile() {
+export function CompanyProfile() {
     const router = useRouter()
     const companyId = router.query.companyId
     const [open, setOpen] = useState(false);
@@ -30,7 +29,6 @@ function CompanyProfile() {
     const [representative, setRepresentative] = useState(false)
     const [count, setCount] = useState<number>(1)
     const {userId} = useSelector(currentUser)
-
     const fetcher = async () => {
         const companyDetails = await getCompanyDetails(companyId.toString());
         return companyDetails;
@@ -52,7 +50,6 @@ function CompanyProfile() {
         setRepresentatives(admins.data)
         setRepresentative(true)
     }
-
     async function fetchAdmins(skip: number) {
         if (skip == 0) {
             const data = await getCountCompanyAdmins(companyId)
@@ -62,16 +59,13 @@ function CompanyProfile() {
         }
         viewCompanyAdmins(skip);
     }
-
     async function handleChange(event: any, value: number) {
         fetchAdmins(value - 1);
     };
-
     async function sendMessage(curUserId: string, userId: string) {
         await sendMessageToFriend(curUserId, userId,'company')
         router.push('/user/inbox')
     }
-
     return (
         <div className="p-8 bg-white shadow mt-14 rounded-l">
             <div className="grid grid-cols-1 md:grid-cols-3">
@@ -146,7 +140,6 @@ function CompanyProfile() {
                     </div>
                 </div>
             </div>
-
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -204,5 +197,3 @@ function CompanyProfile() {
         </div>
     )
 }
-
-export default CompanyProfile

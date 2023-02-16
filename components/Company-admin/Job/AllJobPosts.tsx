@@ -17,7 +17,7 @@ interface Job {
     benefits: string
 }
 
-function AllJobPosts() {
+export function AllJobPosts() {
     const router = useRouter();
     const { companyId } = useSelector(currentCompanyAdmin)
     const fetcher = async () => {
@@ -100,5 +100,3 @@ function AllJobPosts() {
         </div>
     );
 }
-
-export default AllJobPosts;

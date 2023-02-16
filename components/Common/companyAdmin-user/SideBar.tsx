@@ -13,7 +13,7 @@ interface Props{
   href:string
 }
 
-function SideBar({ links, href }: Props) {
+export function SideBar({ links, href }: Props) {
   return (
     <div className="fixed w-1/5 mt-20  hidden sm:block">
       <div className="w-full py-4 px-2 text-gray-900 bg-white rounded-lg text-left capitalize font-medium shadow-2xl">
@@ -44,5 +44,3 @@ function SideBar({ links, href }: Props) {
     </div>
   );
 }
-
-export default SideBar;

@@ -11,7 +11,7 @@ interface Props {
     applicantId: string
 }
 
-function ScheduleModal({ setOpenModal, openModal, time, type, userType, applicantId }: Props) {
+export function ScheduleModal({ setOpenModal, openModal, time, type, userType, applicantId }: Props) {
     const router = useRouter()
 
     function setClose() {
@@ -70,5 +70,3 @@ function ScheduleModal({ setOpenModal, openModal, time, type, userType, applican
         </>
     )
 }
-
-export default ScheduleModal

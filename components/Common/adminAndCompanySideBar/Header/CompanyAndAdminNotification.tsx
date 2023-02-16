@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link'
 import Transition from '../../../../utils/Transition';
 
-function Notifications() {
+export function CompanyAdnAdminNotification() {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -96,5 +96,3 @@ function Notifications() {
     </div>
   )
 }
-
-export default Notifications;

@@ -16,7 +16,7 @@ interface Company{
     type:string
 }
 
-function Companies({ url }: Props) {
+export function Companies({ url }: Props) {
     const [companies, setCompanies] = useState([])
     const [count , setCount] = useState<number>(1)
 
@@ -121,8 +121,6 @@ function Companies({ url }: Props) {
         </div>
     );
 }
-
-export default Companies;
 
 
 

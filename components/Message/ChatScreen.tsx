@@ -8,7 +8,7 @@ import { getMessages, sendMessageToReceiver } from '../../api/User/Get/user';
 import { currentCompanyAdmin } from '../../redux/company-admin/CompanyAdminAuthSlicer';
 import { currentUser } from '../../redux/user/userAuthSlicer';
 
-function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
+export function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
     const scroll = useRef<HTMLInputElement>();
     const [sendMessage, setSendMessage] = useState("")
     const [ID, setID] = useState('')
@@ -16,7 +16,6 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
     const { companyAdminId } = useSelector(currentCompanyAdmin)
     const [messages, setMessages] = useState([])
     const [emojiPicker, setEmojiPicker] = React.useState(false);
-
     useEffect(() => {
         if (userId) {
             setID(userId)
@@ -77,7 +76,6 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                                                 <div className="col-start-6 col-end-13 p-3 rounded-lg">
                                                     <div className="flex items-center justify-start flex-row-reverse">
                                                         <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-
                                                         </div>
                                                         <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
                                                             <div className='max-w-[200px] lg:max-w-md'>
@@ -93,7 +91,6 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
                                                 <div className="col-start-1 col-end-8 p-3 rounded-lg">
                                                     <div className="flex flex-row items-center">
                                                         <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-500 flex-shrink-0">
-
                                                         </div>
                                                         <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
                                                             <div className='max-w-[200px] lg:max-w-md'>
@@ -188,5 +185,3 @@ function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
         </div>
     )
 }
-
-export default ChatScreen

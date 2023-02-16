@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { currentUser } from "../../redux/user/userAuthSlicer";
 import { getCurrentUserDetails } from "../../api/User/Get/user";
-import FriendsList from "./FriendsList";
 import { currentCompanyAdmin } from "../../redux/company-admin/CompanyAdminAuthSlicer";
 import { getCompanyAdminDetails } from "../../api/Company-Admin/get";
+import { FriendsList } from "./FriendsList";
 
 interface OnlineUsers {
   userId: string
@@ -15,7 +15,7 @@ interface Props {
   onlineUsers: Array<OnlineUsers>
 }
 
-function LargeScreenSideBar({setChat, onlineUsers}:Props) {
+export function LargeScreenSideBar({setChat, onlineUsers}:Props) {
   const { userId } = useSelector(currentUser)
   const { companyAdminId } = useSelector(currentCompanyAdmin)
   const [data, setData] = useState(null)
@@ -81,5 +81,3 @@ function LargeScreenSideBar({setChat, onlineUsers}:Props) {
     </>
   );
 }
-
-export default LargeScreenSideBar;
