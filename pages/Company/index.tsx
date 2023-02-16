@@ -7,11 +7,7 @@ import CompanyProtectRoute from '../../protectRoutes/companyProtectRoute';
 import { CompanyAndAdminSideBar, Header } from '../../components/Common';
 
 function index() {
-
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-
-
-
+    const [sidebarOpen, setSidebarOpen] = useState(false)
     return (
         <CompanyProtectRoute>
             <div className="flex h-screen overflow-hidden">
@@ -31,6 +27,9 @@ function index() {
                                 </Breadcrumbs>
                             </div>
                             <div className="border rounded-lg shadow mx-8">
+                                <div className="">
+
+                                </div>
                             </div>
                         </div>
                     </main>

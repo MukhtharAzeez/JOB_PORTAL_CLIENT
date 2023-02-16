@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Progress } from "../components/Progress";
 import { io } from "socket.io-client";
+import { Notifier } from "../components/Common/Notifier/Notifier";
 
 
 const darkTheme = createTheme({
@@ -67,6 +68,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <SessionProvider session={pageProps.session}>
           <Progress isAnimating={isAnimating}/>
           <Component {...pageProps} />
+          <Notifier />
         </SessionProvider>
       </ThemeProvider>
     </Provider>

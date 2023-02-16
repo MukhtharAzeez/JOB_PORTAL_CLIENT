@@ -32,6 +32,7 @@ import {
 } from "../../../../api/User/Post/post";
 import { useRouter } from "next/router";
 import { Comment } from "./Comment";
+import useNotification from "../../../../customHooks/useNotification";
 
 interface props {
   mode: String;
@@ -58,7 +59,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 export function AllUsersPost({ mode, post }: props) {
   const { userId } = useSelector(currentUser);
   const router = useRouter();
-
+  const setNotification = useNotification()
   const [likes, setLikes] = React.useState(post.likes ? post.likes.length : 0);
   const [comment, setComment] = React.useState("");
   const [expanded, setExpanded] = React.useState(false);
@@ -70,6 +71,11 @@ export function AllUsersPost({ mode, post }: props) {
   };
 
   async function handleLike(postId: string) {
+    setNotification({
+      content: `Mukhthar has liked your post !`,
+      type: "success",
+      receiver: post.user._id as string,
+    });
     const result = await postLike(postId, userId);
     if (result.data) setLikes(likes + 1);
     else setLikes(likes - 1);
