@@ -6,6 +6,7 @@ import BusinessTwoToneIcon from "@mui/icons-material/BusinessTwoTone";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import Person2Icon from "@mui/icons-material/Person2";
 import VideoCallIcon from "@mui/icons-material/VideoCall";
+import LoginIcon from "@mui/icons-material/LoginSharp";
 
 export const USER_SIDEBAR_LINKS = [
   {
@@ -47,5 +48,10 @@ export const USER_SIDEBAR_LINKS = [
     title: "Profile",
     icon: Person2Icon,
     href: "/user/profile",
+  },
+  {
+    title: "Logout",
+    icon: LoginIcon,
+    href: "/user/login",
   },
 ];

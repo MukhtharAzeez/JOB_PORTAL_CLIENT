@@ -1,3 +1,4 @@
+import { allUsersIdStore } from './../zustand/allUsersIdStore';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -5,6 +6,7 @@ import { addCompanyAdminDetails, currentCompanyAdmin } from "../redux/company-ad
 
 const CompanyAdminProtectRoute = ({ children }: any) => {
   const dispatch = useDispatch();
+  const setId = allUsersIdStore((state)=>state.setId)
   const router = useRouter();
   const companyAdmin = useSelector(currentCompanyAdmin);
 
@@ -23,6 +25,7 @@ const CompanyAdminProtectRoute = ({ children }: any) => {
           accessToken: { access_token: companyAdminToken },
         })
       );
+      setId(companyAdminId);
     };
     publicFu();
   }, [companyAdmin]);

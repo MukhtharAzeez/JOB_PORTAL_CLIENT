@@ -10,33 +10,43 @@ import { currentUser } from '../../../../redux/user/userAuthSlicer';
 
 function MobileBottom() {
   const { userId } = useSelector(currentUser)
-  const { companyAdminId }= useSelector(currentCompanyAdmin)
-  const [userType , setUserType ] = useState("")
-  useEffect(()=>{
-    if(userId){
+  const { companyAdminId } = useSelector(currentCompanyAdmin)
+  const [userType, setUserType] = useState(null)
+  useEffect(() => {
+    if (userId) {
       setUserType("user")
     }
-    if(companyAdminId){
+    if (companyAdminId) {
       setUserType("company-admin")
     }
   })
   const Menus = [
-    { title: "Home", icon: HomeIcon ,href: "/"},
-    { title: "Schedules ", icon: EventNoteIcon ,href: "/schedules"},
-    { title: "Messages", icon: ChatBubbleOutlineOutlinedIcon ,href: "/inbox"},
-    { title: "Notifications", icon: NotificationsNoneOutlinedIcon ,href: "/notifications"},
-    { title: "Logout", icon: LoginIcon ,href: "/logout"},
+    { title: "Home", icon: HomeIcon, href: `${userType == 'user' ? '/' : '/company-admin'}` },
+    { title: "Schedules ", icon: EventNoteIcon, href: `/${userType}/schedules` },
+    { title: "Messages", icon: ChatBubbleOutlineOutlinedIcon, href: `/${userType}/inbox` },
+    { title: "Notifications", icon: NotificationsNoneOutlinedIcon, href: `/${userType}/notifications` },
+    { title: "Logout", icon: LoginIcon},
   ];
 
   return (
+    userType &&
     <div className="fixed bottom-0 w-full border-t-2 flex px-4 py-2 justify-between border-slate-700 bg-white h-14">
       {Menus.map((menu) => (
-        <Link
-          href={`/${userType}/${menu.href}`}
-          key={menu?.title}
-        >
-          <div className={`hover:bg-[#bbc0c7] rounded-md p-2`}><menu.icon /></div>
-        </Link>
+        menu.href!==undefined ? (
+          <Link
+            href={menu?.href}
+            key={menu?.title}
+            onClick={() => { menu.title == "Logout" && localStorage.clear() }}
+          >
+            <div className={`hover:bg-[#bbc0c7] rounded-md p-2`}><menu.icon /></div>
+          </Link>
+        ) : (
+          <div
+            key={menu?.title}
+          >
+            <div className={`hover:bg-[#bbc0c7] rounded-md p-2`}><menu.icon /></div>
+          </div>
+        )
       ))}
     </div>
   )

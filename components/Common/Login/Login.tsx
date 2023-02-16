@@ -28,6 +28,7 @@ import Cookies from 'js-cookie'
 import PublicRoute from "../../../protectRoutes/publicRoute";
 import { addCompanyDetails } from "../../../redux/company/companyAuthSlicer";
 import { addCompanyAdminDetails } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
+import { allUsersIdStore } from "../../../zustand";
 
 const theme = createTheme();
 interface Props {
@@ -38,6 +39,7 @@ interface Props {
 
 export default function Login({ type, image, color}: Props) {
     const dispatch = useDispatch();
+    const setId = allUsersIdStore((state)=>state.setId)
     const router = useRouter();
     const [isLoading, setIsLoading] = React.useState(false);
     const [open, setOpen] = React.useState(false);
@@ -77,6 +79,7 @@ export default function Login({ type, image, color}: Props) {
                     localStorage.setItem("image", user.data.result.image);
                     Cookies.set("userToken", user.data.accessToken.access_token)
                     dispatch(addUserDetails(user.data));
+                    setId(user.data.result._id)
                     router.push("/");
                 }
             } catch (error: any) {
@@ -106,6 +109,7 @@ export default function Login({ type, image, color}: Props) {
                     localStorage.setItem("companyId", company.data.result._id);
                     localStorage.setItem("companyToken", company.data.accessToken.access_token);
                     dispatch(addCompanyDetails(company.data));
+                    setId(company.data.result._id)
                     router.push("/company");
                 }
             } catch (error: any) {
@@ -136,6 +140,7 @@ export default function Login({ type, image, color}: Props) {
                     localStorage.setItem("companyId", companyAdmin.data.result.company);
                     localStorage.setItem("companyAdminToken", companyAdmin.data.accessToken.access_token);
                     dispatch(addCompanyAdminDetails(companyAdmin.data));
+                    setId(companyAdmin.data.result._id)
                     router.push("/company-admin");
                 }
             } catch (error: any) {

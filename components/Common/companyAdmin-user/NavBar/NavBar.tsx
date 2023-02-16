@@ -18,6 +18,8 @@ import { currentUser } from "../../../../redux/user/userAuthSlicer";
 import { sendMessageToFriend } from "../../../../api/User/Post/user";
 import { useRouter } from "next/router";
 import { currentCompanyAdmin } from "../../../../redux/company-admin/CompanyAdminAuthSlicer";
+import LoginIcon from '@mui/icons-material/LoginSharp';
+// import { allUsersIdStore } from "../../../../zustand";
 
 interface Props {
   mode: String;
@@ -26,12 +28,12 @@ interface Props {
 
 function NavBar({ mode, type }: Props) {
   const router = useRouter()
+  // const id = allUsersIdStore((state)=>state.id)
   const [showModal, setShowModal] = React.useState(false);
   const [userSearchResult, setUserSearchResult] = useState([])
   const { userId } = useSelector(currentUser)
   const { companyAdminId } = useSelector(currentCompanyAdmin)
   const [searched, setSearched] = useState(false)
-
   async function handleInputChange(e: any) {
     if (e.target.value.length == 0) {
       setUserSearchResult([])
@@ -114,6 +116,11 @@ function NavBar({ mode, type }: Props) {
           <Link href={`/${type}/profile`}>
             <span className="w-10 relative float-right mr-3 cursor-pointer hover:text-gray-700">
               <Person2Icon />
+            </span>
+          </Link>
+          <Link href={`/${type}/login`} onClick={()=>{localStorage.clear()}}>
+            <span className="w-10 relative float-right mr-3 cursor-pointer hover:text-gray-700">
+              <LoginIcon />
             </span>
           </Link>
         </div>

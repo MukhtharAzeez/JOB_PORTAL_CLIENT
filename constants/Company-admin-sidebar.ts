@@ -5,6 +5,7 @@ import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutline
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
+import LoginIcon from "@mui/icons-material/LoginSharp";
 
 export const COMPANY_ADMIN_SIDEBAR_LINKS = [
   {
@@ -41,5 +42,10 @@ export const COMPANY_ADMIN_SIDEBAR_LINKS = [
     title: "Profile",
     icon: Person2OutlinedIcon,
     href: "/company-admin/profile",
+  },
+  {
+    title: "Logout",
+    icon: LoginIcon,
+    href: "/company-admin/login",
   },
 ];

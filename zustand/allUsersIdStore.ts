@@ -5,7 +5,7 @@ interface State {
   setId: any;
 }
 
-export const allUsersIdsStore = create<State>((set) => ({
+export const allUsersIdStore = create<State>((set) => ({
   id: null,
   setId: (id: string) => set(() => ({ id })),
 }));

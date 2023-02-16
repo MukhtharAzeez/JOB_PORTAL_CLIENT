@@ -26,7 +26,7 @@ function SideBar({ links, href }: Props) {
           links.map(function (link: Link) {
             const Icon = link.icon
             return (
-              <Link href={link.href} key={link.title} className={`cursor-pointer px-2 ${link.href === href ? 'bg-gray-800' : 'bg-white hover:bg-gray-200 hover:text-gray-700'}  rounded flex`}>
+              <Link href={link.href} key={link.title} onClick={() => { link.title == 'Logout' && localStorage.clear() }} className={`cursor-pointer px-2 ${link.href === href ? 'bg-gray-800' : 'bg-white hover:bg-gray-200 hover:text-gray-700'}  rounded flex`}>
                 <span className="w-8 my-5 relative">
                   <ListItemIcon className={`${link.href === href ? 'text-gray-100' : 'text-gray-500 group-hover:text-gray-800'} mx-4 `}>
                     <Icon className={`${link.href === href ? 'text-gray-200' : 'text-black'}`} />
