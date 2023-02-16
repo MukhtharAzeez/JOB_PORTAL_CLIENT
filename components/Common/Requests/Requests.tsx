@@ -7,45 +7,45 @@ import { acceptApplicant } from '../../../api/Company-Admin/post';
 import { Alert, Snackbar } from "@mui/material";
 import { updateRequest } from '../../../api/Company-Admin/get';
 
-interface Request {
-    _id: string
-    message: string
-    company: {
-        _id: string
-        company: string
-    }
-    job: {
-        _id:string
-        job:string
-        benefits:string
-        jobDescription:string
-        jobQualification: string
-        applications: string
-    }
-    applicant:{
-        _id: string
-        firstName: string
-        lastName: string
-        qualifications: Array<string>
-        skills: Array<string>
-    }
-    admin: {
-        _id: string
-        name: string
-    }
-    accepted: boolean
-    type: string
-    createdAt: Date
-    updatedAt: Date
-    changeRequest: boolean
-    reScheduled: boolean
-    userAccepted: boolean
-    companyApproved: boolean
-    userRequestToChange: boolean
-}
+// interface Request {
+//     _id: string
+//     message: string
+//     company: {
+//         _id: string
+//         company: string
+//     }
+//     job: {
+//         _id:string
+//         job:string
+//         benefits:string
+//         jobDescription:string
+//         jobQualification: string
+//         applications: string
+//     }
+//     applicant:{
+//         _id: string
+//         firstName: string
+//         lastName: string
+//         qualifications: Array<string>
+//         skills: Array<string>
+//     }
+//     admin: {
+//         _id: string
+//         name: string
+//     }
+//     accepted: boolean
+//     type: string
+//     createdAt: Date
+//     updatedAt: Date
+//     changeRequest: boolean
+//     reScheduled: boolean
+//     userAccepted: boolean
+//     companyApproved: boolean
+//     userRequestToChange: boolean
+// }
 
 interface Props {
-    request: Request
+    request: any
     type: string
 }
 
@@ -133,7 +133,7 @@ function Requests({ request, type }: Props) {
                         </div>
                         <p className="text-purple-600 hover:text-purple-700 focus:text-purple-800 ">{request.job.job}</p>
                         {type == 'company' ? <p className="text-gray-700 mb-6">{request.message}</p> : type == 'user' ? <p className="text-gray-700 mb-6">{request.message}</p> : ''}
-                        {type == 'companyAdmin' && !request.companyApproved && <p className="text-gray-800 mb-6">Company rejected your request for <span className='text-red-500 italic text-sm font-semibold'>{request.message}</span></p>}
+                        {type == 'companyAdmin' && !request.companyApproved && <p className="text-gray-800 mb-6">Company rejected your request for <span className='text-red-800 italic text-sm font-semibold'>{request.message}</span></p>}
                         {type == 'companyAdmin' && request.companyApproved && request.userAccepted && <p className=" text-gray-800 mb-6">Company Approved your request for <span className='text-green-700 italic text-sm font-semibold'>{request.message}</span>  And User Also Accepted this !</p>}
                         {type == 'companyAdmin' && request.companyApproved && !request.userAccepted && !request.userRequestToChange && <p className="text-gray-800 mb-6">Company Approved your request for <span className='text-red-800 italic text-sm font-semibold'>{request.message}</span>  But User Rejected your Offer !</p>}
                         {type == 'companyAdmin' && request.companyApproved && !request.userAccepted && request.userRequestToChange && <p className="text-gray-800 mb-6">Company Approved your request for <span className=' text-sky-800 italic text-sm font-semibold'>{request.message}</span>  And User Request to change the scheduled time</p>}

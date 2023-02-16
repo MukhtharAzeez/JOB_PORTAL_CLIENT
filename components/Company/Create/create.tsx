@@ -26,26 +26,22 @@ import { useRouter } from "next/router";
 import { createABusinessPage } from "../../../api/Company/post";
 import { useRef, useState } from "react";
 import { uploadImage } from "../../../api/User/ThirdParty/cloudinary";
+import companySignup from '../../../public/image/companySignup.png'
 
 const theme = createTheme();
 
-export default function Create() {
+export default function Create() {companySignup
     const router = useRouter();
     const [isLoading, setIsLoading] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const [successOpen, setSuccessOpen] = React.useState(false);
     const [message, setMessage] = React.useState("");
-
-
     const msmeRef = useRef<HTMLInputElement>(null);
     const [msme, setMsme] = useState<File | null>(null);
-
     const udhyogRef = useRef<HTMLInputElement>(null);
     const [udhyog, setUdhyog] = useState<File | null>(null);
-
     const incorporationRef = useRef<HTMLInputElement>(null);
     const [incorporation, setIncorporation] = useState<File | null>(null);
-
 
     const msmeChangeHandler = (e: React.ChangeEvent<HTMLButtonElement>) => {
         if (e.target instanceof HTMLInputElement) {
@@ -63,7 +59,6 @@ export default function Create() {
             }
         }
     };
-
     const udhyogChangeHandler = (e: React.ChangeEvent<HTMLButtonElement>) => {
         if (e.target instanceof HTMLInputElement) {
             const file = e.target.files;
@@ -80,7 +75,6 @@ export default function Create() {
             }
         }
     };
-
     const incorporationChangeHandler = (e: React.ChangeEvent<HTMLButtonElement>) => {
         if (e.target instanceof HTMLInputElement) {
             const file = e.target.files;
@@ -97,7 +91,6 @@ export default function Create() {
             }
         }
     };
-
     const handleClose = (
         event?: React.SyntheticEvent | Event,
         reason?: string
@@ -105,18 +98,11 @@ export default function Create() {
         if (reason === "clickaway") {
             return;
         }
-
         setOpen(false);
     };
-
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-
-
-        const data: any = new FormData(event.currentTarget);
-
-
-
+        const data: any = new FormData(event.currentTarget)
         const q = new Date();
         const y = q.getFullYear();
         const establishedOn = data.get("establishedOn")
@@ -196,7 +182,7 @@ export default function Create() {
                     }}
                 >
                     <Image
-                        src="https://www.essenzlovo.com/wp-content/uploads/2021/06/Industries-recruitment.png"
+                        src={companySignup}
                         alt=""
                         width={480}
                         height={480}

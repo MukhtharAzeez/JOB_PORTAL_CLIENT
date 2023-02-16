@@ -37,8 +37,6 @@ function UserMessage({type}:{type:string}) {
     getChat()
   },[])
 
-
-
   useEffect(()=>{
     if(socket){
       socket.emit("new-user-add", user.userId ? user.userId : companyAdmin.companyAdminId);
