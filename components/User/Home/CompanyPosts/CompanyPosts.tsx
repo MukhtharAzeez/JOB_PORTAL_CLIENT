@@ -7,6 +7,7 @@ import { currentUser } from "../../../../redux/user/userAuthSlicer";
 import { applyForJob } from "../../../../api/User/Get/post";
 import { Alert, Snackbar } from "@mui/material";
 import { Avatar } from '@material-ui/core';
+import useNotification from "../../../../customHooks/useNotification";
 
 interface props {
     mode: String;
@@ -14,7 +15,8 @@ interface props {
 }
 
 export function CompanyPosts({ mode, post }: props) {
-    const { userId } = useSelector(currentUser);
+    const setNotification = useNotification()
+    const { userId, userName } = useSelector(currentUser);
     const [message, setMessage] = React.useState({ messageType: '', message: '' });
     const [open, setOpen] = useState(false)
     const handleClose = (
@@ -41,6 +43,11 @@ export function CompanyPosts({ mode, post }: props) {
             }
             setMessage(mes);
             setOpen(true);
+            setNotification({
+                content: `${userName} has applied for ${post.job}`,
+                type: "success",
+                receiver: post.adminId as string,
+            });
         } catch (error: any) {
             const type = typeof error.response.data.message;
             if (type == "string") {

@@ -16,12 +16,18 @@ const CompanyAdminProtectRoute = ({ children }: any) => {
       if (!companyAdminToken) {
         router.push("/company-admin/login");
       }
+      const adminName = localStorage.getItem("adminName");
       const email = localStorage.getItem("email");
       const companyId = localStorage.getItem("companyId");
       const companyAdminId = localStorage.getItem("companyAdminId");
       dispatch(
         addCompanyAdminDetails({
-          result: { email, _id: companyAdminId, company: companyId },
+          result: {
+            email,
+            _id: companyAdminId,
+            company: companyId,
+            name: adminName,
+          },
           accessToken: { access_token: companyAdminToken },
         })
       );

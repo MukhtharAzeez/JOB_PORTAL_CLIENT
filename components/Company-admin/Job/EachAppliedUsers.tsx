@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import React, { useState } from 'react'
 import { acceptApplicant, rejectApplicant } from '../../../api/Company-Admin/get';
-import ScheduleInterview from './scheduleInterview';
 import InfoIcon from '@mui/icons-material/Info';
+import { ScheduleInterview } from './scheduleInterview';
 
 interface Job {
     jobId: string

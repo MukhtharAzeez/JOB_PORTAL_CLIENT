@@ -6,6 +6,7 @@ import { userAcceptSchedule, userRejectSchedule, userRequestToChangeTime } from 
 import { acceptApplicant } from '../../../api/Company-Admin/post';
 import { Alert, Snackbar } from "@mui/material";
 import { updateRequest } from '../../../api/Company-Admin/get';
+import useNotification from '../../../customHooks/useNotification';
 
 // interface Request {
 //     _id: string
@@ -50,6 +51,7 @@ interface Props {
 }
 
 export function Requests({ request, type }: Props) {
+    const setNotification = useNotification()
     const [accepted, setAccepted] = useState(request.accepted)
     const [userChangeRequest, setUserChangeRequest] = useState(request?.changeRequest)
     const [reScheduled, setReScheduled] = useState(request?.reScheduled)
@@ -74,25 +76,55 @@ export function Requests({ request, type }: Props) {
 
     async function accept() {
         await acceptSchedule({ companyRequestId: request._id })
+        setNotification({
+            content: `${request.company.company} accepted the request "${request.message}" ${request.applicant.firstName + " " + request.applicant.lastName} for job ${request.job.job}`,
+            type: "success",
+            receiver: request.admin._id as string,
+        });
+        setNotification({
+            content: `${request.company.company} accepted the request "${request.message}" ${request.applicant.firstName + " " + request.applicant.lastName} for job ${request.job.job}`,
+            type: "success",
+            receiver: request.applicant._id as string,
+        });
         setAccepted(true)
     }
 
     async function reject() {
         await rejectSchedule({ companyRequestId: request._id })
         setAccepted(false)
+        setNotification({
+            content: `${request.company.company} accepted the request  "${request.message}" ${request.applicant.firstName + " " + request.applicant.lastName} for job ${request.job.job}`,
+            type: "error",
+            receiver: request.admin._id as string,
+        });
     }
 
     async function acceptByUser() {
         await userAcceptSchedule(request._id)
+        setNotification({
+            content: ` ${request.user.firstName + " " + request.user.lastName} accepted the request "${request.message}" for job ${request.job.job}`,
+            type: "success",
+            receiver: request.admin._id as string,
+        });
         setAccepted(true)
     }
     async function rejectByUser() {
         await userRejectSchedule(request._id)
+        setNotification({
+            content: ` ${request.user.firstName + " " + request.user.lastName} accepted the request "${request.message}" for job ${request.job.job}`,
+            type: "error",
+            receiver: request.admin._id as string,
+        });
         setAccepted(false)
     }
 
     async function requestToChangeTime() {
         await userRequestToChangeTime(request._id)
+        setNotification({
+            content: ` ${request.user.firstName + " " + request.user.lastName} accepted the request "${request.message}" for job ${request.job.job}`,
+            type: "info",
+            receiver: request.admin._id as string,
+        });
         setUserChangeRequest(true)
         setAccepted(null)
     }
@@ -102,8 +134,13 @@ export function Requests({ request, type }: Props) {
 
     async function updateSchedule(newSchedule: any) {
         try {
-            await acceptApplicant(newSchedule, request.job._id, request.applicant._id, request.admin, request.company)
+            await acceptApplicant(newSchedule, request.job._id, request.applicant._id, request.admin._id, request.company)
             await updateRequest(request._id)
+            setNotification({
+                content: ` ${request.admin.name} accepted the request of user ${request.user.firstName + " " + request.user.lastName} for "${request.message}" for job ${request.job.job}`,
+                type: "info",
+                receiver: request.company._id as string,
+            });
             setReScheduled(true)
         } catch (error: any) {
             const type = typeof error.response.data.message;

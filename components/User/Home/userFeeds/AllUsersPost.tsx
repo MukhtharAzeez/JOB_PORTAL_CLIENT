@@ -57,7 +57,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export function AllUsersPost({ mode, post }: props) {
-  const { userId } = useSelector(currentUser);
+  const { userId, userName } = useSelector(currentUser);
   const router = useRouter();
   const setNotification = useNotification()
   const [likes, setLikes] = React.useState(post.likes ? post.likes.length : 0);
@@ -71,14 +71,23 @@ export function AllUsersPost({ mode, post }: props) {
   };
 
   async function handleLike(postId: string) {
-    setNotification({
-      content: `Mukhthar has liked your post !`,
-      type: "success",
-      receiver: post.user._id as string,
-    });
     const result = await postLike(postId, userId);
-    if (result.data) setLikes(likes + 1);
-    else setLikes(likes - 1);
+    if (result.data) {
+      setLikes(likes + 1);
+      setNotification({
+        content: `${userName} has liked your post !`,
+        type: "success",
+        receiver: post.user._id as string,
+      });
+    }
+    else{
+      setLikes(likes - 1);
+      setNotification({
+        content: `${userName} has disliked your post !`,
+        type: "error",
+        receiver: post.user._id as string,
+      });
+    } 
   }
 
   function handleComment(e: any) {
@@ -91,6 +100,11 @@ export function AllUsersPost({ mode, post }: props) {
     setEmojiPicker(false);
     if (comment.trim().length == 0) return setComment("");
     await postComment(postId, userId, comment);
+    setNotification({
+      content: `${userName} has commented on your post !`,
+      type: "info",
+      receiver: post.user._id as string,
+    });
     setComment("");
     getPostComments(postId);
   }

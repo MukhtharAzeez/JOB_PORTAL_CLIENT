@@ -2,7 +2,7 @@ import React from 'react';
 import useSWR from "swr";
 import { useRouter } from 'next/router';
 import { getAppliedUsers } from '../../../api/Company-Admin/get';
-import EachAppliedUsers from './EachAppliedUsers';
+import { EachAppliedUsers } from './EachAppliedUsers';
 
 
 export function AppliedUsers() {

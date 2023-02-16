@@ -9,6 +9,7 @@ import { currentCompanyAdmin } from '../../redux/company-admin/CompanyAdminAuthS
 import { useSelector } from 'react-redux';
 import { sendMessageToFriend } from '../../api/User/Post/user';
 import { sendMessageToReceiver } from '../../api/User/Get/user';
+import useNotification from '../../customHooks/useNotification';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Options = ({ children }: any) => {
+    const setNotification = useNotification()
     const { me, callAccepted, callEnded, leaveCall, callUser } = useContext(VideoSocketContext);
     const [idToCall, setIdToCall] = useState('');
     const classes = useStyles();
@@ -51,7 +53,7 @@ const Options = ({ children }: any) => {
     const router = useRouter()
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState("");
-    const { companyAdminId } = useSelector(currentCompanyAdmin)
+    const { companyAdminId ,adminName} = useSelector(currentCompanyAdmin)
     const handleClose = (
         event?: React.SyntheticEvent | Event,
         reason?: string
@@ -65,9 +67,15 @@ const Options = ({ children }: any) => {
 
     const copy = async () => {
         navigator.clipboard.writeText(me);
+        alert(adminName)
         if (router.query.applicantId) {
             const result = await sendMessageToFriend(router.query.applicantId.toString(), companyAdminId, 'company')
             await sendMessageToReceiver(companyAdminId, result.data._id, `You have an online interview now please paste this id ${me} on the video option input and join`)
+            setNotification({
+                content: `you have an online interview now 🍿 check the message from ${adminName}`,
+                type: "success",
+                receiver: router.query.applicantId as string,
+            });
             setMessage("Your Link is send to Applicant, You will get a call from the applicant when he click the link")
             setOpen(true)
         }else{

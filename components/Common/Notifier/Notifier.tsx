@@ -92,7 +92,7 @@ export const Notifier = () => {
         <>
             <Snackbar
                 open={OpenError}
-                autoHideDuration={6000}
+                autoHideDuration={4000}
                 onClose={handleCloseError}
             >
                 <Alert
@@ -106,7 +106,7 @@ export const Notifier = () => {
             {/* Success message */}
             <Snackbar
                 open={OpenSuccess}
-                autoHideDuration={6000}
+                autoHideDuration={4000}
                 onClose={handleCloseSuccess}
             >
                 <Alert
@@ -120,7 +120,7 @@ export const Notifier = () => {
             {/* Info message */}
             <Snackbar
                 open={OpenInfo}
-                autoHideDuration={6000}
+                autoHideDuration={4000}
                 onClose={handleCloseInfo}
             >
                 <Alert onClose={handleCloseInfo} severity="info" sx={{ width: "100%" }}>
@@ -130,7 +130,7 @@ export const Notifier = () => {
             {/* Warning message */}
             <Snackbar
                 open={OpenWarning}
-                autoHideDuration={6000}
+                autoHideDuration={4000}
                 onClose={handleCloseWarning}
             >
                 <Alert

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 // import { makeNotification } from "../APIs";
 import { allUsersIdStore, messageStore } from "../zustand";
 import { notifierActions } from "../redux/notifier/Notifier";
+import { sendNotification } from "../api/notifications";
 
 export interface Notification {
   _id?: string;
@@ -19,6 +20,7 @@ export default function useNotification() {
   const socket = messageStore((state) => state.socket);
   const currentUser = allUsersIdStore((state) => state.id);
   const [notification, setNotification] = useState<Notification>();
+
   const isValid = () => {
     return currentUser && notification !== undefined && socket;
   };
@@ -26,8 +28,8 @@ export default function useNotification() {
   const createNewNotification = async () => {
     try {
       if (isValid()) {
-        // const newNotification = await makeNotification(notification);
-        if (notification) {
+        const newNotification = await sendNotification(notification);
+        if (newNotification) {
           socket?.emit("send-notification", notification);
           setNotification(undefined);
         }
