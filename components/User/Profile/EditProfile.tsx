@@ -10,7 +10,7 @@ import { getCurrentUserDetails } from "../../../api/User/Get/user";
 import { useSelector } from "react-redux";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
 
-function EditProfile() {
+export function EditProfile() {
   const { userId } = useSelector(currentUser)
 
   const fetcher = async () => {
@@ -182,10 +182,6 @@ function EditProfile() {
       setSave(false)
     }
   }
-
-
-
-
   return (
     <>
       <Head>
@@ -570,7 +566,3 @@ function EditProfile() {
     </>
   );
 }
-
-export default EditProfile;
-
-

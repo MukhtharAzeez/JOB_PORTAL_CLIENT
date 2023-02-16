@@ -2,14 +2,10 @@ import { Box } from "@mui/material";
 import Head from "next/head";
 import React from "react";
 import { useSelector } from "react-redux";
-import SideBar from "../../../components/Common/companyAdmin-user/SideBar";
-import MobileBottom from "../../../components/Common/companyAdmin-user/MobileBottom/MobileBottom";
-import NavBar from "../../../components/Common/companyAdmin-user/NavBar/NavBar";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
 import { USER_SIDEBAR_LINKS } from "../../../constants/User-sideBar";
 import UserProtectRouter from "../../../protectRoutes/protectRoutes";
-import SideBarWithoutText from "../../../components/Common/companyAdmin-user/SideBarWithoutText";
-import Schedules from "../../../components/Common/companyAdmin-user/Schedules";
+import { MobileBottom, NavBar, Schedules, SideBar, SideBarWithoutText } from "../../../components/Common";
 
 function index() {
     const mode = useSelector(currentTheme);

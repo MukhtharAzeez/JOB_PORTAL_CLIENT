@@ -1,8 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { MobileBottom, NavBar } from "../../../components/Common";
 import UserMessage from "../../../components/Message/UserMessage";
-import MobileBottom from "../../../components/Common/companyAdmin-user/MobileBottom/MobileBottom";
-import NavBar from "../../../components/Common/companyAdmin-user/NavBar/NavBar";
 import UserProtectRouter from "../../../protectRoutes/protectRoutes";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
 

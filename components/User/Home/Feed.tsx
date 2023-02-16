@@ -1,27 +1,20 @@
 import React, { useState } from "react";
-import AddPost from "./userFeeds/AddPost";
-// import dynamic from "next/dynamic";
-import Jobs from "./Jobs";
-import Post from "./userFeeds/Post";
-
-// const Post = dynamic(() => import("./Post"));
+import { Jobs } from "./Jobs";
+import { AddPost } from "./userFeeds/AddPost";
+import { Post } from "./userFeeds/Post";
 
 interface Props {
   mode: String;
 }
 
-function Feed({ mode }: Props) {
+export function Feed({ mode }: Props) {
   const [jobs, setJobs] = useState(true);
-
-
   const changeToJobs = () => {
     setJobs(true);
   };
-
   const changeToFeeds = () => {
     setJobs(false);
   };
-
   return (
     <div className="mt-20">
       <label htmlFor="Toggle3" className="inline-flex items-center p-2 rounded-md  dark:text-gray-400 w-full text-center">
@@ -42,5 +35,3 @@ function Feed({ mode }: Props) {
     </div>
   );
 }
-
-export default Feed;

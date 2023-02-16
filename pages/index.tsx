@@ -2,28 +2,17 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import Box from "@mui/material/Box";
 import FormData from "form-data";
-import NavBar from "../components/Common/companyAdmin-user/NavBar/NavBar";
-import SideBar from "../components/Common/companyAdmin-user/SideBar";
-import Feed from "../components/User/Home/Feed";
-import RightBar from "../components/Common/companyAdmin-user/RightBar";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { getSession, useSession } from "next-auth/react";
-import dynamic from "next/dynamic";
 import instance from "../axios/axios";
 import { useDispatch, useSelector } from "react-redux";
 import { currentTheme } from "../redux/user/ThemeSlice";
 import { addUserDetails } from "../redux/user/userAuthSlicer";
 import UserProtectRouter from "../protectRoutes/protectRoutes";
 import { USER_SIDEBAR_LINKS } from "../constants/User-sideBar";
-import SideBarWithoutText from "../components/Common/companyAdmin-user/SideBarWithoutText";
+import { MobileBottom, NavBar, RightBar, SideBar, SideBarWithoutText } from "../components/Common";
+import { Feed } from "../components/User";
 // import { io } from "socket.io-client";
-
-
-const BottomBar = dynamic(
-  () => import("../components/Common/companyAdmin-user/MobileBottom/MobileBottom")
-);
-
-
 /**
  * Home Page of the Application
  * @return {JSX.Element}
@@ -124,7 +113,7 @@ export default function Home({ req }: { req: any }) {
             </div>
           </div>
           <div className="sm:hidden">
-            <BottomBar />
+            <MobileBottom />
           </div>
         </Box>
       </ThemeProvider>

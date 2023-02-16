@@ -1,6 +1,6 @@
 import React from "react";
 
-function commentReplies({ reply }: any) {
+export function CommentReplies({ reply }: any) {
   return (
     <div className="space-y-4">
       <div className="flex">
@@ -20,5 +20,3 @@ function commentReplies({ reply }: any) {
     </div>
   );
 }
-
-export default commentReplies;

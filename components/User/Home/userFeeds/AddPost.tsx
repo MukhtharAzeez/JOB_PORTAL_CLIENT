@@ -6,12 +6,12 @@ import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PostAddModal from "../../Upload/UploadPost";
 import { currentUser } from "../../../../redux/user/userAuthSlicer";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { PostAddModal } from "../../Upload/UploadPost";
 
-export default function AddPost() {
+export function AddPost() {
   const [addPost, setAddPost] = React.useState(false);
   const handleOpen = () => setAddPost(true);
 
@@ -47,7 +47,6 @@ export default function AddPost() {
             Create
           </button>
         </CardContent>
-        {/* <addPostModal addPost={addPost} setAddPost={setAddPost} /> */}
         <PostAddModal addPost={addPost} setAddPost={setAddPost} />
       </Card>
     </>

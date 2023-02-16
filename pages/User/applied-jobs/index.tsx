@@ -2,15 +2,11 @@ import { Box } from "@mui/material";
 import Head from "next/head";
 import React from "react";
 import { useSelector } from "react-redux";
-import RightBar from "../../../components/Common/companyAdmin-user/RightBar";
-import SideBar from "../../../components/Common/companyAdmin-user/SideBar";
-import MobileBottom from "../../../components/Common/companyAdmin-user/MobileBottom/MobileBottom";
-import NavBar from "../../../components/Common/companyAdmin-user/NavBar/NavBar";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
 import { USER_SIDEBAR_LINKS } from "../../../constants/User-sideBar";
 import UserProtectRouter from "../../../protectRoutes/protectRoutes";
-import SideBarWithoutText from "../../../components/Common/companyAdmin-user/SideBarWithoutText";
-import AppliedJobs from "../../../components/User/AppliedJobs/AppliedJobs";
+import { MobileBottom, NavBar, RightBar, SideBar, SideBarWithoutText } from "../../../components/Common";
+import { AppliedJobs } from "../../../components/User";
 
 function index() {
     const mode = useSelector(currentTheme);

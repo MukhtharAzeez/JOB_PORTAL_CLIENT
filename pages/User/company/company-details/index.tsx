@@ -2,11 +2,8 @@ import { Box } from '@mui/material'
 import Head from 'next/head'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import SideBar from '../../../../components/Common/companyAdmin-user/SideBar'
-import SideBarWithoutText from '../../../../components/Common/companyAdmin-user/SideBarWithoutText'
-import CompanyProfile from '../../../../components/Company/Profile/CompanyProfile'
-import MobileBottom from '../../../../components/Common/companyAdmin-user/MobileBottom/MobileBottom'
-import NavBar from '../../../../components/Common/companyAdmin-user/NavBar/NavBar'
+import { MobileBottom, NavBar, SideBar, SideBarWithoutText } from '../../../../components/Common'
+import { CompanyProfile } from '../../../../components/Company'
 import { USER_SIDEBAR_LINKS } from '../../../../constants/User-sideBar'
 import UserProtectRouter from '../../../../protectRoutes/protectRoutes'
 import { currentTheme } from '../../../../redux/user/ThemeSlice'
@@ -34,7 +31,6 @@ function index() {
                         <CompanyProfile/>
                     </div>
                 </div>
-
                 <div className="sm:hidden">
                     <MobileBottom />
                 </div>

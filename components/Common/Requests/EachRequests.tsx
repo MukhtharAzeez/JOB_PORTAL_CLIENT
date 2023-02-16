@@ -1,9 +1,9 @@
 import React from 'react'
 import useSWR from "swr";
-import Requests from '../../../components/Common/Requests/Requests';
 import { getAllRequests } from '../../../api/Company/get';
 import { getCompanyAdminRequests } from '../../../api/Company-Admin/get';
 import { getUserNotifications } from '../../../api/User/Get/user';
+import { Requests } from './Requests';
 
 interface Props {
     type: string,

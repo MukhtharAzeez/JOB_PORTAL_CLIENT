@@ -1,16 +1,16 @@
 import * as React from "react";
-import AllUsersPost from "./AllUsersPost";
 import { getAllUsersPost } from "../../../../api/User/Get/post";
-import PostSkeleton from "../../../Common/skeleton/PostSkeleton";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
 import BeenhereIcon from '@mui/icons-material/Beenhere';
+import { PostSkeleton } from "../../../Common/skeleton/PostSkeleton";
+import { AllUsersPost } from "./AllUsersPost";
 
 interface Props {
   mode: String;
 }
 
-export default function Post({ mode }: Props) {
+export function Post({ mode }: Props) {
   const [postsData, setPostsData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [skipCount, setSkipCount] = useState(0);

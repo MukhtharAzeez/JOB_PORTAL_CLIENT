@@ -1,16 +1,16 @@
 import * as React from "react";
-import PostSkeleton from "../../Common/skeleton/PostSkeleton";
 import { getJobsPosts } from "../../../api/User/Get/post";
-import CompanyPosts from "./CompanyPosts/CompanyPosts";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
 import BeenhereIcon from '@mui/icons-material/Beenhere';
+import { PostSkeleton } from "../../Common/skeleton/PostSkeleton";
+import { CompanyPosts } from "./CompanyPosts/CompanyPosts";
 
 interface Props {
   mode: String;
 }
 
-function Jobs({ mode }: Props) {
+export function Jobs({ mode }: Props) {
   const [jobsData, setJobsData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [skipCount, setSkipCount] = useState(0);
@@ -59,5 +59,3 @@ function Jobs({ mode }: Props) {
     </InfiniteScroll>
   );
 }
-
-export default Jobs;

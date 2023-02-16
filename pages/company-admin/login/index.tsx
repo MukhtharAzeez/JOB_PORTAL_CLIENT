@@ -1,5 +1,5 @@
 import React from 'react'
-import Login from '../../../components/Common/Login/Login'
+import { Login } from '../../../components/Common'
 import companyAdminLogin from '../../../public/image/companyAdminLogin.webp'
 
 

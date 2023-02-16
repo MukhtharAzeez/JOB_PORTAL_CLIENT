@@ -18,7 +18,7 @@ interface Job {
     accepted: boolean
 }
 
-function AppliedJobs() {
+export function AppliedJobs() {
     const { userId } = useSelector(currentUser)
     const [appliedJobs, setAppliedJobs] = useState([])
     const [count, setCount] = useState<number>(1)
@@ -136,8 +136,3 @@ function AppliedJobs() {
         </div>
     );
 }
-
-export default AppliedJobs;
-
-
-

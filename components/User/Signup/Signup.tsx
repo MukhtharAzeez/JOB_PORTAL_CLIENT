@@ -30,7 +30,7 @@ import userSignup from '../../../public/image/userSignup.svg'
 
 const theme = createTheme();
 
-export default function SignUp() {
+export function SignUp() {
     const router = useRouter();
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = React.useState(false);

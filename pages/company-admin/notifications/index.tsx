@@ -2,21 +2,12 @@ import React from "react";
 import Head from "next/head";
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
-import NavBar from "../../../components/Common/companyAdmin-user/NavBar/NavBar";
-import RightBar from "../../../components/Common/companyAdmin-user/RightBar";
-import dynamic from "next/dynamic";
-import SideBar from "../../../components/Common/companyAdmin-user/SideBar";
-import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../../constants/Company-admin-sidebar";
-import SideBarWithoutText from "../../../components/Common/companyAdmin-user/SideBarWithoutText";
-import CompanyAdminProtectRoute from "../../../protectRoutes/companyAdminProtectRoute";
-import EachRequests from "../../../components/Common/Requests/EachRequests";
 import { currentCompanyAdmin } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
-const BottomBar = dynamic(
-    () => import("../../../components/Common/companyAdmin-user/MobileBottom/MobileBottom")
-);
+import CompanyAdminProtectRoute from "../../../protectRoutes/companyAdminProtectRoute";
+import { EachRequests, MobileBottom, NavBar, RightBar, SideBar, SideBarWithoutText } from "../../../components/Common";
+import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../../constants/Company-admin-sidebar";
 
 
 /**
@@ -25,20 +16,14 @@ const BottomBar = dynamic(
  */
 
 export default function Home({ req }: { req: any }) {
-
     // const dispatch = useDispatch()
     const mode = useSelector(currentTheme);
     const {companyAdminId} = useSelector(currentCompanyAdmin)
-
-    // const {data:session} =
-    useSession();
-
     const theme = createTheme({
         palette: {
             mode: mode == "light" ? "light" : "dark",
         },
     });
-
     return (
         <CompanyAdminProtectRoute>
             <ThemeProvider theme={theme}>
@@ -70,7 +55,7 @@ export default function Home({ req }: { req: any }) {
                         </div>
                     </div>
                     <div className="sm:hidden">
-                        <BottomBar />
+                        <MobileBottom />
                     </div>
                 </Box>
             </ThemeProvider>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Companies } from "../../../components/Admin";
-import Header from "../../../components/Common/adminAndCompanySideBar/Header/Header";
-import SideBar from "../../../components/Common/adminAndCompanySideBar/SideBar/CompanyAndAdminSideBar";
+import { CompanyAndAdminSideBar, Header } from "../../../components/Common";
 import { ADMIN_SIDE_BAR_LINKS } from "../../../constants/Admin_sideBar";
 
 
@@ -11,7 +10,7 @@ function index() {
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <SideBar
+      <CompanyAndAdminSideBar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         links={ADMIN_SIDE_BAR_LINKS}

@@ -5,18 +5,10 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 import { currentTheme } from "../../../../redux/user/ThemeSlice";
-import NavBar from "../../../../components/Common/companyAdmin-user/NavBar/NavBar";
-import RightBar from "../../../../components/Common/companyAdmin-user/RightBar";
-import dynamic from "next/dynamic";
-import SideBar from "../../../../components/Common/companyAdmin-user/SideBar";
 import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../../../constants/Company-admin-sidebar";
-import EditJob from "../../../../components/Company-admin/Job/EditJob";
-import AppliedUsers from "../../../../components/Company-admin/Job/AppliedUsers";
-import SideBarWithoutText from "../../../../components/Common/companyAdmin-user/SideBarWithoutText";
 import CompanyAdminProtectRoute from "../../../../protectRoutes/companyAdminProtectRoute";
-const BottomBar = dynamic(
-    () => import("../../../../components/Common/companyAdmin-user/MobileBottom/MobileBottom")
-);
+import { MobileBottom, NavBar, RightBar, SideBar, SideBarWithoutText } from "../../../../components/Common";
+import { AppliedUsers, EditJob } from "../../../../components/Company-admin";
 
 /**
  * Home Page of the Application
@@ -63,7 +55,7 @@ export default function Index({ req }: { req: any }) {
                         </div>
                     </div>
                     <div className="sm:hidden">
-                        <BottomBar />
+                        <MobileBottom />
                     </div>
                 </Box>
             </ThemeProvider>

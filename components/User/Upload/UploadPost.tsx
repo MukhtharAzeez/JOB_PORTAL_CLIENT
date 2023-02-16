@@ -10,7 +10,7 @@ interface Props {
   setAddPost: any
 }
 
-export default function PostAddModal({ addPost, setAddPost }: Props) {
+export function PostAddModal({ addPost, setAddPost }: Props) {
   const { userId } = useSelector(currentUser);
   const [files, setFile] = useState([]);
   const [image, setImage] = useState([]);

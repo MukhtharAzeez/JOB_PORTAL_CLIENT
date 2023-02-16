@@ -13,7 +13,7 @@ interface props {
     post: any;
 }
 
-function CompanyPosts({ mode, post }: props) {
+export function CompanyPosts({ mode, post }: props) {
     const { userId } = useSelector(currentUser);
     const [message, setMessage] = React.useState({ messageType: '', message: '' });
     const [open, setOpen] = useState(false)
@@ -110,5 +110,3 @@ function CompanyPosts({ mode, post }: props) {
         </>
     )
 }
-
-export default CompanyPosts

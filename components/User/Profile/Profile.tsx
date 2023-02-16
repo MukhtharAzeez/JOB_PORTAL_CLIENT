@@ -17,7 +17,7 @@ interface Props {
 
 }
 
-function Profile({ userId, user }: Props) {
+export function Profile({ userId, user }: Props) {
     const [open, setOpen] = useState(false);
     const [image, setImage] = useState('');
     const [connected, setConnected] = useState(false)
@@ -268,5 +268,3 @@ function Profile({ userId, user }: Props) {
         </>
     );
 }
-
-export default Profile;

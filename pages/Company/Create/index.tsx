@@ -1,5 +1,5 @@
 import React from 'react'
-import Create from '../../../components/Company/Create/create'
+import { Create } from '../../../components/Company'
 
 function index() {
   return (

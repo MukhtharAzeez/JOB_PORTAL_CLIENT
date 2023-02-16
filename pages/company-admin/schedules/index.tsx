@@ -5,16 +5,9 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 import { currentTheme } from "../../../redux/user/ThemeSlice";
-import NavBar from "../../../components/Common/companyAdmin-user/NavBar/NavBar";
-import dynamic from "next/dynamic";
-import SideBar from "../../../components/Common/companyAdmin-user/SideBar";
-import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../../constants/Company-admin-sidebar";
-import SideBarWithoutText from "../../../components/Common/companyAdmin-user/SideBarWithoutText";
 import CompanyAdminProtectRoute from "../../../protectRoutes/companyAdminProtectRoute";
-import Schedules from "../../../components/Common/companyAdmin-user/Schedules";
-const BottomBar = dynamic(
-    () => import("../../../components/Common/companyAdmin-user/MobileBottom/MobileBottom")
-);
+import { MobileBottom, NavBar, Schedules, SideBar, SideBarWithoutText } from "../../../components/Common";
+import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../../constants/Company-admin-sidebar";
 
 
 /**
@@ -64,7 +57,7 @@ export default function Home({ req }: { req: any }) {
                         </div>
                     </div>
                     <div className="sm:hidden">
-                        <BottomBar />
+                        <MobileBottom />
                     </div>
                 </Box>
             </ThemeProvider>

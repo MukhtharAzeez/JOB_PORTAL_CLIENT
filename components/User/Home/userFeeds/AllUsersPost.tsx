@@ -21,7 +21,6 @@ import { Collapse, Divider, InputBase, Paper, styled } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import Comment from "./Comment";
 import moment from "moment";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
@@ -32,6 +31,7 @@ import {
   postLike,
 } from "../../../../api/User/Post/post";
 import { useRouter } from "next/router";
+import { Comment } from "./Comment";
 
 interface props {
   mode: String;
@@ -55,7 +55,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-function AllUsersPost({ mode, post }: props) {
+export function AllUsersPost({ mode, post }: props) {
   const { userId } = useSelector(currentUser);
   const router = useRouter();
 
@@ -292,7 +292,6 @@ function AllUsersPost({ mode, post }: props) {
           />
         </Box>
       </Box>
-
       {/* Comment Box */}
       <Collapse in={expanded} timeout="auto" unmountOnExit className="">
         <Comment comments={allComments} />
@@ -300,5 +299,3 @@ function AllUsersPost({ mode, post }: props) {
     </Card>
   );
 }
-
-export default AllUsersPost;

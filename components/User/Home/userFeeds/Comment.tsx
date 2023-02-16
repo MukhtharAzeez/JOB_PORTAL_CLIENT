@@ -1,6 +1,6 @@
 import { CardContent } from "@mui/material";
 import React from "react";
-import UserComment from "./UserComment";
+import { UserComment } from "./UserComment";
 
 interface Comment {
   _id: string
@@ -13,7 +13,7 @@ interface Comment {
 interface Props {
   comments: Array<Comment>
 }
-function Comment({ comments }: Props) {
+export function Comment({ comments }: Props) {
   return (
     <CardContent>
       <div className="antialiased mx-auto max-w-screen-sm max-h-96 overflow-scroll">
@@ -29,5 +29,3 @@ function Comment({ comments }: Props) {
     </CardContent>
   );
 }
-
-export default Comment;
