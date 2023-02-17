@@ -14,7 +14,5 @@ export * from "./companyAdmin-user/SchedulesStepper";
 export * from "./companyAdmin-user/SideBar";
 export * from "./companyAdmin-user/SideBarWithoutText";
 export * from "./Login/Login";
-export * from "./Notifications/Notifications";
 export * from "./Requests/Requests";
 export * from "./Requests/EachRequests";
-// export * from "./Skeleton/PostSkeleton";
