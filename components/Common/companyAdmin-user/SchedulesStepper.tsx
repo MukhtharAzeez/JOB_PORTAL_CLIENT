@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { setAScheduleAsCompleted } from '../../../api/Company-Admin/get'
-import ScheduleInterview from '../../Company-admin/Job/scheduleInterview'
+import { ScheduleInterview } from '../../Company-admin'
 interface Props {
     data: {
         _id: string,
