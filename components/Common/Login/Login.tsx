@@ -157,10 +157,10 @@ export function Login({ type, image, color}: Props) {
     };
 
     async function handleGoogleSignUp() {
-        signIn("google", { callbackUrl: "http://localhost:3000/" });
+        signIn("google", { callbackUrl: process.env.NEST_PUBLIC_CLIENT_DOMAIN });
     }
     async function handleGithubSignUp() {
-        signIn("github", { callbackUrl: "http://localhost:3000/" });
+        signIn("github", { callbackUrl: process.env.NEST_PUBLIC_CLIENT_DOMAIN });
     }
 
     const [showPassword, setShowPassword] = React.useState(false);

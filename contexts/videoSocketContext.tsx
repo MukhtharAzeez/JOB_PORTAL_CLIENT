@@ -18,7 +18,8 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const connectionRef = useRef(null);
 
   useEffect(() => {
-    const socket = io('http://localhost:8400');
+    const socket = io(process.env.NEXT_PUBLIC_VIDEO_SOCKET_DOMAIN);
+    console.log(socket)
     setSocket(socket)
   }, [])
 
@@ -34,6 +35,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       
     if (socket) {
       socket.on("me", (id) => {
+        console.log(id)
         setMe(id);
       });
       socket.on("callUser", (data) => {

@@ -67,7 +67,6 @@ const Options = ({ children }: any) => {
 
     const copy = async () => {
         navigator.clipboard.writeText(me);
-        alert(adminName)
         if (router.query.applicantId) {
             const result = await sendMessageToFriend(router.query.applicantId.toString(), companyAdminId, 'company')
             await sendMessageToReceiver(companyAdminId, result.data._id, `You have an online interview now please paste this id ${me} on the video option input and join`)

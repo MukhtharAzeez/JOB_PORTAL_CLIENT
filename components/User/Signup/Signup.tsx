@@ -23,10 +23,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { FilledInput } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUserDetails } from "../../../redux/user/userAuthSlicer";
 import userSignup from '../../../public/image/userSignup.svg'
+import instance from "../../../axios/axios";
 
 const theme = createTheme();
 
@@ -54,7 +54,7 @@ export function SignUp() {
         data.set("signInWith", "email");
         try {
             setIsLoading(true);
-            const user = await axios.post("http://localhost:4000/auth/user/signup", data, {
+            const user = await  instance.post("/auth/user/signup", data, {
                 withCredentials: true,
                 headers: {
                     "Content-Type": "application/json",
