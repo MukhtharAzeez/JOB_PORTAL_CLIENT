@@ -159,14 +159,12 @@ export function Login({ type, image, color}: Props) {
             }
         }
     };
-
     async function handleGoogleSignUp() {
         signIn("google", { callbackUrl: process.env.NEST_PUBLIC_CLIENT_DOMAIN });
     }
     async function handleGithubSignUp() {
         signIn("github", { callbackUrl: process.env.NEST_PUBLIC_CLIENT_DOMAIN });
     }
-
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (
@@ -174,7 +172,6 @@ export function Login({ type, image, color}: Props) {
     ) => {
         event.preventDefault();
     };
-
     return (
         <PublicRoute>
             <ThemeProvider theme={theme}>
