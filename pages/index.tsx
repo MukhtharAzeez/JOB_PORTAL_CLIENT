@@ -89,7 +89,7 @@ export default function Home({ req }: { req: any }) {
           <link rel="icon" href="/favicon.ico" />
           {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" /> */}
         </Head>
-        <Box color={"text.primary"} className="bg-gray-200">
+        <Box color={"text.primary"} className="bg-gray-200 min-h-[100vh]">
           <NavBar mode={mode} type={'user'}/>
           <div className="border ">
             <div className="flex justify-around md:pr-20">

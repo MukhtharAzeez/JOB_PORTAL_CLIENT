@@ -19,8 +19,9 @@ export function AddPost() {
   return (
     <>
       <Card
+        className="min-w-[450px]"
         sx={{
-          minWidth: { xs: "auto", md: "auto", sm: 400 },
+          // minWidth: { xs: "auto", md: "auto", sm: 400 },
           margin: 1,
         }}
       >

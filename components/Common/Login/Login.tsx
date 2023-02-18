@@ -85,6 +85,8 @@ export function Login({ type, image, color}: Props) {
             } catch (error: any) {
                 console.log(error)
                 setIsLoading(false);
+
+                
                 const type = typeof error.response.data.message;
                 if (type == "string") {
                     setMessage(error.response.data.message);

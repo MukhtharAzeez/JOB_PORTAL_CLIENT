@@ -32,7 +32,7 @@ export function RightBar() {
       <div className="bg-white relative shadow-2xl rounded-lg w-full mt-24 mx-auto max-h-[680px]  scrollbar-hide">
         <div className="flex justify-center">
           <Image
-            src={data[0].image ? data[0].image : companyDefaultLogo}
+            src={data[0]?.image ? data[0]?.image : companyDefaultLogo}
             alt=""
             width={100}
             height={100}
@@ -41,10 +41,10 @@ export function RightBar() {
         </div>
         <div className="mt-32">
           <h1 className="font-bold text-center text-3xl text-gray-900">
-            {userId ? data[0].company : data[0].firstName + " " + data[0].lastName}
+            {userId ? data[0]?.company : data[0]?.firstName + " " + data[0]?.lastName}
           </h1>
           <p className="text-center text-sm text-gray-400 font-medium">
-            {data[0].establishedOn}
+            {data[0]?.establishedOn}
           </p>
           <p>
             <span></span>
@@ -52,16 +52,16 @@ export function RightBar() {
           <div className="my-5 px-6">
             <div
               onClick={() => router.push({
-                pathname: `/company-admin/user/${data[0]._id}`,
+                pathname: `/company-admin/user/${data[0]?._id}`,
               },
               )}
               className="cursor-pointer text-gray-200 block rounded-lg text-center font-medium leading-6 px-6 py-3 bg-gray-900 hover:bg-black hover:text-white"
             >
               {
                 userId ? (
-                  <>See All <span className="font-bold">Jobs Posted</span> by {data[0].company}</>
+                  <>See All <span className="font-bold">Jobs Posted</span> by {data[0]?.company}</>
                 ) : (
-                    <>Go to <span className="font-bold">{data[0].firstName + " " + data[0].lastName}</span> Profile </>
+                    <>Go to <span className="font-bold">{data[0]?.firstName + " " + data[0]?.lastName}</span> Profile </>
                 )
               }
             </div>
