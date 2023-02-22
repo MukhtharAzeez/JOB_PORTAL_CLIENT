@@ -68,7 +68,6 @@ export function Login({ type, image, color}: Props) {
                     },
                 });
                 if (user) {
-                    console.log(user)
                     localStorage.setItem(
                         "userName",
                         user.data.result.firstName + " " + user.data.result.lastName
@@ -83,7 +82,6 @@ export function Login({ type, image, color}: Props) {
                     router.push("/");
                 }
             } catch (error: any) {
-                console.log(error)
                 setIsLoading(false);
 
                 
