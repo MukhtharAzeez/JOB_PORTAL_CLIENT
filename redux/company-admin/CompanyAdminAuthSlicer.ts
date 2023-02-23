@@ -33,9 +33,17 @@ const companyAdminAuthSlice = createSlice({
       state.image = newItem.result.image;
       state.companyToken = newItem.accessToken.access_token;
     },
+     logoutCompanyAdmin(state) {
+      state.adminName = null;
+      state.companyAdminId = null;
+      state.companyId = null;
+      state.image = "";
+      state.email = null;
+      state.companyToken = null;
+    },
   },
 });
 
-export const { addCompanyAdminDetails } = companyAdminAuthSlice.actions;
+export const { addCompanyAdminDetails, logoutCompanyAdmin } = companyAdminAuthSlice.actions;
 export const currentCompanyAdmin = (state: RootState) => state.companyAdmin;
 export default companyAdminAuthSlice;

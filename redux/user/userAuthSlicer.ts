@@ -29,10 +29,17 @@ const userAuthSlice = createSlice({
       state.image = newItem.result.image
       state.userToken = newItem.accessToken.access_token;
     },
+    logoutUser(state) {
+      state.userName = null
+      state.userId = null
+      state.email = null
+      state.image = ''
+      state.userToken = null
+    },
   },
 });
 
-export const { addUserDetails } = userAuthSlice.actions;
+export const { addUserDetails, logoutUser } = userAuthSlice.actions;
 export const currentUser = (state: RootState) => state.user;
 export default userAuthSlice;
 

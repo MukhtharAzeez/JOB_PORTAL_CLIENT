@@ -13,11 +13,11 @@ import noSearchResults from '../../../../public/image/noSearchResults.webp'
 import Image from "next/image";
 import { DebounceInput } from "react-debounce-input";
 import { getUsersBySearching } from "../../../../api/User/Get/user";
-import { useSelector } from "react-redux";
-import { currentUser } from "../../../../redux/user/userAuthSlicer";
+import { useDispatch, useSelector } from "react-redux";
+import { currentUser, logoutUser } from "../../../../redux/user/userAuthSlicer";
 import { sendMessageToFriend } from "../../../../api/User/Post/user";
 import { useRouter } from "next/router";
-import { currentCompanyAdmin } from "../../../../redux/company-admin/CompanyAdminAuthSlicer";
+import { currentCompanyAdmin, logoutCompanyAdmin } from "../../../../redux/company-admin/CompanyAdminAuthSlicer";
 import LoginIcon from '@mui/icons-material/LoginSharp';
 import Avatar from "@mui/material/Avatar";
 
@@ -27,6 +27,7 @@ interface Props {
 }
 
 export function NavBar({ mode, type }: Props) {
+  const dispatch = useDispatch()
   const router = useRouter()
   const [showModal, setShowModal] = React.useState(false);
   const [userSearchResult, setUserSearchResult] = useState([])
@@ -74,6 +75,16 @@ export function NavBar({ mode, type }: Props) {
     setShowModal(false)
   }
 
+  function handleLogout() {
+    localStorage.clear()
+    if (type === 'user') {
+      dispatch(logoutUser())
+    }
+    if (type === 'companyAdmin') {
+      dispatch(logoutCompanyAdmin())
+    }
+  }
+
   return (
     <>
       <Head>
@@ -117,14 +128,13 @@ export function NavBar({ mode, type }: Props) {
               <Person2Icon />
             </span>
           </Link>
-          <Link href={`/${type}/login`} onClick={() => { localStorage.clear() }}>
+          <Link href={`/${type}/login`}  onClick={handleLogout}>
             <span className="w-10 relative float-right mr-3 cursor-pointer hover:text-gray-700">
               <LoginIcon />
             </span>
           </Link>
         </div>
       </div>
-
       {
         showModal &&
         <>
