@@ -3,6 +3,7 @@ import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import NotificationAddIcon from "@mui/icons-material/NotificationAdd";
 
 export const COMPANY_SIDE_BAR_LINKS = [
   {
@@ -27,7 +28,7 @@ export const COMPANY_SIDE_BAR_LINKS = [
   },
   {
     title: "Requests",
-    icon: HomeOutlinedIcon,
+    icon: NotificationAddIcon,
     href: "/company/requests",
   },
   {

@@ -137,12 +137,13 @@ export function Requests({ request, type }: Props) {
             await acceptApplicant(newSchedule, request.job._id, request.applicant._id, request.admin._id, request.company)
             await updateRequest(request._id)
             setNotification({
-                content: ` ${request.admin.name} accepted the request of user ${request.user.firstName + " " + request.user.lastName} for "${request.message}" for job ${request.job.job}`,
+                content: ` ${request.admin.name} accepted the request of user ${request.applicant.firstName + " " + request.applicant.lastName} for "${request.message}" for job ${request.job.job}`,
                 type: "info",
-                receiver: request.company._id as string,
+                receiver: request.company as string,
             });
             setReScheduled(true)
         } catch (error: any) {
+            console.log(error)
             const type = typeof error.response.data.message;
             if (type == "string") {
                 setMessage(error.response.data.message);

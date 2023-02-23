@@ -19,7 +19,7 @@ import { sendMessageToFriend } from "../../../../api/User/Post/user";
 import { useRouter } from "next/router";
 import { currentCompanyAdmin } from "../../../../redux/company-admin/CompanyAdminAuthSlicer";
 import LoginIcon from '@mui/icons-material/LoginSharp';
-// import { allUsersIdStore } from "../../../../zustand";
+import Avatar from "@mui/material/Avatar";
 
 interface Props {
   mode: String;
@@ -28,7 +28,6 @@ interface Props {
 
 export function NavBar({ mode, type }: Props) {
   const router = useRouter()
-  // const id = allUsersIdStore((state)=>state.id)
   const [showModal, setShowModal] = React.useState(false);
   const [userSearchResult, setUserSearchResult] = useState([])
   const { userId } = useSelector(currentUser)
@@ -46,7 +45,7 @@ export function NavBar({ mode, type }: Props) {
   }
 
   async function messageUser(searchUserId: string) {
-    if(userId){
+    if (userId) {
       await sendMessageToFriend(userId, searchUserId, 'user')
       router.push({
         pathname: "/user/inbox",
@@ -58,9 +57,9 @@ export function NavBar({ mode, type }: Props) {
         "/user/inbox"
       )
       setShowModal(false)
-      return 
+      return
     }
-    if(companyAdminId){
+    if (companyAdminId) {
       await sendMessageToFriend(searchUserId, companyAdminId, 'company')
       router.push({
         pathname: "/company-admin/inbox",
@@ -118,7 +117,7 @@ export function NavBar({ mode, type }: Props) {
               <Person2Icon />
             </span>
           </Link>
-          <Link href={`/${type}/login`} onClick={()=>{localStorage.clear()}}>
+          <Link href={`/${type}/login`} onClick={() => { localStorage.clear() }}>
             <span className="w-10 relative float-right mr-3 cursor-pointer hover:text-gray-700">
               <LoginIcon />
             </span>
@@ -158,17 +157,32 @@ export function NavBar({ mode, type }: Props) {
                       userSearchResult.map((user) => {
                         return (
                           <div key={user._id} className="flex justify-between items-center py-2">
-                            <div className="flex items-center">
-                              <div>
-                                <h3 className="mb-2 sm:mb-1 text-gray-800 text-base font-normal leading-4">{user.firstName + " " + user.lastName}</h3>
-                                <p className="text-gray-600 text-xs leading-3">{user.email}</p>
+                            <div className="flex">
+                              <Avatar onClick={() =>
+                                router.push({
+                                  pathname: "/user/visit-user",
+                                  query: {
+                                    friend: user._id,
+                                  },
+                                },
+                                  "/user/visit-user"
+                                )
+                              }
+                                alt="User Profile" src={user.image} className="cursor-pointer" />
+                              <div className="flex items-center pl-4">
+                                <div>
+                                  <h3 className="mb-2 sm:mb-1 text-gray-800 text-base font-normal leading-4">{user.firstName + " " + user.lastName}</h3>
+                                  <p className="text-gray-600 text-xs leading-3">{user.email}</p>
+                                </div>
                               </div>
                             </div>
-                            <div onClick={() => messageUser(user._id)} className="relative font-normal text-xs sm:text-sm flex items-center text-gray-600 cursor-pointer" >
-                              <div className="border p-2 rounded-md bg-indigo-400 hover:bg-transparent hover:text-indigo-400 hover:border-indigo-400 ">
-                                Message
+                            {userId !== user._id &&
+                              <div onClick={() => messageUser(user._id)} className="relative font-normal text-xs sm:text-sm flex items-center text-gray-600 cursor-pointer" >
+                                <div className="border p-2 rounded-md text-gray-400 bg-gray-800 hover:bg-transparent hover:text-gray-800 hover:border-gray-800 ">
+                                  Message
+                                </div>
                               </div>
-                            </div>
+                            }
                           </div>
                         )
                       })

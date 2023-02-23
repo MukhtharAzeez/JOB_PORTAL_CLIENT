@@ -327,7 +327,7 @@ export function Login({ type, image, color}: Props) {
                             <div className="flex justify-center flex-col mt-3">  
                                 {type == 'user' && <p className="text-center">Does not have an account? <span onClick={()=>router.push("/user/signup")} className="cursor-pointer hover:text-color">Sign Up</span> </p>}
                                 {type == 'company' && <p className="text-center">Does not have a Page? <span onClick={() => router.push("/company/create")} className="cursor-pointer hover:text-color">Create Page</span> </p>}
-                                {type == 'companyAdmin' && <p className="text-center">Want to Login as normal user?<span onClick={() => router.push("/  user/login")} className="cursor-pointer hover:text-color">Login</span> </p>}
+                                {type == 'companyAdmin' && <p className="text-center">Want to Login as normal user?<span onClick={() => router.push("/user/login")} className="cursor-pointer hover:text-color">Login</span> </p>}
                             </div>
                         </Box>
                     </Container>
