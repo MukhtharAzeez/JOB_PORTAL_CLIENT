@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined"; import HomeIcon from '@mui/icons-material/HomeSharp';
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import HomeIcon from '@mui/icons-material/HomeSharp';
 import LoginIcon from '@mui/icons-material/LoginSharp';
 import EventNoteIcon from '@mui/icons-material/EventNoteSharp';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
-import { currentCompanyAdmin } from '../../../../redux/company-admin/CompanyAdminAuthSlicer';
+import { currentCompanyAdmin, logoutCompanyAdmin } from '../../../../redux/company-admin/CompanyAdminAuthSlicer';
 import { currentUser } from '../../../../redux/user/userAuthSlicer';
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../../../redux/user/userAuthSlicer";
 
 export function MobileBottom() {
+  const dispatch = useDispatch()
   const { userId } = useSelector(currentUser)
   const { companyAdminId } = useSelector(currentCompanyAdmin)
   const [userType, setUserType] = useState(null)

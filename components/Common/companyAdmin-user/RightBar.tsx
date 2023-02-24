@@ -28,8 +28,8 @@ export function RightBar() {
     }
   };
   const { data, error, isLoading } = useSWR("getRandomCompany", fetcher);
-  if (error) return <div className="fixed hidden lg:block min-w-[340px] max-w-[340px] my-1"><Image alt="" src={Error} className="rounded-md" /></div>
-  if (isLoading) return <div><Loader /></div>
+  if (error) return <div className="hidden lg:block min-w-[340px] max-w-[340px] my-1"><Image alt="" src={Error} className="rounded-md" /></div>
+  if (isLoading) return <div className="hidden lg:block"><Loader /></div>
   return (
     <>
       {
