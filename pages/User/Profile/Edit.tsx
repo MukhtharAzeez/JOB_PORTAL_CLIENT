@@ -22,10 +22,10 @@ function Edit() {
             <div className="w-1/12 mt-10 ml-24 hidden lg:block">
               <SideBar links={USER_SIDEBAR_LINKS}  href={'/user/profile'}/>
             </div>
-            <div className="w-0 sm:w-1/12 mt-10 ml-5 xs:ml-0 sm:block lg:hidden">
+            <div className="w-0 sm:w-1/12 mt-10 md:ml-5 md:mr-2 xs:ml-0 sm:block lg:hidden">
               <SideBarWithoutText links={USER_SIDEBAR_LINKS} href={'/user/profile'}/>
             </div>
-            <div className="w-full mt-24 md:ml-24 ">
+            <div className="w-full mt-24 md:ml-28 ">
               <EditProfile />
             </div>
           </div>

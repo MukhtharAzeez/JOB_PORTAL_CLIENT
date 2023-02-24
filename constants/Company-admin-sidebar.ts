@@ -4,7 +4,7 @@ import PostAddIcon from "@mui/icons-material/PostAdd";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import TodayOutlinedIcon from "@mui/icons-material/TodayOutlined";
-import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
+// import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import LoginIcon from "@mui/icons-material/LoginSharp";
 
 export const COMPANY_ADMIN_SIDEBAR_LINKS = [
@@ -38,11 +38,11 @@ export const COMPANY_ADMIN_SIDEBAR_LINKS = [
     icon: NotificationsNoneOutlinedIcon,
     href: "/company-admin/notifications",
   },
-  {
-    title: "Profile",
-    icon: Person2OutlinedIcon,
-    href: "/company-admin/profile",
-  },
+  // {
+  //   title: "Profile",
+  //   icon: Person2OutlinedIcon,
+  //   href: "/company-admin/profile",
+  // },
   {
     title: "Logout",
     icon: LoginIcon,

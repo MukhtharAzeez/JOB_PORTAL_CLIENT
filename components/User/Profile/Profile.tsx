@@ -102,7 +102,7 @@ export function Profile({ userId, user }: Props) {
                 />
             </Head>
 
-            <div className="relative flex flex-col min-w-0 min-h-[550px] break-words bg-white xs:w-full lg:w-full mb-6 shadow-xl rounded-lg mt-36">
+            <div className="relative flex flex-col min-w-0 min-h-[500px] break-words bg-white xs:w-full lg:w-full mb-6 shadow-xl rounded-lg mt-36">
                 <div className="rounded-lg shadow-lg">
                     <div className="flex flex-wrap">
                         <div className="w-full flex justify-center">

@@ -146,13 +146,13 @@ export function NavBar({ mode, type }: Props) {
                 <div className="flex rounded-l-xl w-full">
                   <DebounceInput
                     placeholder={'Enter username...'}
-                    className="w-full p-2 border-2 rounded-md focus:outline-0"
+                    className="w-full p-2 border-2 rounded-md focus:outline-0 text-black"
                     minLength={2}
                     debounceTimeout={1000}
                     onChange={handleInputChange} />
                 </div>
                 <button
-                  className="py-2 pl-1 "
+                  className="py-2 pl-1"
                   onClick={() => setShowModal(false)}
                 >
                   <span className="">
@@ -168,16 +168,16 @@ export function NavBar({ mode, type }: Props) {
                         return (
                           <div key={user._id} className="flex justify-between items-center py-2">
                             <div className="flex">
-                              <Avatar onClick={() =>
+                              <Avatar onClick={() =>{
                                 router.push({
                                   pathname: "/user/visit-user",
                                   query: {
                                     friend: user._id,
                                   },
                                 },
-                                  "/user/visit-user"
                                 )
-                              }
+                                setShowModal(false)
+                              }}
                                 alt="User Profile" src={user.image} className="cursor-pointer" />
                               <div className="flex items-center pl-4">
                                 <div>
