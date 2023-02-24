@@ -42,7 +42,7 @@ export function UserMessage({type}:{type:string}) {
       });
     }
   }, [socket]);
-
+  
   return (
     socket && 
     <div className="pt-20  mb-14 fixed w-full">

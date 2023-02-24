@@ -9,6 +9,7 @@ import { Pagination } from '@mui/material';
 import { sendMessageToFriend } from '../../../api/User/Post/user';
 import { useSelector } from 'react-redux';
 import { currentUser } from '../../../redux/user/userAuthSlicer';
+import Loader from '../../Common/skeleton/Loader';
 
 interface CompanyAdmin {
     _id: string
@@ -36,7 +37,7 @@ export function CompanyProfile() {
     const { data, error, isLoading } = useSWR("companyDetails", fetcher);
 
     if (error) return <div>Error....</div>
-    if (isLoading) return <div>Loading....</div>
+    if (isLoading) return <div><Loader /></div>
     const handleOpen = (image: string, certificate: string) => {
         setImage(image)
         setCertificate(certificate)

@@ -36,7 +36,7 @@ function index() {
                         <div className="md:w-6/12 sm:w-9/12 w-full mt-28 mr-5 lg:ml-16">
                             <EachRequests type={'user'} id={userId} />
                         </div>
-                        <div className="w-2/12 mt-4 hidden lg:block mr-16 md:mr-32">
+                        <div className="w-2/12 mt-28 hidden lg:block mr-16 md:mr-32">
                             <RightBar />
                         </div>
                     </div>

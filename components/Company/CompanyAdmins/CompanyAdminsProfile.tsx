@@ -3,6 +3,7 @@ import React from "react";
 import { getCompanyAdminDetails } from "../../../api/Company-Admin/get";
 import useSWR from "swr";
 import { Tooltip } from '@mui/material';
+import Loader from "../../Common/skeleton/Loader";
 
 
 
@@ -15,7 +16,7 @@ export function CompanyAdminsProfile() {
     };
     const { data, error, isLoading } = useSWR("companyAdminProfile", fetcher);
     if (error) return <div>Error....</div>
-    if (isLoading) return <div>Loading....</div>
+    if (isLoading) return <div><Loader /></div>
     return (
         <div className=" lg:px-16 lg:pb-16">
             <div className="p-8 bg-white shadow mt-14 rounded-lg">

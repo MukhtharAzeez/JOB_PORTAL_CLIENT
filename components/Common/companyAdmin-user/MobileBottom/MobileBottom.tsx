@@ -20,6 +20,17 @@ export function MobileBottom() {
       setUserType("company-admin")
     }
   })
+
+  function handleLogout() {
+    localStorage.clear()
+    if (userType === 'user') {
+      dispatch(logoutUser())
+    }
+    if (userType === 'company-admin') {
+      dispatch(logoutCompanyAdmin())
+    }
+  }
+
   const Menus = [
     { title: "Home", icon: HomeIcon, href: `${userType == 'user' ? '/' : '/company-admin'}` },
     { title: "Schedules ", icon: EventNoteIcon, href: `/${userType}/schedules` },
@@ -35,7 +46,7 @@ export function MobileBottom() {
           <Link
             href={menu?.href}
             key={menu?.title}
-            onClick={() => { menu.title == "Logout" && localStorage.clear() }}
+            onClick={() => { menu.title == "Logout" && handleLogout() }}
           >
             <div className={`hover:bg-[#bbc0c7] rounded-md p-2 text-black`}><menu.icon /></div>
           </Link>

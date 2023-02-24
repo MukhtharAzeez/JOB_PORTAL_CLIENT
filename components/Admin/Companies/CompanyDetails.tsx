@@ -6,6 +6,7 @@ import { getCompanyDetails } from "../../../api/Company/get";
 import { approveCompany } from "../../../api/Admin/get";
 import { sendEmail } from "../../../api/email";
 import BusinessTwoToneIcon from '@mui/icons-material/BusinessTwoTone';
+import Loader from "../../Common/skeleton/Loader";
 
 
 export function CompanyDetails() {
@@ -27,7 +28,7 @@ export function CompanyDetails() {
     const { data, error, isLoading } = useSWR("companyDetails", fetcher);
 
     if (error) return <div>Error....</div>
-    if (isLoading) return <div>Loading....</div>
+    if (isLoading) return <div><Loader /></div>
 
 
     const handleOpen = (image: string, certificate: string) => {

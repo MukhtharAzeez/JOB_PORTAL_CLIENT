@@ -10,6 +10,7 @@ import CompanyAdminProtectRoute from "../../../../../protectRoutes/companyAdminP
 import { useRouter } from "next/router";
 import { getAnApplicantSchedules } from "../../../../../api/Company-Admin/get";
 import { MobileBottom, NavBar, RightBar, SchedulesStepper, SideBar, SideBarWithoutText } from "../../../../../components/Common";
+import Loader from "../../../../../components/Common/skeleton/Loader";
 
 export default function Index({ req }: { req: any }) {
     const mode = useSelector(currentTheme);
@@ -28,7 +29,7 @@ export default function Index({ req }: { req: any }) {
     };
     const { data, error, isLoading } = useSWR("applicantSchedules", fetcher);
     if (error) return <div>Error....</div>
-    if (isLoading) return <div>Loading....</div>
+    if (isLoading) return <div><Loader /></div>
 
     return (
         <CompanyAdminProtectRoute>
@@ -55,7 +56,7 @@ export default function Index({ req }: { req: any }) {
                             <div className="md:w-6/12 sm:w-9/12 w-full mt-32 mr-5 lg:ml-16">
                                     <SchedulesStepper data={data}/>
                             </div>
-                            <div className="w-2/12 mt-8 hidden lg:block mr-20">
+                            <div className="w-2/12 mt-32 hidden lg:block mr-20">
                                 <RightBar />
                             </div>
                             

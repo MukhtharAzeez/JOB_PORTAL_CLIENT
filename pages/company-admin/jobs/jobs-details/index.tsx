@@ -49,7 +49,7 @@ export default function Index({ req }: { req: any }) {
                                 <EditJob />
                                 <AppliedUsers />
                             </div>
-                            <div className="w-2/12 mt-8 hidden lg:block mr-20">
+                            <div className="w-2/12 mt-32 hidden lg:block mr-20">
                                 <RightBar />
                             </div>
                         </div>

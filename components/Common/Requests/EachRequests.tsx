@@ -4,6 +4,9 @@ import { getAllRequests } from '../../../api/Company/get';
 import { getCompanyAdminRequests } from '../../../api/Company-Admin/get';
 import { getUserNotifications } from '../../../api/User/Get/user';
 import { Requests } from './Requests';
+import Loader from '../skeleton/Loader';
+import noNOtification from '../../../public/image/noNotification.webp'
+import Image from 'next/image';
 
 interface Props {
     type: string,
@@ -59,15 +62,23 @@ export function EachRequests({ type, id }: Props) {
     };
     const { data, error, isLoading } = useSWR("allCompanyRequests", fetcher);
     if (error) return <div>Error....</div>
-    if (isLoading) return <div>Loading....</div>
+    if (isLoading) return <div><Loader /></div>
     return (
         <>
             {
                 data.map(function (request: Request) {
                     return (
-                        <Requests key={request._id} request={request} type={type} />
+                        <>
+                            <Requests key={request._id} request={request} type={type} />
+                        </>
                     )
                 })
+            }
+            {
+                data.length == 0 &&
+                (
+                    <Image alt="" src={noNOtification} className="rounded-md"/>
+                )
             }
         </>
     )

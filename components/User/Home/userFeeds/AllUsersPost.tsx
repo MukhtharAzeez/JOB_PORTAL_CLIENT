@@ -6,16 +6,11 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import Image from "next/image";
 import { useSelector } from "react-redux";
 import { Collapse, Divider, InputBase, Paper, styled } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
@@ -33,6 +28,8 @@ import {
 import { useRouter } from "next/router";
 import { Comment } from "./Comment";
 import useNotification from "../../../../customHooks/useNotification";
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 interface props {
   mode: String;
@@ -123,7 +120,7 @@ export function AllUsersPost({ mode, post }: props) {
     <Card
       className="shadow-2xl shadow-gray-800 rounded-md"
       sx={{
-        minWidth: { xs: "auto", md: "auto", sm: 400 },
+        // minWidth: { xs: "auto", md: "auto", sm: 400 },
         margin: 1,
       
       }}
@@ -163,33 +160,17 @@ export function AllUsersPost({ mode, post }: props) {
         title={post.user.firstName + " " + post.user.lastName}
         subheader={moment(post.createdAt).fromNow()}
       />
-      <Box
-        sx={{
-          position: "relative",
-          width: "100%",
-          height: { xs: 400, md: 500 },
-        }}
-      >
+      <Carousel showThumbs={false} autoPlay={false}>
         {post.image.map(function (image: any) {
           return (
-            <Image
-              key={image}
-              src="https://m.media-amazon.com/images/I/41FzfSpv4iL.jpg"
-              // src={image}
-              fill
-              sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 30vw,
-              33vw"
-              alt=""
-              className="object-cover object-top"
-            />
+            <img key={image} className="w-full cursor-pointer" src={"https://m.media-amazon.com/images/I/41FzfSpv4iL.jpg"} alt="" />
           );
         })}
-      </Box>
+        </Carousel>
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <p className="text-sm italic max-h-28 overflow-scroll">
           {post.description}
-        </Typography>
+        </p>
       </CardContent>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <CardActions disableSpacing>
@@ -234,22 +215,6 @@ export function AllUsersPost({ mode, post }: props) {
             >
               <ChatBubbleOutlineIcon />
             </ExpandMore>
-          </IconButton>
-
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-        </CardActions>
-        <CardActions disableSpacing>
-          <IconButton aria-label="save post">
-            <Checkbox
-              icon={<BookmarkBorderIcon />}
-              checkedIcon={
-                <BookmarkIcon
-                  sx={{ color: mode == "light" ? "black" : "white" }}
-                />
-              }
-            />
           </IconButton>
         </CardActions>
       </Box>

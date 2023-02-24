@@ -3,6 +3,7 @@ import useSWR from "swr";
 import { useRouter } from 'next/router';
 import { getAppliedUsers } from '../../../api/Company-Admin/get';
 import { EachAppliedUsers } from './EachAppliedUsers';
+import Loader from '../../Common/skeleton/Loader';
 
 
 export function AppliedUsers() {
@@ -14,7 +15,7 @@ export function AppliedUsers() {
     };
     const { data, error, isLoading } = useSWR("appliedUsers", fetcher);
     if (error) return <div>Error....</div>
-    if (isLoading) return <div>Loading....</div>
+    if (isLoading) return <div><Loader /></div>
     return (
         <div className="col-span-full xl:col-span-8 bg-white shadow-lg border border-slate-200 rounded-md mb-5">
             <header className="px-5 py-4 border-b border-slate-100">

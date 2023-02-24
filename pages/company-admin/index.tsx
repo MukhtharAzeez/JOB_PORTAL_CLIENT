@@ -53,7 +53,7 @@ export default function Home({ req }: { req: any }) {
                             </div>
                             <div className="md:w-6/12 sm:w-9/12 w-full mt-32 mr-5 lg:ml-16">
                             </div>
-                            <div className="w-2/12 mt-8 hidden lg:block mr-20">
+                            <div className="w-2/12 mt-32 hidden lg:block mr-20">
                                 <RightBar />
                             </div>
                         </div>

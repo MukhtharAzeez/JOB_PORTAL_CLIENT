@@ -107,7 +107,7 @@ export default function Home({ req }: { req: any }) {
               <div className="lg:w-5/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-5 flex justify-center">
                 <Feed mode={mode} />
               </div>
-              <div className=" md:w-2/12 md:pr-10  mt-4">
+                <div className="md:w-2/12 md:pr-10  mt-28">
                 <RightBar />
               </div>
             </div>

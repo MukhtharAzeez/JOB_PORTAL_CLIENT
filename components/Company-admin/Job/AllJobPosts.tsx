@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { currentCompanyAdmin } from '../../../redux/company-admin/CompanyAdminAuthSlicer';
 import { getAllCompanyPost } from '../../../api/Company-Admin/get';
 import { useRouter } from 'next/router';
+import Loader from '../../Common/skeleton/Loader';
 
 interface Job {
     _id: string
@@ -26,7 +27,7 @@ export function AllJobPosts() {
     };
     const { data, error, isLoading } = useSWR("allCompanyPosts", fetcher);
     if (error) return <div>Error....</div>
-    if (isLoading) return <div>Loading....</div>
+    if (isLoading) return <div><Loader /></div>
     return (
         <div className="col-span-full xl:col-span-8 bg-white shadow-lg border border-slate-200 rounded-md">
             <header className="px-5 py-4 border-b border-slate-100">

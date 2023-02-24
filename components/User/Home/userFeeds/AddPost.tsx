@@ -19,7 +19,7 @@ export function AddPost() {
   return (
     <>
       <Card
-         className="min-w-[360px] md:min-w-[450px]"
+         className=""
       >
         <CardHeader
           avatar={

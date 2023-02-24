@@ -8,6 +8,7 @@ import { currentCompanyAdmin } from '../../../redux/company-admin/CompanyAdminAu
 import useSWR from "swr";
 import { getAJobPost } from '../../../api/Company-Admin/get';
 import { editAPost } from '../../../api/Company-Admin/post';
+import Loader from '../../Common/skeleton/Loader';
 
 
 export function EditJob() {
@@ -81,7 +82,7 @@ export function EditJob() {
     };
     const { data, error, isLoading } = useSWR("aJobPost", fetcher);
     if (error) return <div>Error....</div>
-    if (isLoading) return <div>Loading....</div>
+    if (isLoading) return <div><Loader /></div>
 
     return (
         <>

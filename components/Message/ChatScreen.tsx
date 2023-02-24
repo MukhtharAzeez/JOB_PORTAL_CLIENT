@@ -64,7 +64,7 @@ export function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
     }
     return (
         <div className="flex flex-col flex-auto h-full md:p-6">
-            <div className=" relative flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 md:mt-4 min-h-[82vh]  max-h-[82vh] " >
+            <div className=" relative flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 md:mt-4 min-h-[80vh]  max-h-[80vh] " >
                 <div className="" >
                     <div className="flex flex-col max-h-[82vh] " >
                         <div className="grid grid-cols-12 gap-y-2  mb-14 overflow-y-scroll" >

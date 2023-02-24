@@ -17,7 +17,7 @@ interface Props{
 }
 
 export function SideBar({ links, href }: Props) {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
   function handleLogout() {
     localStorage.clear()
     dispatch(logoutUser())
@@ -36,7 +36,7 @@ export function SideBar({ links, href }: Props) {
             const Icon = link.icon
             return (
               <Link href={link.href} key={link.title}  onClick={() => { link.title == 'Logout' && handleLogout() }} className={`cursor-pointer px-2 ${link.href === href ? 'bg-gray-800' : 'bg-white hover:bg-gray-200 hover:text-gray-700'}  rounded flex`}>
-                <span className="w-8 my-5 relative">
+                <span className="w-8 my-4 relative">
                   <ListItemIcon className={`${link.href === href ? 'text-gray-100' : 'text-gray-500 group-hover:text-gray-800'} mx-4 `}>
                     <Icon className={`${link.href === href ? 'text-gray-200' : 'text-black'}`} />
                   </ListItemIcon>
@@ -44,7 +44,7 @@ export function SideBar({ links, href }: Props) {
                     3
                   </span> */}
                 </span>
-                <span className={`mx-5 my-5 ${link.href === href ? 'text-gray-200' : 'text-black'}`}>{link.title}</span>
+                <span className={`mx-5 my-4 ${link.href === href ? 'text-gray-200' : 'text-black'}`}>{link.title}</span>
               </Link>
             )
           })
