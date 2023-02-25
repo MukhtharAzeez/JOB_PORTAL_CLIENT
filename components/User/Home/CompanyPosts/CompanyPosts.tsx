@@ -68,7 +68,7 @@ export function CompanyPosts({ mode, post }: props) {
     }
     return (
         <>
-            <div className="max-w-md container bg-white rounded-md shadow-lg mb-2">
+            <div className="sm:max-w-md lg:max-w-lg container bg-white rounded-md shadow-lg mb-2">
                 <div className='py-2'>
                     <h1 className="text-2xl mt-2 ml-4 font-bold text-gray-800 cursor-pointer  transition duration-100">{post.job}</h1>
                     <p className="pl-4 text-xs">{moment(post.createdAt).fromNow()}</p>

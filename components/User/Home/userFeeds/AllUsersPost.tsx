@@ -1,6 +1,5 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -117,15 +116,7 @@ export function AllUsersPost({ mode, post }: props) {
   }
 
   return (
-    <Card
-      className="shadow-2xl shadow-gray-800 rounded-md"
-      sx={{
-        // minWidth: { xs: "auto", md: "auto", sm: 400 },
-        margin: 1,
-      
-      }}
-      key={post._id}
-    >
+   <div className="md:max-w-md lg:max-w-lg container bg-white rounded-md shadow-lg mb-2">
       <CardHeader
         avatar={
           post.user.image.length ? (
@@ -281,6 +272,6 @@ export function AllUsersPost({ mode, post }: props) {
       <Collapse in={expanded} timeout="auto" unmountOnExit className="">
         <Comment comments={allComments} />
       </Collapse>
-    </Card>
+    </div>
   );
 }

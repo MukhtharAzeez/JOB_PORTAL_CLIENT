@@ -2,16 +2,17 @@ import instance from "../../axios/axios";
 
 export const createABusinessPage = async (formData:any) => {
   try{
-    const result = await instance.post(`/auth/create`, formData, {
+    await instance.post(`/auth/create`, formData, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("companyToken")}`,
         "Content-Type": "application/json",
       },
     });
-    return result;
+    return true;
   }catch(error){
     console.log(error)
+    return false
   }
 };
 

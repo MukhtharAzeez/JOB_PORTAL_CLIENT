@@ -19,7 +19,7 @@ export function AddPost() {
   return (
     <>
       <Card
-         className=""
+         className="mb-2"
       >
         <CardHeader
           avatar={

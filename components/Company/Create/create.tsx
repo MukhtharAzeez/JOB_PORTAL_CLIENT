@@ -131,12 +131,16 @@ export function Create() {companySignup
 
         data.append("msmeCertificate", url1);
         data.append("udhyogAdhar", url2);
-        data.append("incorporationLicense", url3);
+        data.append("incorporation", url3);
         try {
-
-            await createABusinessPage(data)
+            const response = await createABusinessPage(data)
+            if(response){
+                setSuccessOpen(true)
+            }else {
+                setMessage("SomeThing went wrong , Try after sometime !")
+                setOpen(true)
+            }
             setIsLoading(false);
-            setSuccessOpen(true)
             // router.push("/");
         } catch (error: any) {
             const type = typeof error.response.data.message;
