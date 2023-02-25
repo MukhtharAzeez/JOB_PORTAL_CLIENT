@@ -99,6 +99,7 @@ export function Create() {companySignup
             return;
         }
         setOpen(false);
+        setSuccessOpen(false)
     };
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
