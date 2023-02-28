@@ -20,7 +20,7 @@ export function SearchModal({
     };
     document.addEventListener('click', clickHandler);
     return () => document.removeEventListener('click', clickHandler);
-  });
+  },[]);
 
   // close if the esc key is pressed
   useEffect(() => {
@@ -30,7 +30,7 @@ export function SearchModal({
     };
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
-  });
+  },[]);
 
   useEffect(() => {
     modalOpen && searchInput.current.focus();

@@ -17,7 +17,7 @@ export function CompanyAdnAdminNotification() {
     };
     document.addEventListener('click', clickHandler);
     return () => document.removeEventListener('click', clickHandler);
-  });
+  },[]);
 
   // close if the esc key is pressed
   useEffect(() => {
@@ -27,7 +27,7 @@ export function CompanyAdnAdminNotification() {
     };
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
-  });
+  },[]);
 
   return (
     <div className="relative inline-flex ml-3">

@@ -69,12 +69,6 @@ export function LargeScreenSideBar({setChat, onlineUsers}:Props) {
             />
           </div>
           <div className="xs:hidden md:block text-sm font-semibold mt-2">{userId ? data.firstName + " " + data.lastName : data.name}</div>
-          <div className="flex flex-row items-center mt-3">
-            <div className="flex flex-col justify-center h-4 w-8 bg-indigo-500 rounded-full">
-              <div className="h-3 w-3 bg-white rounded-full self-end mr-1"></div>
-            </div>
-            <div className="leading-none ml-1 text-xs">Active</div>
-          </div>
         </div>
         <FriendsList setChat={setChat} onlineUsers={onlineUsers} />
       </div>

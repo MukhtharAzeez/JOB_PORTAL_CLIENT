@@ -23,7 +23,7 @@ export function MobileBottom() {
     if (companyAdminId) {
       setUserType("company-admin")
     }
-  })
+  },[])
 
   function handleLogout() {
     localStorage.clear()

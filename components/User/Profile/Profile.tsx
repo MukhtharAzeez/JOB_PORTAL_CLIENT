@@ -1,7 +1,6 @@
 import Head from "next/head";
 import useSWR from "swr";
 import Link from "next/link";
-// import SkeletonLoader from "../../Loader/SkeletonLoader";
 import { getCurrentUserDetails, sendFriendRequest } from "../../../api/User/Get/user";
 import { Modal } from "@mui/material";
 import { useState } from "react";
@@ -31,7 +30,6 @@ export function Profile({ userId, user }: Props) {
         curUserId = current.userId
         if (userId != current.userId) friend = true
     }
-
     const handleOpen = (image: string) => {
         setImage(image)
         setOpen(true);
@@ -39,7 +37,6 @@ export function Profile({ userId, user }: Props) {
     const handleClose = () => {
         setOpen(false);
     };
-
     async function sendConnectionRequest(curUserId: string, userId: string) {
         if (userId == curUserId) return;
         const res = await sendFriendRequest(curUserId, userId)
@@ -50,7 +47,6 @@ export function Profile({ userId, user }: Props) {
         }
         setConnected(!connected)
     }
-
     async function sendMessage(curUserId: string, userId: string) {
         if (companyAdminId) {
             await sendMessageToFriend(userId, curUserId, 'company')
@@ -103,7 +99,7 @@ export function Profile({ userId, user }: Props) {
             </Head>
 
             <div className="relative flex flex-col min-w-0 min-h-[500px] break-words bg-white xs:w-full lg:w-full mb-6 shadow-xl rounded-lg mt-36">
-                <div className="rounded-lg shadow-lg">
+                <div className="rounded-lg shadow-lg min-h-full">
                     <div className="flex flex-wrap">
                         <div className="w-full flex justify-center">
                             <div className="relative">
@@ -172,20 +168,10 @@ export function Profile({ userId, user }: Props) {
                                         <span className="h-10 animate-pulse bg-gray-100 block rounded-lg dark:bg-gray-200 w- ml-2"></span>
                                     ) : (
                                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                                            10
+                                            {data.postCount}
                                         </span>
                                     )}
                                     <span className="text-sm text-blueGray-400">Posts</span>
-                                </div>
-                                <div className="text-center pl-5">
-                                    {isLoading || error ? (
-                                        <span className="h-10 animate-pulse bg-gray-100 block rounded-lg dark:bg-gray-200 w-10 ml-2"></span>
-                                    ) : (
-                                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                                            {data.companies.length}
-                                        </span>
-                                    )}
-                                    <span className="text-sm text-blueGray-400">Companies</span>
                                 </div>
                             </div>
                         </div>
@@ -254,14 +240,13 @@ export function Profile({ userId, user }: Props) {
                     aria-describedby="parent-modal-description"
                 >
                     <div className="flex flex-col justify-center items-center max-w-lg xs:w-2/4 mx-auto my-2 cursor-pointer">
-                        <div style={{
+                        {/* <div style={{
                             backgroundImage: `url(${image})`
-                        }}
-                            className="bg-transparent h-[90vh] w-full rounded-t-lg shadow-md bg-cover bg-center overflow-y-scroll"></div>
+                        }} */}
+                           <img src={image} className="bg-transparent h-[90vh] w-full rounded-t-lg shadow-md object-fill overflow-y-scroll"/>
                         <div className="w-full bg-white rounded-b-lg shadow-lg overflow-hidden">
                             <div className="py-2 text-center font-bold uppercase tracking-wide text-gray-800 hover:text-gray-400" onClick={handleClose}>Close resume</div>
                         </div>
-
                     </div>
                 </Modal>
             </div>

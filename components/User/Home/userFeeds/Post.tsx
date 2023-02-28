@@ -28,7 +28,7 @@ export function Post({ mode }: Props) {
 
   useEffect(() => {
     fetcher();
-  });
+  },[]);
 
   return (
     <InfiniteScroll
@@ -36,7 +36,7 @@ export function Post({ mode }: Props) {
       next={fetcher}
       hasMore={hasMore}
       endMessage={
-        <div className="mt-2 w-full  md:min-w-[450px]  flex justify-center">
+        <div className="mt-2 min-w-[360px] md:min-w-[450px] w-full lg:max-w-[600px]  flex justify-center">
           <div className="flex w-11/12  justify-around  items-center rounded-lg shadow-lg mb-4 bg-indigo-500 p-4 text-white">
             <div className="">
               <h4 className="mb-2 font-bold">Congrats 🍿</h4>

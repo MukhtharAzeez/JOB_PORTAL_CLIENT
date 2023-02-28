@@ -116,7 +116,7 @@ export function AllUsersPost({ mode, post }: props) {
   }
 
   return (
-   <div className="md:max-w-md lg:max-w-lg container bg-white rounded-md shadow-lg mb-2">
+   <div className="min-w-[360px] md:min-w-[500px] w-full lg:max-w-[600px] container bg-white rounded-md shadow-lg mb-2">
       <CardHeader
         avatar={
           post.user.image.length ? (

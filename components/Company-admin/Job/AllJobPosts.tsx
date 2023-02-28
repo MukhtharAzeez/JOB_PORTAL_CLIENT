@@ -82,7 +82,7 @@ export function AllJobPosts() {
                                                 <div className="text-center truncate w-36">{job.adminId.name}</div>
                                             </td>
                                             <td className="p-2 ">
-                                                <div className="text-center text-sky-500">{job.adminId.position}</div>
+                                                <div className="text-center text-sky-500 truncate w-36">{job.adminId.position}</div>
                                             </td>
                                             <td className="p-2 ">
                                                 <div className="text-center  truncate w-36">{job.jobQualification}</div>
