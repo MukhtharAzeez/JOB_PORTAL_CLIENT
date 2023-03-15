@@ -1,8 +1,9 @@
 import S3 from "aws-sdk/clients/s3";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { addPostToServer } from "../../../api/User/Post/post";
+import { AuthorizationContext } from "../../../contexts/AuthorizationContext";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export function PostAddModal({ addPost, setAddPost }: Props) {
+  const { alertToLogin } = useContext(AuthorizationContext);
   const { userId } = useSelector(currentUser);
   const [files, setFile] = useState([]);
   const [image, setImage] = useState([]);
@@ -78,14 +80,21 @@ export function PostAddModal({ addPost, setAddPost }: Props) {
         user: userId,
       };
       if (object.image.length > 0) {
-        const data = await addPostToServer(object);
-        if (data.image) {
-          setImage([]);
-          object.image = null;
-          object.description = null;
-          setAddPost(false);
-        } else {
-          setMessage("There is something happens to add post");
+        try {
+          const data = await addPostToServer(object);
+          if (data.image) {
+            setImage([]);
+            object.image = null;
+            object.description = null;
+            setAddPost(false);
+          } else {
+            setMessage("There is something happens to add post");
+          }
+        } catch (err: any) {
+          if (err?.response?.data?.statusCode === 401) {
+            alertToLogin()
+            return
+          }
         }
       }
     } else {

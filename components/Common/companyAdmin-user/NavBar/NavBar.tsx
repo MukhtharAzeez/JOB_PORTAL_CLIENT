@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import Link from "next/link";
 import EventNoteIcon from "@mui/icons-material/EventNote";
@@ -20,6 +20,7 @@ import { useRouter } from "next/router";
 import { currentCompanyAdmin, logoutCompanyAdmin } from "../../../../redux/company-admin/CompanyAdminAuthSlicer";
 import LoginIcon from '@mui/icons-material/LoginSharp';
 import Avatar from "@mui/material/Avatar";
+import { AuthorizationContext } from "../../../../contexts/AuthorizationContext";
 
 interface Props {
   mode: String;
@@ -27,6 +28,7 @@ interface Props {
 }
 
 export function NavBar({ mode, type }: Props) {
+  const { alertToLogin } = useContext(AuthorizationContext);
   const dispatch = useDispatch()
   const router = useRouter()
   const [showModal, setShowModal] = React.useState(false);
@@ -40,14 +42,28 @@ export function NavBar({ mode, type }: Props) {
       setSearched(false)
       return
     }
-    const result = await getUsersBySearching(e.target.value)
-    setUserSearchResult(result)
-    setSearched(true)
+    try {
+      const result = await getUsersBySearching(e.target.value)
+      setUserSearchResult(result)
+      setSearched(true)
+    } catch (err: any) {
+      if (err?.response?.data?.statusCode === 401) {
+        alertToLogin()
+        return
+      }
+    }
   }
 
   async function messageUser(searchUserId: string) {
     if (userId) {
-      await sendMessageToFriend(userId, searchUserId, 'user')
+      try {
+        await sendMessageToFriend(userId, searchUserId, 'user')
+      } catch (err: any) {
+        if (err?.response?.data?.statusCode === 401) {
+          alertToLogin()
+          return
+        }
+      }
       router.push({
         pathname: "/user/inbox",
         query: {
@@ -61,7 +77,14 @@ export function NavBar({ mode, type }: Props) {
       return
     }
     if (companyAdminId) {
-      await sendMessageToFriend(searchUserId, companyAdminId, 'company')
+      try {
+        await sendMessageToFriend(searchUserId, companyAdminId, 'company')
+      } catch (err: any) {
+        if (err?.response?.data?.statusCode === 401) {
+          alertToLogin()
+          return
+        }
+      }
       router.push({
         pathname: "/company-admin/inbox",
         query: {
@@ -93,7 +116,7 @@ export function NavBar({ mode, type }: Props) {
           rel="stylesheet"
         />
       </Head>
-      <div className="p-4 fixed z-10 w-full top-0 text-gray-900 bg-white shadow-lg ">
+      <div className="p-3 md:p-4 fixed z-10 w-full top-0 text-gray-900 bg-white shadow-lg ">
         <div className="flex p-2">
           <div className="w-full flex gap-3">
             <span className="px-2 mr-2 border-r border-gray-800">Portal</span>
@@ -128,7 +151,7 @@ export function NavBar({ mode, type }: Props) {
               <Person2Icon />
             </span>
           </Link>
-          <Link href={`/${type}/login`}  onClick={handleLogout}>
+          <Link href={`/${type}/login`} onClick={handleLogout}>
             <span className="w-10 relative float-right mr-3 cursor-pointer hover:text-gray-700">
               <LoginIcon />
             </span>
@@ -168,7 +191,7 @@ export function NavBar({ mode, type }: Props) {
                         return (
                           <div key={user._id} className="flex justify-between items-center py-2">
                             <div className="flex">
-                              <Avatar onClick={() =>{
+                              <Avatar onClick={() => {
                                 router.push({
                                   pathname: "/user/visit-user",
                                   query: {

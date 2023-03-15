@@ -1,12 +1,13 @@
 import { Pagination, Tooltip } from '@mui/material';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getAllAppliedJobs, getCountAppliedJobs } from '../../../api/User/Get/user';
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 import { currentUser } from '../../../redux/user/userAuthSlicer';
 
 interface Job {
-    _id:string
+    _id: string
     jobId: {
         image: string
         job: string
@@ -19,38 +20,54 @@ interface Job {
 }
 
 export function AppliedJobs() {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const { userId } = useSelector(currentUser)
     const [appliedJobs, setAppliedJobs] = useState([])
     const [count, setCount] = useState<number>(1)
     const [row, setRow] = useState(10)
-    const [skip, setSkip]= useState(0)
+    const [skip, setSkip] = useState(0)
     async function fetchData(skip: number) {
-        const appliedJobs = await getAllAppliedJobs(userId, skip, row);
-        setAppliedJobs(appliedJobs)
+
+        try {
+            const appliedJobs = await getAllAppliedJobs(userId, skip, row);
+            setAppliedJobs(appliedJobs)
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
     }
     async function fetcher(skip: number) {
         if (skip == 0) {
-            const data = await getCountAppliedJobs()
-            let int = data / row
-            int = Math.ceil(int)
-            console.log(int)
-            setCount(int)
+            try {
+                const data = await getCountAppliedJobs()
+                let int = data / row
+                int = Math.ceil(int)
+                console.log(int)
+                setCount(int)
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
         }
         fetchData(skip);
     }
     useEffect(() => {
-        if(row>=0){
+        if (row >= 0) {
             fetcher(skip);
         }
-    }, [row,skip]);
+    }, [row, skip]);
 
-    function handleRowNumberChange(e:any){
-        if(e.keyCode==13){
+    function handleRowNumberChange(e: any) {
+        if (e.keyCode == 13) {
             setRow(e.target.value)
         }
     }
     async function handleChange(event: any, value: number) {
-        setSkip(value-1)
+        setSkip(value - 1)
     };
     return (
         <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-slate-200">
@@ -128,7 +145,7 @@ export function AppliedJobs() {
                         <Tooltip title="Press enter key after type">
                             <input type="number"
                                 className="w-full px-4 py-1 rounded-r-md border border-gray-100 text-gray-800 focus:outline-none"
-                                placeholder="Select Rows" onKeyDown={handleRowNumberChange}/>
+                                placeholder="Select Rows" onKeyDown={handleRowNumberChange} />
                         </Tooltip>
                     </div>
                 </div>

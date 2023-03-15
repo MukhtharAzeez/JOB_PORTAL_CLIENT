@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import useSWR from "swr";
 import { getAllRequests } from '../../../api/Company/get';
 import { getCompanyAdminRequests } from '../../../api/Company-Admin/get';
@@ -7,6 +7,7 @@ import { Requests } from './Requests';
 import Loader from '../skeleton/Loader';
 import noNOtification from '../../../public/image/noNotification.webp'
 import Image from 'next/image';
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 
 interface Props {
     type: string,
@@ -48,16 +49,25 @@ interface Request {
 }
 
 export function EachRequests({ type, id }: Props) {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const fetcher = async () => {
-        if (type == 'company') {
-            const allCompanyRequests = await getAllRequests(id);
-            return allCompanyRequests;
-        } else if (type == 'companyAdmin') {
-            const allCompanyRequests = await getCompanyAdminRequests(id)
-            return allCompanyRequests
-        } else if (type == 'user') {
-            const allCompanyRequests = await getUserNotifications(id)
-            return allCompanyRequests
+        try {
+
+            if (type == 'company') {
+                const allCompanyRequests = await getAllRequests(id);
+                return allCompanyRequests;
+            } else if (type == 'companyAdmin') {
+                const allCompanyRequests = await getCompanyAdminRequests(id)
+                return allCompanyRequests
+            } else if (type == 'user') {
+                const allCompanyRequests = await getUserNotifications(id)
+                return allCompanyRequests
+            }
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
         }
     };
     const { data, error, isLoading } = useSWR("allCompanyRequests", fetcher);
@@ -77,7 +87,7 @@ export function EachRequests({ type, id }: Props) {
             {
                 data.length == 0 &&
                 (
-                    <Image alt="" src={noNOtification} className="rounded-md"/>
+                    <Image alt="" src={noNOtification} className="rounded-md" />
                 )
             }
         </>

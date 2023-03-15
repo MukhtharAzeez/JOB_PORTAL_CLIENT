@@ -27,10 +27,12 @@ import { createABusinessPage } from "../../../api/Company/post";
 import { useRef, useState } from "react";
 import { uploadImage } from "../../../api/User/ThirdParty/cloudinary";
 import companySignup from '../../../public/image/companySignup.png'
+import { AuthorizationContext } from "../../../contexts/AuthorizationContext";
 
 const theme = createTheme();
 
-export function Create() {companySignup
+export function Create() {
+    const { alertToLogin } = React.useContext(AuthorizationContext);
     const router = useRouter();
     const [isLoading, setIsLoading] = React.useState(false);
     const [open, setOpen] = React.useState(false);
@@ -133,12 +135,19 @@ export function Create() {companySignup
         data.append("udhyogAdhar", url2);
         data.append("incorporation", url3);
         try {
-            const response = await createABusinessPage(data)
-            if(response){
-                setSuccessOpen(true)
-            }else {
-                setMessage("SomeThing went wrong , Try after sometime !")
-                setOpen(true)
+            try {
+                const response = await createABusinessPage(data)
+                if (response) {
+                    setSuccessOpen(true)
+                } else {
+                    setMessage("SomeThing went wrong , Try after sometime !")
+                    setOpen(true)
+                }
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
             }
             setIsLoading(false);
             // router.push("/");

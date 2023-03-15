@@ -5,31 +5,40 @@ import { useEffect, useState } from "react";
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import { PostSkeleton } from "../../Common/skeleton/PostSkeleton";
 import { CompanyPosts } from "./CompanyPosts/CompanyPosts";
+import { AuthorizationContext } from "../../../contexts/AuthorizationContext";
 
 interface Props {
   mode: String;
 }
 
 export function Jobs({ mode }: Props) {
+  const { alertToLogin } = React.useContext(AuthorizationContext);
   const [jobsData, setJobsData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [skipCount, setSkipCount] = useState(0);
 
   async function fetchData() {
-    const data = await getJobsPosts(4, skipCount);
-    const newData = jobsData.concat(data);
-    setJobsData(newData)
-    setSkipCount(skipCount + 1);
-    if (data.length == 0) setHasMore(false);
+    try {
+      const data = await getJobsPosts(4, skipCount);
+      const newData = jobsData.concat(data);
+      setJobsData(newData)
+      setSkipCount(skipCount + 1);
+      if (data.length == 0) setHasMore(false);
+    } catch (err: any) {
+      if (err?.response?.data?.statusCode === 401) {
+        alertToLogin()
+        return
+      }
+    }
   }
 
   async function fetcher() {
-      fetchData();
+    fetchData();
   }
 
   useEffect(() => {
-      fetcher();
-  },[]);
+    fetcher();
+  }, []);
 
   return (
     <InfiniteScroll
@@ -45,7 +54,7 @@ export function Jobs({ mode }: Props) {
             </div>
             <div className="w-12 flex justify-center">
               <div className="text-2xl bg-indigo-600 rounded-full p-3">
-                <BeenhereIcon/>
+                <BeenhereIcon />
               </div>
             </div>
           </div>

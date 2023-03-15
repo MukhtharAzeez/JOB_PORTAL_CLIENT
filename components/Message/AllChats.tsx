@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { getCompanyAdminDetails } from '../../api/Company-Admin/get';
 import { getCurrentUserDetails } from '../../api/User/Get/user';
+import { AuthorizationContext } from '../../contexts/AuthorizationContext';
 
 interface Data {
     _id: string
     members: Array<string>
     type: string
+    unSeenMessages: any
+    lastMessage: string
     createdAt: Date
     updatedAt: Date
 }
@@ -22,40 +25,70 @@ interface Props {
 }
 
 export function AllChats({ data, currentUser, setChat, onlineUsers, type }: Props) {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const [idToFetch] = useState(data.members.find((id: string) => id != currentUser))
     const [userData, setUserData] = useState(null)
     const [companyAdminData, setCompanyAdminData] = useState(null)
-    const [unSeenMessagesLength, setUnSeenMessagesLength] = useState(data?.unSeenMessages?.length) 
+    const [unSeenMessagesLength, setUnSeenMessagesLength] = useState(data?.unSeenMessages?.length)
     useEffect(() => {
         if (data.type == 'user' && type == 'user') {
             const getUserData = async () => {
-                const data = await getCurrentUserDetails(idToFetch);
-                setUserData(data);
-                setCompanyAdminData(null);
+                try {
+                    const data = await getCurrentUserDetails(idToFetch);
+                    setUserData(data);
+                    setCompanyAdminData(null);
+                } catch (err: any) {
+                    if (err?.response?.data?.statusCode === 401) {
+                        alertToLogin()
+                        return
+                    }
+                }
             };
             getUserData();
         }
         if (data.type == 'user' && type == 'companyAdmin') {
             const getUserData = async () => {
-                const data = await getCurrentUserDetails(idToFetch);
-                setUserData(data);
-                setCompanyAdminData(null);
+                try {
+                    const data = await getCurrentUserDetails(idToFetch);
+                    setUserData(data);
+                    setCompanyAdminData(null);
+                } catch (err: any) {
+                    if (err?.response?.data?.statusCode === 401) {
+                        alertToLogin()
+                        return
+                    }
+                }
             };
             getUserData();
         }
         if (data.type == 'company' && type == 'companyAdmin') {
             const getCompanyAdminData = async () => {
-                const data = await getCurrentUserDetails(idToFetch);
-                setUserData(data);
-                setCompanyAdminData(null);
+
+                try {
+                    const data = await getCurrentUserDetails(idToFetch);
+                    setUserData(data);
+                    setCompanyAdminData(null);
+                } catch (err: any) {
+                    if (err?.response?.data?.statusCode === 401) {
+                        alertToLogin()
+                        return
+                    }
+                }
             };
             getCompanyAdminData();
         }
         if (data.type == 'company' && type == 'user') {
             const getCompanyAdminData = async () => {
-                const data = await getCompanyAdminDetails(idToFetch);
-                setCompanyAdminData(data);
-                setUserData(null);
+                try {
+                    const data = await getCompanyAdminDetails(idToFetch);
+                    setCompanyAdminData(data);
+                    setUserData(null);
+                } catch (err: any) {
+                    if (err?.response?.data?.statusCode === 401) {
+                        alertToLogin()
+                        return
+                    }
+                }
             };
             getCompanyAdminData();
         }
@@ -65,10 +98,10 @@ export function AllChats({ data, currentUser, setChat, onlineUsers, type }: Prop
         <>
             {
                 userData &&
-                <div className="cursor-pointer hover:bg-gray-200 p-2 break-words" onClick={() =>{
+                <div className="cursor-pointer hover:bg-gray-200 p-2 break-words" onClick={() => {
                     setChat(data)
                     setUnSeenMessagesLength(0)
-                    }}>
+                }}>
                     <div className='relative'>
                         {
                             userData?.image?.length ? (
@@ -95,14 +128,14 @@ export function AllChats({ data, currentUser, setChat, onlineUsers, type }: Prop
                         <div className="hidden sm:block absolute ml-2 -top-2 left-10  text-sm font-semibold p-2">{userData?.firstName + " " + userData?.lastName}</div>
                         <div className="hidden sm:block absolute ml-2 top-2 left-10  text-xs truncate w-36 p-2">{data?.lastMessage}</div>
                         {
-                            unSeenMessagesLength!==0 &&
+                            unSeenMessagesLength !== 0 &&
                             <>
-                                <div className="hidden sm:block absolute ml-2 top-3 right-0  rounded-full bg-cyan-600 text-xs text-white font-medium px-2 rounded-full">{unSeenMessagesLength}</div>
-                                <div className="sm:hidden absolute -bottom-2 left-2 rounded-full bg-cyan-600 text-xs text-white font-medium px-2 rounded-full">{unSeenMessagesLength}</div>
+                                <div className="hidden sm:block absolute ml-2 top-3 right-0   bg-cyan-600 text-xs text-white font-medium px-2 rounded-full">{unSeenMessagesLength}</div>
+                                <div className="sm:hidden absolute -bottom-2 left-2 bg-cyan-600 text-xs text-white font-medium px-2 rounded-full">{unSeenMessagesLength}</div>
                             </>
                         }
                     </div>
-                    
+
                 </div>
             }
             {
@@ -133,10 +166,10 @@ export function AllChats({ data, currentUser, setChat, onlineUsers, type }: Prop
                         }
                         <div className="hidden sm:block absolute ml-2 top-0 left-10  text-sm font-semibold p-2"> {companyAdminData?.name}</div>
                         {
-                            unSeenMessagesLength !== 0 && 
+                            unSeenMessagesLength !== 0 &&
                             <>
-                                <div className="hidden sm:block absolute ml-2 top-3 right-0  rounded-full bg-cyan-600 text-xs text-white font-medium px-2 rounded-full">{unSeenMessagesLength}</div>
-                        <div className="sm:hidden absolute -bottom-2 left-2 rounded-full bg-cyan-600 text-xs text-white font-medium px-2 rounded-full">{unSeenMessagesLength}</div>
+                                <div className="hidden sm:block absolute ml-2 top-3 right-0   bg-cyan-600 text-xs text-white font-medium px-2 rounded-full">{unSeenMessagesLength}</div>
+                                <div className="sm:hidden absolute -bottom-2 left-2 bg-cyan-600 text-xs text-white font-medium px-2 rounded-full">{unSeenMessagesLength}</div>
                             </>
                         }
                     </div>

@@ -1,13 +1,15 @@
 import { Alert, CircularProgress, Snackbar } from '@mui/material';
 import Head from 'next/head'
 import { useRouter } from 'next/router';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { addAdmin } from '../../../api/Company/post';
 import { sendEmail } from '../../../api/email';
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 import { currentCompany } from '../../../redux/company/companyAuthSlicer';
 
 export function AddCompanyAdmins() {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const { companyId } = useSelector(currentCompany)
     const router = useRouter();
     const [adminData, setAdminData] = useState({ name: null, email: null, position: null, employeeId: null, businessMobile: null, authority: null ,company: companyId})
@@ -39,13 +41,21 @@ export function AddCompanyAdmins() {
         }
         try {
             setSave(true)
-            const admin: any = await addAdmin(adminData);
+            let admin:any;
+            try {
+                admin = await addAdmin(adminData);
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
             const emailData = {
                 email: adminData.email,
                 subject: "Added as admin",
                 message: `Congrats .... 
                 Company added you as an admin to manage their page . 
-                Now you can login with your email and password:${admin.data.password}`
+                Now you can login with your email and password:${admin?.data.password}`
             }
             await sendEmail(emailData)
             setSave(false)

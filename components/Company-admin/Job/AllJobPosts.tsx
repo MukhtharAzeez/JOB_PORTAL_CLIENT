@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useSWR from "swr";
 import { useSelector } from 'react-redux';
 import { currentCompanyAdmin } from '../../../redux/company-admin/CompanyAdminAuthSlicer';
 import { getAllCompanyPost } from '../../../api/Company-Admin/get';
 import { useRouter } from 'next/router';
 import Loader from '../../Common/skeleton/Loader';
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 
 interface Job {
     _id: string
@@ -19,11 +20,19 @@ interface Job {
 }
 
 export function AllJobPosts() {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const router = useRouter();
     const { companyId } = useSelector(currentCompanyAdmin)
     const fetcher = async () => {
-        const allCompanyPosts = await getAllCompanyPost(companyId);
-        return allCompanyPosts;
+        try {
+            const allCompanyPosts = await getAllCompanyPost(companyId);
+            return allCompanyPosts;
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
     };
     const { data, error, isLoading } = useSWR("allCompanyPosts", fetcher);
     if (error) return <div>Error....</div>

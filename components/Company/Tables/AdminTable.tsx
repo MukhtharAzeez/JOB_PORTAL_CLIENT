@@ -1,22 +1,23 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import DataTable, { TableColumn } from 'react-data-table-component'
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 
 
 
 
 function AdminTable() {
-
-
+    const { alertToLogin } = useContext(AuthorizationContext);
     const [countries, setCountries] = useState([])
-
     const getCountries = async () => {
         try {
             const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
             setCountries(response.data)
-
-        } catch (error) {
-            console.log(error)
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
         }
     }
 

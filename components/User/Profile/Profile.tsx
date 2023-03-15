@@ -3,12 +3,13 @@ import useSWR from "swr";
 import Link from "next/link";
 import { getCurrentUserDetails, sendFriendRequest } from "../../../api/User/Get/user";
 import { Modal } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
 import { useSelector } from "react-redux";
 import { sendMessageToFriend } from "../../../api/User/Post/user";
 import { useRouter } from "next/router";
 import { currentCompanyAdmin } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
+import { AuthorizationContext } from "../../../contexts/AuthorizationContext";
 
 interface Props {
     userId: any;
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export function Profile({ userId, user }: Props) {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const [open, setOpen] = useState(false);
     const [image, setImage] = useState('');
     const [connected, setConnected] = useState(false)
@@ -39,17 +41,32 @@ export function Profile({ userId, user }: Props) {
     };
     async function sendConnectionRequest(curUserId: string, userId: string) {
         if (userId == curUserId) return;
-        const res = await sendFriendRequest(curUserId, userId)
-        if (res) {
-            setFriends(friends + 1)
-        } else {
-            setFriends(friends + -1)
+        try {
+            const res = await sendFriendRequest(curUserId, userId)
+            if (res) {
+                setFriends(friends + 1)
+            } else {
+                setFriends(friends + -1)
+            }
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
         }
         setConnected(!connected)
     }
     async function sendMessage(curUserId: string, userId: string) {
         if (companyAdminId) {
-            await sendMessageToFriend(userId, curUserId, 'company')
+            try {
+                await sendMessageToFriend(userId, curUserId, 'company')
+
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
             router.push({
                 pathname: "/company-admin/inbox",
                 query: {
@@ -60,7 +77,15 @@ export function Profile({ userId, user }: Props) {
                 "/user/inbox"
             )
         } else {
-            await sendMessageToFriend(curUserId, userId, 'user')
+            try {
+                await sendMessageToFriend(curUserId, userId, 'user')
+
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
             router.push({
                 pathname: "/user/inbox",
                 query: {
@@ -74,14 +99,29 @@ export function Profile({ userId, user }: Props) {
     }
 
     const fetcher = async () => {
-        const profile = await getCurrentUserDetails(userId);
-        if (user == null) {
-            if (profile.friends.includes(curUserId)) {
-                setConnected(true)
+        try {
+            try {
+                const profile = await getCurrentUserDetails(userId);
+                if (user == null) {
+                    if (profile.friends.includes(curUserId)) {
+                        setConnected(true)
+                    }
+                }
+                setFriends(profile.friends.length)
+                return profile;
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
             }
         }
-        setFriends(profile.friends.length)
-        return profile;
+
     };
     const { data, error, isLoading } = useSWR("profile", fetcher);
 
@@ -243,7 +283,7 @@ export function Profile({ userId, user }: Props) {
                         {/* <div style={{
                             backgroundImage: `url(${image})`
                         }} */}
-                           <img src={image} className="bg-transparent h-[90vh] w-full rounded-t-lg shadow-md object-fill overflow-y-scroll"/>
+                        <img src={image} className="bg-transparent h-[90vh] w-full rounded-t-lg shadow-md object-fill overflow-y-scroll" />
                         <div className="w-full bg-white rounded-b-lg shadow-lg overflow-hidden">
                             <div className="py-2 text-center font-bold uppercase tracking-wide text-gray-800 hover:text-gray-400" onClick={handleClose}>Close resume</div>
                         </div>

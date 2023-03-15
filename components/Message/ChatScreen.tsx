@@ -2,13 +2,15 @@ import { Box } from '@mui/material';
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import moment from 'moment';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { getMessages, sendMessageToReceiver } from '../../api/User/Get/user';
 import { currentCompanyAdmin } from '../../redux/company-admin/CompanyAdminAuthSlicer';
 import { currentUser } from '../../redux/user/userAuthSlicer';
+import { AuthorizationContext } from '../../contexts/AuthorizationContext';
 
 export function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const scroll = useRef<HTMLInputElement>();
     const [sendMessage, setSendMessage] = useState("")
     const [ID, setID] = useState('')
@@ -34,8 +36,11 @@ export function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
             try {
                 const data = await getMessages(chat._id);
                 setMessages(data);
-            } catch (error) {
-                console.log(error);
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
             }
         };
         fetchMessage();
@@ -57,10 +62,18 @@ export function ChatScreen({ chat, setSentMessage, receiveMessages }: any) {
             text: sendMessage,
         };
         setSendMessage("")
-        const data = await sendMessageToReceiver(ID, chat._id, sendMessage);
-        setMessages([...messages, data])
-        const receiverId = chat.members.find((id: string) => id !== ID);
-        setSentMessage({ ...messageAdd, receiverId });
+        try {
+            const data = await sendMessageToReceiver(ID, chat._id, sendMessage);
+            setMessages([...messages, data])
+            const receiverId = chat.members.find((id: string) => id !== ID);
+            setSentMessage({ ...messageAdd, receiverId });
+
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
     }
     return (
         <div className="flex flex-col flex-auto h-full md:p-6">

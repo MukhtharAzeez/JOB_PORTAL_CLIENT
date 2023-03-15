@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { setAScheduleAsCompleted } from '../../../api/Company-Admin/get'
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext'
 import { ScheduleInterview } from '../../Company-admin'
 interface Props {
     data: {
@@ -47,6 +48,7 @@ interface Props {
 }
 
 export function SchedulesStepper({ data }: Props) {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const [moveToNextAction, setMoveToNextAction] = useState(false)
     const [applicantHired, setApplicantHired] = useState(false)
     const [scheduleInterview, setScheduleInterview] = useState(false)
@@ -108,13 +110,19 @@ export function SchedulesStepper({ data }: Props) {
     }, [])
 
     async function setAsCompleted(type: string) {
-        await setAScheduleAsCompleted(type, data.applicantId._id, data.jobId._id)
-        setCompleted(true)
-        setMoveToNextAction(true)
-        if (type == 'online') {
-            setOnline(false)
-        } else if (type == 'offline') {
-            setOffline(false)
+        try {
+            await setAScheduleAsCompleted(type, data.applicantId._id, data.jobId._id)
+            setCompleted(true)
+            setMoveToNextAction(true)
+            if (type == 'online') {
+                setOnline(false)
+            } else if (type == 'offline') {
+                setOffline(false)
+            }
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+            }
         }
     }
 

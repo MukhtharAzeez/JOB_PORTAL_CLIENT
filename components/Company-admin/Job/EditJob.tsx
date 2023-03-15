@@ -1,7 +1,7 @@
 import { Alert, CircularProgress } from '@mui/material';
 import Head from 'next/head'
 import { useRouter } from 'next/router';
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { uploadImage } from '../../../api/User/ThirdParty/cloudinary';
 import { currentCompanyAdmin } from '../../../redux/company-admin/CompanyAdminAuthSlicer';
@@ -9,9 +9,11 @@ import useSWR from "swr";
 import { getAJobPost } from '../../../api/Company-Admin/get';
 import { editAPost } from '../../../api/Company-Admin/post';
 import Loader from '../../Common/skeleton/Loader';
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 
 
 export function EditJob() {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const router = useRouter();
     const jobId = router.query.jobId
     const [message, setMessage] = React.useState("");
@@ -62,7 +64,15 @@ export function EditJob() {
         }
         try {
             jobData.image = url
-            await editAPost(jobData);
+            try {
+                await editAPost(jobData);
+
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
             setSave(false)
             router.push('/company-admin/jobs')
         } catch (error: any) {
@@ -76,9 +86,16 @@ export function EditJob() {
         }
     }
     const fetcher = async () => {
-        const aJobPost = await getAJobPost(jobId);
-        setJobData(aJobPost)
-        return aJobPost;
+          try {
+              const aJobPost = await getAJobPost(jobId);
+              setJobData(aJobPost)
+              return aJobPost;
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
     };
     const { data, error, isLoading } = useSWR("aJobPost", fetcher);
     if (error) return <div>Error....</div>

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import { CircularProgress, Modal, Tooltip } from '@mui/material';
 import { getCompanyDetails } from "../../../api/Company/get";
@@ -7,9 +7,11 @@ import { approveCompany } from "../../../api/Admin/get";
 import { sendEmail } from "../../../api/email";
 import BusinessTwoToneIcon from '@mui/icons-material/BusinessTwoTone';
 import Loader from "../../Common/skeleton/Loader";
+import { AuthorizationContext } from "../../../contexts/AuthorizationContext";
 
 
 export function CompanyDetails() {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const router = useRouter()
     const companyId = router.query.companyId
     const [open, setOpen] = useState(false);
@@ -21,9 +23,15 @@ export function CompanyDetails() {
 
 
     const fetcher = async () => {
-        const companyDetails = await getCompanyDetails(companyId.toString());
-        setApproved(companyDetails.approved)
-        return companyDetails;
+        try {
+            const companyDetails = await getCompanyDetails(companyId.toString());
+            setApproved(companyDetails.approved)
+            return companyDetails;
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+            }
+        }
     };
     const { data, error, isLoading } = useSWR("companyDetails", fetcher);
 
@@ -41,8 +49,14 @@ export function CompanyDetails() {
     };
     async function approve(companyId: string) {
         setSave(true)
-        await approveCompany(companyId)
-        setApproved(!approved)
+        try {
+            await approveCompany(companyId)
+            setApproved(!approved)
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+            }
+        }
         let emailData
         if (approved) {
             emailData = {

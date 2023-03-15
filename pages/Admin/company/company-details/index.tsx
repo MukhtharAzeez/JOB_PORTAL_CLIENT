@@ -5,12 +5,13 @@ import Link from 'next/link';
 import { ADMIN_SIDE_BAR_LINKS } from '../../../../constants/Admin_sideBar';
 import { CompanyDetails } from '../../../../components/Admin';
 import { CompanyAndAdminSideBar, Header } from '../../../../components/Common';
+import AdminProtectRoute from '../../../../protectRoutes/adminProtectRoute'
 
 
 function index() {
-
     const [sidebarOpen, setSidebarOpen] = useState(false);
     return (
+        <AdminProtectRoute>           
         <div className="flex h-screen overflow-hidden">
             {/* Sidebar */}
             <CompanyAndAdminSideBar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} links={ADMIN_SIDE_BAR_LINKS} />
@@ -38,6 +39,7 @@ function index() {
                 </main>
             </div>
         </div>
+        </AdminProtectRoute>
     )
 }
 

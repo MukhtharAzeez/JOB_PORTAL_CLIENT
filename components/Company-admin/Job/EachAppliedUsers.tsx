@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { acceptApplicant, rejectApplicant } from '../../../api/Company-Admin/get';
 import InfoIcon from '@mui/icons-material/Info';
 import { ScheduleInterview } from './scheduleInterview';
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 
 interface Job {
     jobId: string
@@ -24,18 +25,34 @@ interface Props {
 }
 
 export function EachAppliedUsers({ job }: Props) {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const router = useRouter();
     const [scheduleInterview, setScheduleInterview] = useState(false)
     const [accepted, setAccepted] = useState(job.accepted)
 
     async function handleReject() {
         if (accepted == false) return
-        await rejectApplicant(job.jobId, job.applicantId._id)
+        try {
+            await rejectApplicant(job.jobId, job.applicantId._id)
+
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
         setAccepted(false)
     }
     async function handleAccept() {
         if (accepted == true) return
-        await acceptApplicant(job.jobId, job.applicantId._id)
+        try {
+            await acceptApplicant(job.jobId, job.applicantId._id)
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
         setScheduleInterview(true)
         setAccepted(true)
     }

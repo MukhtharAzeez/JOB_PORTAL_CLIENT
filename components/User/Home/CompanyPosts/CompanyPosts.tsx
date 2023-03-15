@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import { applyForJob } from "../../../../api/User/Get/post";
 import { Alert, Snackbar } from "@mui/material";
 import { Avatar } from '@material-ui/core';
 import useNotification from "../../../../customHooks/useNotification";
+import { AuthorizationContext } from "../../../../contexts/AuthorizationContext";
 
 interface props {
     mode: String;
@@ -15,6 +16,7 @@ interface props {
 }
 
 export function CompanyPosts({ mode, post }: props) {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const setNotification = useNotification()
     const { userId, userName } = useSelector(currentUser);
     const [message, setMessage] = React.useState({ messageType: '', message: '' });
@@ -36,7 +38,15 @@ export function CompanyPosts({ mode, post }: props) {
             }
             setMessage(mess)
             setOpen(true);
-            await applyForJob(companyId, postId, userId);
+            try {
+                await applyForJob(companyId, postId, userId);
+
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
             const mes = {
                 message: "You successfully applied for this job",
                 messageType: "success"

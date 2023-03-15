@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { currentUser } from "../../redux/user/userAuthSlicer";
 import { getCurrentUserDetails } from "../../api/User/Get/user";
 import { currentCompanyAdmin } from "../../redux/company-admin/CompanyAdminAuthSlicer";
 import { getCompanyAdminDetails } from "../../api/Company-Admin/get";
 import { FriendsList } from "./FriendsList";
+import { AuthorizationContext } from "../../contexts/AuthorizationContext";
 
 interface OnlineUsers {
   userId: string
@@ -15,30 +16,46 @@ interface Props {
   onlineUsers: Array<OnlineUsers>
 }
 
-export function LargeScreenSideBar({setChat, onlineUsers}:Props) {
+export function LargeScreenSideBar({ setChat, onlineUsers }: Props) {
+  const { alertToLogin } = useContext(AuthorizationContext);
   const { userId } = useSelector(currentUser)
   const { companyAdminId } = useSelector(currentCompanyAdmin)
   const [data, setData] = useState(null)
-  const fetcher = async (id:string) => {
-    const user = await getCurrentUserDetails(id);
-    setData(user)
+  const fetcher = async (id: string) => {
+    try {
+      const user = await getCurrentUserDetails(id);
+      setData(user)
+    } catch (err: any) {
+      if (err?.response?.data?.statusCode === 401) {
+        alertToLogin()
+        return
+      }
+    }
   };
 
   const adminFetcher = async (id: string) => {
-    const user = await getCompanyAdminDetails(id);
-    setData(user)
+
+    try {
+      const user = await getCompanyAdminDetails(id);
+      setData(user)
+    } catch (err: any) {
+      if (err?.response?.data?.statusCode === 401) {
+        alertToLogin()
+        return
+      }
+    }
   };
-  
-  useEffect(()=>{
-    if(userId){
+
+  useEffect(() => {
+    if (userId) {
       fetcher(userId)
-    }else if(companyAdminId){
+    } else if (companyAdminId) {
       adminFetcher(companyAdminId)
     }
-  },[])
+  }, [])
 
   return (
-    data && 
+    data &&
     <>
       <div className="flex flex-col sm:py-8 sm:pl-6 sm:pr-2 w-16 sm:w-64 bg-white flex-shrink-0">
         <div className="hidden sm:flex flex-row items-center justify-center h-12 w-full">

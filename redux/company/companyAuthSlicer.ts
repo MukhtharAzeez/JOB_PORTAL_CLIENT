@@ -29,10 +29,17 @@ const companyAuthSlice = createSlice({
       state.image = newItem.result.image
       state.companyToken = newItem.accessToken.access_token;
     },
+    logoutCompany(state) {
+      state.companyName = null;
+      state.image = "";
+      state.email = null;
+      state.companyId = null;
+      state.companyToken = null;
+    },
   },
 });
 
-export const { addCompanyDetails } = companyAuthSlice.actions;
+export const { addCompanyDetails , logoutCompany} = companyAuthSlice.actions;
 export const currentCompany = (state: RootState) => state.company
 export default companyAuthSlice;
 

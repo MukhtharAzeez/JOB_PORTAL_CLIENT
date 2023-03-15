@@ -1,18 +1,27 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import { getCompanyAdminDetails } from "../../../api/Company-Admin/get";
 import useSWR from "swr";
 import { Tooltip } from '@mui/material';
 import Loader from "../../Common/skeleton/Loader";
+import { AuthorizationContext } from "../../../contexts/AuthorizationContext";
 
 
 
 export function CompanyAdminsProfile() {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const router = useRouter()
     const adminId = router.query.adminId
     const fetcher = async () => {
-        const companyAdminProfile = await getCompanyAdminDetails(adminId);
-        return companyAdminProfile;
+        try {
+            const companyAdminProfile = await getCompanyAdminDetails(adminId);
+            return companyAdminProfile;
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
     };
     const { data, error, isLoading } = useSWR("companyAdminProfile", fetcher);
     if (error) return <div>Error....</div>

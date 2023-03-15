@@ -108,7 +108,7 @@ export function CompanyAndAdminSideBar({ sidebarOpen, setSidebarOpen, links }: a
                                     <li key={link.title} >
                                         <Link href={link.href} className="group relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-500 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                                             <ListItemIcon className='text-gray-500 mx-4 group-hover:text-gray-800'>
-                                                <Icon/>
+                                                <Icon className="text-gray-400 group-hover:text-gray-800"/>
                                             </ListItemIcon>
                                             <span className="ml-2 text-sm tracking-wide truncate">{link.title}</span>
                                         </Link>

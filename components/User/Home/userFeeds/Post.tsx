@@ -5,21 +5,30 @@ import { useEffect, useState } from "react";
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import { PostSkeleton } from "../../../Common/skeleton/PostSkeleton";
 import { AllUsersPost } from "./AllUsersPost";
+import { AuthorizationContext } from "../../../../contexts/AuthorizationContext";
 
 interface Props {
   mode: String;
 }
 
 export function Post({ mode }: Props) {
+  const { alertToLogin } = React.useContext(AuthorizationContext);
   const [postsData, setPostsData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [skipCount, setSkipCount] = useState(0);
 
   async function fetchData() {
-    const data = await getAllUsersPost(5, skipCount);
-    setPostsData([...postsData, ...data]);
-    setSkipCount(skipCount + 1);
-    if (data.length == 0) setHasMore(false);
+    try {
+      const data = await getAllUsersPost(5, skipCount);
+      setPostsData([...postsData, ...data]);
+      setSkipCount(skipCount + 1);
+      if (data.length == 0) setHasMore(false);
+    } catch (err: any) {
+      if (err?.response?.data?.statusCode === 401) {
+        alertToLogin()
+        return
+      }
+    }
   }
 
   async function fetcher() {
@@ -28,7 +37,7 @@ export function Post({ mode }: Props) {
 
   useEffect(() => {
     fetcher();
-  },[]);
+  }, []);
 
   return (
     <InfiniteScroll

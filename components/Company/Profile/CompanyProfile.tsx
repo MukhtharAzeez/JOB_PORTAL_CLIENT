@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import useSWR from "swr";
 import { getCompanyDetails, getCountCompanyAdmins } from '../../../api/Company/get';
@@ -10,6 +10,7 @@ import { sendMessageToFriend } from '../../../api/User/Post/user';
 import { useSelector } from 'react-redux';
 import { currentUser } from '../../../redux/user/userAuthSlicer';
 import Loader from '../../Common/skeleton/Loader';
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 
 interface CompanyAdmin {
     _id: string
@@ -21,6 +22,7 @@ interface CompanyAdmin {
 }
 
 export function CompanyProfile() {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const router = useRouter()
     const companyId = router.query.companyId
     const [open, setOpen] = useState(false);
@@ -29,13 +31,19 @@ export function CompanyProfile() {
     const [representatives, setRepresentatives] = useState(null)
     const [representative, setRepresentative] = useState(false)
     const [count, setCount] = useState<number>(1)
-    const {userId} = useSelector(currentUser)
+    const { userId } = useSelector(currentUser)
     const fetcher = async () => {
-        const companyDetails = await getCompanyDetails(companyId.toString());
-        return companyDetails;
+        try {
+            const companyDetails = await getCompanyDetails(companyId.toString());
+            return companyDetails;
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
     };
     const { data, error, isLoading } = useSWR("companyDetails", fetcher);
-
     if (error) return <div>Error....</div>
     if (isLoading) return <div><Loader /></div>
     const handleOpen = (image: string, certificate: string) => {
@@ -47,16 +55,30 @@ export function CompanyProfile() {
         setOpen(false);
     };
     async function viewCompanyAdmins(skip: number) {
-        const admins = await getAllCompanyAdmins(companyId, skip, 10);
-        setRepresentatives(admins.data)
-        setRepresentative(true)
+        try {
+            const admins = await getAllCompanyAdmins(companyId, skip, 10);
+            setRepresentatives(admins.data)
+            setRepresentative(true)
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
     }
     async function fetchAdmins(skip: number) {
         if (skip == 0) {
-            const data = await getCountCompanyAdmins(companyId)
-            let int = data.data / 10
-            int = Math.ceil(int)
-            setCount(int)
+            try {
+                const data = await getCountCompanyAdmins(companyId)
+                let int = data.data / 10
+                int = Math.ceil(int)
+                setCount(int)
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
         }
         viewCompanyAdmins(skip);
     }
@@ -64,8 +86,15 @@ export function CompanyProfile() {
         fetchAdmins(value - 1);
     };
     async function sendMessage(curUserId: string, userId: string) {
-        await sendMessageToFriend(curUserId, userId,'company')
-        router.push('/user/inbox')
+        try {
+            await sendMessageToFriend(curUserId, userId, 'company')
+            router.push('/user/inbox')
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
     }
     return (
         <div className="p-8 bg-white shadow mt-14 rounded-l">

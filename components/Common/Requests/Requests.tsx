@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import { acceptSchedule, rejectSchedule } from '../../../api/Company/post';
 import { userAcceptSchedule, userRejectSchedule, userRequestToChangeTime } from '../../../api/User/Get/user';
@@ -7,6 +7,7 @@ import { acceptApplicant } from '../../../api/Company-Admin/post';
 import { Alert, Snackbar } from "@mui/material";
 import { updateRequest } from '../../../api/Company-Admin/get';
 import useNotification from '../../../customHooks/useNotification';
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 
 // interface Request {
 //     _id: string
@@ -51,6 +52,7 @@ interface Props {
 }
 
 export function Requests({ request, type }: Props) {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const setNotification = useNotification()
     const [accepted, setAccepted] = useState(request.accepted)
     const [userChangeRequest, setUserChangeRequest] = useState(request?.changeRequest)
@@ -75,7 +77,14 @@ export function Requests({ request, type }: Props) {
     };
 
     async function accept() {
-        await acceptSchedule({ companyRequestId: request._id })
+        try {
+            await acceptSchedule({ companyRequestId: request._id })
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
         setNotification({
             content: `${request.company.company} accepted the request "${request.message}" ${request.applicant.firstName + " " + request.applicant.lastName} for job ${request.job.job}`,
             type: "success",
@@ -90,7 +99,14 @@ export function Requests({ request, type }: Props) {
     }
 
     async function reject() {
-        await rejectSchedule({ companyRequestId: request._id })
+        try {
+            await rejectSchedule({ companyRequestId: request._id })
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
         setAccepted(false)
         setNotification({
             content: `${request.company.company} accepted the request  "${request.message}" ${request.applicant.firstName + " " + request.applicant.lastName} for job ${request.job.job}`,
@@ -100,7 +116,14 @@ export function Requests({ request, type }: Props) {
     }
 
     async function acceptByUser() {
-        await userAcceptSchedule(request._id)
+        try {
+            await userAcceptSchedule(request._id)
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
         setNotification({
             content: ` ${request.user.firstName + " " + request.user.lastName} accepted the request "${request.message}" for job ${request.job.job}`,
             type: "success",
@@ -109,7 +132,14 @@ export function Requests({ request, type }: Props) {
         setAccepted(true)
     }
     async function rejectByUser() {
-        await userRejectSchedule(request._id)
+        try {
+            await userRejectSchedule(request._id)
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
         setNotification({
             content: ` ${request.user.firstName + " " + request.user.lastName} accepted the request "${request.message}" for job ${request.job.job}`,
             type: "error",
@@ -119,7 +149,14 @@ export function Requests({ request, type }: Props) {
     }
 
     async function requestToChangeTime() {
-        await userRequestToChangeTime(request._id)
+        try {
+            await userRequestToChangeTime(request._id)
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
         setNotification({
             content: ` ${request.user.firstName + " " + request.user.lastName} accepted the request "${request.message}" for job ${request.job.job}`,
             type: "info",
@@ -134,8 +171,15 @@ export function Requests({ request, type }: Props) {
 
     async function updateSchedule(newSchedule: any) {
         try {
-            await acceptApplicant(newSchedule, request.job._id, request.applicant._id, request.admin._id, request.company)
-            await updateRequest(request._id)
+            try {
+                await acceptApplicant(newSchedule, request.job._id, request.applicant._id, request.admin._id, request.company)
+                await updateRequest(request._id)
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
             setNotification({
                 content: ` ${request.admin.name} accepted the request of user ${request.applicant.firstName + " " + request.applicant.lastName} for "${request.message}" for job ${request.job.job}`,
                 type: "info",
@@ -270,11 +314,11 @@ export function Requests({ request, type }: Props) {
                         }
                         {
                             request.type != "hired" && type == 'user' && userChangeRequest &&
-                            <button type="button" className="inline-block px-3.5 py-1 border-2 bg-purple-600 border-purple-600 text-white font-medium text-xs leading-tight uppercase rounded hover:bg-purple-800 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" data-mdb-ripple="true">Requested to change the time</button>
+                            <button type="button" className="inline-block px-3.5 py-1 border-2 bg-purple-600 border-purple-600 text-white font-medium text-xs leading-tight uppercase rounded hover:bg-purple-800 focus:outline-none focus:ring-0 transition duration-150 ease-in-out mt-1" data-mdb-ripple="true">Requested to change the time</button>
                         }
                         {
                             request.type != "hired" && type == 'user' && !userChangeRequest &&
-                            <button type="button" onClick={requestToChangeTime} className="inline-block px-3.5 py-1 border-2 bg-purple-600 border-purple-600 text-white font-medium text-xs leading-tight uppercase rounded hover:bg-purple-800 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" data-mdb-ripple="true">Request to Change the time</button>
+                            <button type="button" onClick={requestToChangeTime} className="inline-block px-3.5 py-1 border-2 bg-purple-600 border-purple-600 text-white font-medium text-xs leading-tight uppercase rounded hover:bg-purple-800 focus:outline-none focus:ring-0 transition duration-150 ease-in-out mt-1" data-mdb-ripple="true">Request to Change the time</button>
                         }
                         {
                             type == 'companyAdmin' && request.userRequestToChange && !reSchedule && !reScheduled &&

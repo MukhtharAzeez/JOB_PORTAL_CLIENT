@@ -1,9 +1,10 @@
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 // import { makeNotification } from "../APIs";
 import { allUsersIdStore, messageStore } from "../zustand";
 import { notifierActions } from "../redux/notifier/Notifier";
 import { sendNotification } from "../api/notifications";
+import { AuthorizationContext } from "../contexts/AuthorizationContext";
 
 export interface Notification {
   _id?: string;
@@ -16,7 +17,8 @@ export interface Notification {
 }
 
 export default function useNotification() {
-  const dispatch = useDispatch();
+    const { alertToLogin } = useContext(AuthorizationContext);
+    const dispatch = useDispatch();
   const socket = messageStore((state) => state.socket);
   const currentUser = allUsersIdStore((state) => state.id);
   const [notification, setNotification] = useState<Notification>();
@@ -28,11 +30,18 @@ export default function useNotification() {
   const createNewNotification = async () => {
     try {
       if (isValid()) {
-        const newNotification = await sendNotification(notification);
-        if (newNotification) {
-          socket?.emit("send-notification", notification);
-          setNotification(undefined);
-        }
+          try {
+            const newNotification = await sendNotification(notification);
+            if (newNotification) {
+              socket?.emit("send-notification", notification);
+              setNotification(undefined);
+            }
+          } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+              alertToLogin();
+              return;
+            }
+          }
       }
     } catch (err) {
       console.log({ err });

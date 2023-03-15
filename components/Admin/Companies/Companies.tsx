@@ -1,36 +1,49 @@
 import { Pagination } from '@mui/material';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { getAllCompanies, getCountCompanies } from '../../../api/Admin/get';
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 
-interface Props{
-    url:string
+interface Props {
+    url: string
 }
-interface Company{
-    _id:string,
-    company:string,
-    establishedOn:string,
-    email:string,
-    panCardNumber:number,
-    approved:boolean,
-    type:string
+interface Company {
+    _id: string,
+    company: string,
+    establishedOn: string,
+    email: string,
+    panCardNumber: number,
+    approved: boolean,
+    type: string
 }
 
 export function Companies({ url }: Props) {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const [companies, setCompanies] = useState([])
-    const [count , setCount] = useState<number>(1)
-
-    async function fetchData(skip:number) {
-        const companies = await getAllCompanies(skip, 10);
-        setCompanies(companies.data)
+    const [count, setCount] = useState<number>(1)
+    async function fetchData(skip: number) {
+        try {
+            const companies = await getAllCompanies(skip, 10);
+            setCompanies(companies.data)
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
     }
-
-    async function fetcher(skip:number) {
+    async function fetcher(skip: number) {
         if (skip == 0) {
-            const data = await getCountCompanies()
-            let int = data.data/10
-            int= Math.ceil(int)
-            setCount(int)
+            try {
+                const data = await getCountCompanies()
+                let int = data.data / 10
+                int = Math.ceil(int)
+                setCount(int)
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                }
+            }
         }
         fetchData(skip);
     }
@@ -40,9 +53,9 @@ export function Companies({ url }: Props) {
     }, []);
 
     async function handleChange(event: any, value: number) {
-        fetcher(value-1);
+        fetcher(value - 1);
     };
-    
+
     return (
         <div className="col-span-full xl:col-span-8 bg-white shadow-lg rounded-lg border border-slate-200">
             <header className="px-5 py-4 border-b border-slate-100">

@@ -19,12 +19,9 @@ import { Feed } from "../components/User";
  */
 
 export default function Home({ req }: { req: any }) {
-
   const dispatch = useDispatch()
   const mode = useSelector(currentTheme);
-
   useEffect(() => {
-
     (async () => {
       const session = await getSession({ req });
       console.log("github", session);

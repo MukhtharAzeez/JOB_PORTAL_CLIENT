@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { acceptApplicant } from "../../../api/Company-Admin/post";
 import { rejectApplicant } from "../../../api/Company-Admin/get";
@@ -6,8 +6,10 @@ import { currentCompanyAdmin } from "../../../redux/company-admin/CompanyAdminAu
 import { useSelector } from "react-redux";
 import { Alert, Snackbar } from "@mui/material";
 import { useRouter } from "next/router";
+import { AuthorizationContext } from "../../../contexts/AuthorizationContext";
 
 export function ScheduleInterview({ scheduleInterview, setScheduleInterview, jobId, applicantId, accepted, setAccepted, online, offline }: any) {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const router = useRouter()
     const { companyAdminId, companyId } = useSelector(currentCompanyAdmin)
     const [onlineInterview, setOnlineInterview] = useState(true)
@@ -33,8 +35,15 @@ export function ScheduleInterview({ scheduleInterview, setScheduleInterview, job
     };
 
     async function handleClose() {
-        if(offline && online){
-            await rejectApplicant(jobId, applicantId)
+        if (offline && online) {
+            try {
+                await rejectApplicant(jobId, applicantId)
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
         }
         setScheduleInterview(false)
         setAccepted(accepted)
@@ -56,7 +65,7 @@ export function ScheduleInterview({ scheduleInterview, setScheduleInterview, job
         setDirectHire(true)
     }
 
-    function goBack(){
+    function goBack() {
         router.push({
             pathname: "/company-admin/jobs/jobs-details",
             query: {
@@ -70,7 +79,14 @@ export function ScheduleInterview({ scheduleInterview, setScheduleInterview, job
     async function handleSchedule() {
         if (onlineInterview) {
             try {
-                await acceptApplicant({ onlineInterviewDate, onlineInterviewTime }, jobId, applicantId, companyAdminId, companyId)
+                try {
+                    await acceptApplicant({ onlineInterviewDate, onlineInterviewTime }, jobId, applicantId, companyAdminId, companyId)
+                } catch (err: any) {
+                    if (err?.response?.data?.statusCode === 401) {
+                        alertToLogin()
+                        return
+                    }
+                }
                 setScheduleInterview(false)
                 goBack()
             } catch (error: any) {
@@ -86,7 +102,14 @@ export function ScheduleInterview({ scheduleInterview, setScheduleInterview, job
         }
         if (offlineInterview) {
             try {
-                await acceptApplicant({ offlineInterviewDate, offlineInterviewTime, offlineInterviewPlace }, jobId, applicantId, companyAdminId, companyId)
+                try {
+                    await acceptApplicant({ offlineInterviewDate, offlineInterviewTime, offlineInterviewPlace }, jobId, applicantId, companyAdminId, companyId)
+                } catch (err: any) {
+                    if (err?.response?.data?.statusCode === 401) {
+                        alertToLogin()
+                        return
+                    }
+                }
                 setScheduleInterview(false)
                 goBack()
             } catch (error: any) {
@@ -101,7 +124,14 @@ export function ScheduleInterview({ scheduleInterview, setScheduleInterview, job
             return
         }
         try {
-            await acceptApplicant({ directHire: true }, jobId, applicantId, companyAdminId, companyId)
+            try {
+                await acceptApplicant({ directHire: true }, jobId, applicantId, companyAdminId, companyId)
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
             setScheduleInterview(false)
             goBack()
         } catch (error: any) {
@@ -156,7 +186,7 @@ export function ScheduleInterview({ scheduleInterview, setScheduleInterview, job
                                     </ul>
                                 </div>
                                 {
-                                    onlineInterview && online  ? (
+                                    onlineInterview && online ? (
                                         <div className="py-8 border-b border-indigo-50">
                                             <div className="flex gap-4">
                                                 <div className="flex flex-col w-2/4">

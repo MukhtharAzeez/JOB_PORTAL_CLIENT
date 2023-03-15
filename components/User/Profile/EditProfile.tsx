@@ -1,7 +1,7 @@
 import { Alert, CircularProgress, Snackbar } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import { uploadImage } from "../../../api/User/ThirdParty/cloudinary";
@@ -9,13 +9,22 @@ import { updateUserProfile } from "../../../api/User/Post/user";
 import { getCurrentUserDetails } from "../../../api/User/Get/user";
 import { useSelector } from "react-redux";
 import { currentUser } from "../../../redux/user/userAuthSlicer";
+import { AuthorizationContext } from "../../../contexts/AuthorizationContext";
 
 export function EditProfile() {
+  const { alertToLogin } = useContext(AuthorizationContext);
   const { userId } = useSelector(currentUser)
 
   const fetcher = async () => {
-    const profile:any = await getCurrentUserDetails(userId);
-    return profile;
+    try {
+      const profile: any = await getCurrentUserDetails(userId);
+      return profile;
+    } catch (err: any) {
+      if (err?.response?.data?.statusCode === 401) {
+        alertToLogin()
+        return
+      }
+    }
   };
   const { data, error, isLoading } = useSWR("profile", fetcher);
 
@@ -104,7 +113,7 @@ export function EditProfile() {
     }
   };
 
-  
+
 
   const resumeImageChangeHandler = (e: any) => {
     const file = e.target.files;
@@ -129,9 +138,9 @@ export function EditProfile() {
     event.preventDefault();
     const formData = new FormData(event.target);
     const bday = formData.get("DOB")
-    if(new Date(bday.toString())<=new Date(new Date().toString())){
+    if (new Date(bday.toString()) <= new Date(new Date().toString())) {
 
-    }else{
+    } else {
       setMessage("Date is invalid");
       setOpen(true)
       return
@@ -165,10 +174,19 @@ export function EditProfile() {
     }
 
     try {
-      
+
       formData.append("image", url);
-      formData.append("resume",resumeUrl)
-      await updateUserProfile(formData);
+      formData.append("resume", resumeUrl)
+
+
+      try {
+        await updateUserProfile(formData);
+      } catch (err: any) {
+        if (err?.response?.data?.statusCode === 401) {
+          alertToLogin()
+          return
+        }
+      }
       setSave(false)
       router.push('/user/profile')
     } catch (error: any) {
@@ -393,32 +411,32 @@ export function EditProfile() {
                 </div>
               </div>
               <div className="grid grid-cols-1 space-y-2">
-                            <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                                Attach Image
-                            </h6>
-                            <div className="flex items-center justify-center w-full flex-col">
-                                <label className="flex flex-row rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
-                                    <img
-                                        className="w-36 text-black"
-                                        src=
-                                        {resumeImage ? URL?.createObjectURL(resumeImage) : data.resume ? data.resume : ""}
-                                        alt="No image Selected"
-                                        onClick={() => resumeImageRef.current.click()}
-                                    />
-                                    <div className="h-full w-full text-center flex flex-col items-center justify-center  " onClick={() => resumeImageRef.current.click()}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-blue-400 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                        </svg>
-                                        <p className="pointer-none text-gray-500 "><span className="text-sm">Drag and drop</span> files here <br /> or <a href="" id="" className="text-blue-600 hover:underline">select a file</a> from your computer</p>
-                                    </div>
-                                    <input type="file" className="hidden" onChange={resumeImageChangeHandler} ref={resumeImageRef} />
-                                </label>
-                                {open ? <Alert severity="error" variant="outlined" className="m-2">{message}</Alert> : ''}
-                            </div>
-                        </div>
-                        <p className="text-sm text-gray-300">
-                            <span>File type: doc,pdf,types of images</span>
-                        </p>
+                <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+                  Attach Image
+                </h6>
+                <div className="flex items-center justify-center w-full flex-col">
+                  <label className="flex flex-row rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
+                    <img
+                      className="w-36 text-black"
+                      src=
+                      {resumeImage ? URL?.createObjectURL(resumeImage) : data.resume ? data.resume : ""}
+                      alt="No image Selected"
+                      onClick={() => resumeImageRef.current.click()}
+                    />
+                    <div className="h-full w-full text-center flex flex-col items-center justify-center  " onClick={() => resumeImageRef.current.click()}>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-blue-400 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      <p className="pointer-none text-gray-500 "><span className="text-sm">Drag and drop</span> files here <br /> or <a href="" id="" className="text-blue-600 hover:underline">select a file</a> from your computer</p>
+                    </div>
+                    <input type="file" className="hidden" onChange={resumeImageChangeHandler} ref={resumeImageRef} />
+                  </label>
+                  {open ? <Alert severity="error" variant="outlined" className="m-2">{message}</Alert> : ''}
+                </div>
+              </div>
+              <p className="text-sm text-gray-300">
+                <span>File type: doc,pdf,types of images</span>
+              </p>
               <hr className="mt-6 border-b-1 border-blueGray-300" />
               {!openQualification && <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase cursor-pointer hover:text-blueGray-800" onClick={openQualificationInput}>
                 Click to Add your Qualifications and Skills

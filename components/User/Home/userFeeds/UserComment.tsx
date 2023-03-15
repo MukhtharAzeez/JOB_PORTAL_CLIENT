@@ -1,18 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { currentUser } from "../../../../redux/user/userAuthSlicer";
 import { likeComment } from "../../../../api/User/Post/post";
 import { CommentReplies } from "./CommentReplies";
+import { AuthorizationContext } from "../../../../contexts/AuthorizationContext";
 
 export function UserComment({ comment }: any) {
+  const { alertToLogin } = useContext(AuthorizationContext);
   const [replies, setReplies] = useState(false);
   const { userId } = useSelector(currentUser);
   const [totalLikes, setTotalLikes] = useState(comment.likes.length);
   async function likeAComment(commentId: string, userId: string) {
-    const result = await likeComment(commentId, userId);
-    if (result.data) setTotalLikes(totalLikes + 1);
-    else setTotalLikes(totalLikes - 1);
+    try {
+      const result = await likeComment(commentId, userId);
+      if (result.data) setTotalLikes(totalLikes + 1);
+      else setTotalLikes(totalLikes - 1);
+    } catch (err: any) {
+      if (err?.response?.data?.statusCode === 401) {
+        alertToLogin()
+        return
+      }
+    }
   }
   return (
     <div key={comment._id}>

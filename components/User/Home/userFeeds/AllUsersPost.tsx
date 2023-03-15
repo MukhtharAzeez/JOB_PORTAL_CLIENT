@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -29,6 +29,7 @@ import { Comment } from "./Comment";
 import useNotification from "../../../../customHooks/useNotification";
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { AuthorizationContext } from "../../../../contexts/AuthorizationContext";
 
 interface props {
   mode: String;
@@ -53,6 +54,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export function AllUsersPost({ mode, post }: props) {
+  const { alertToLogin } = useContext(AuthorizationContext);
   const { userId, userName } = useSelector(currentUser);
   const router = useRouter();
   const setNotification = useNotification()
@@ -67,7 +69,15 @@ export function AllUsersPost({ mode, post }: props) {
   };
 
   async function handleLike(postId: string) {
-    const result = await postLike(postId, userId);
+    let result;
+    try {
+      result = await postLike(postId, userId);
+    } catch (err: any) {
+      if (err?.response?.data?.statusCode === 401) {
+        alertToLogin()
+        return
+      }
+    }
     if (result.data) {
       setLikes(likes + 1);
       setNotification({
@@ -76,14 +86,15 @@ export function AllUsersPost({ mode, post }: props) {
         receiver: post.user._id as string,
       });
     }
-    else{
+    else {
       setLikes(likes - 1);
       setNotification({
         content: `${userName} has disliked your post !`,
         type: "error",
         receiver: post.user._id as string,
       });
-    } 
+    }
+
   }
 
   function handleComment(e: any) {
@@ -95,7 +106,14 @@ export function AllUsersPost({ mode, post }: props) {
   async function sendComment(postId: string) {
     setEmojiPicker(false);
     if (comment.trim().length == 0) return setComment("");
-    await postComment(postId, userId, comment);
+    try {
+      await postComment(postId, userId, comment);
+    } catch (err: any) {
+      if (err?.response?.data?.statusCode === 401) {
+        alertToLogin()
+        return
+      }
+    }
     setNotification({
       content: `${userName} has commented on your post !`,
       type: "info",
@@ -109,14 +127,21 @@ export function AllUsersPost({ mode, post }: props) {
     if (expanded) {
       handleExpandClick();
     } else {
-      const comments = await getPostComment(postId);
-      setAllComments(comments.data);
+      try {
+        const comments = await getPostComment(postId);
+        setAllComments(comments.data);
+      } catch (err: any) {
+        if (err?.response?.data?.statusCode === 401) {
+          alertToLogin()
+          return
+        }
+      }
       handleExpandClick();
     }
   }
 
   return (
-   <div className="min-w-[360px] md:min-w-[500px] w-full lg:max-w-[600px] container bg-white rounded-md shadow-lg mb-2">
+    <div className="min-w-[360px] md:min-w-[500px] w-full lg:max-w-[600px] container bg-white rounded-md shadow-lg mb-2">
       <CardHeader
         avatar={
           post.user.image.length ? (
@@ -128,17 +153,17 @@ export function AllUsersPost({ mode, post }: props) {
             },
               "/user/visit-user"
             )
-            }  alt="User Profile" src={post.user.image} className="cursor-pointer"/>
+            } alt="User Profile" src={post.user.image} className="cursor-pointer" />
           ) : (
-              <Avatar onClick={() => router.push({
-                pathname: "/user/visit-user",
-                query: {
-                  friend: post.user._id
-                },
+            <Avatar onClick={() => router.push({
+              pathname: "/user/visit-user",
+              query: {
+                friend: post.user._id
               },
-                "/user/visit-user"
-              )
-              } className="bg-gray-500 cursor-pointer" aria-label="Friend">
+            },
+              "/user/visit-user"
+            )
+            } className="bg-gray-500 cursor-pointer" aria-label="Friend">
               {post.user.firstName[0]}
             </Avatar>
           )
@@ -157,7 +182,7 @@ export function AllUsersPost({ mode, post }: props) {
             <img key={image} className="w-full cursor-pointer" src={"https://m.media-amazon.com/images/I/41FzfSpv4iL.jpg"} alt="" />
           );
         })}
-        </Carousel>
+      </Carousel>
       <CardContent>
         <p className="text-sm italic max-h-28 overflow-scroll">
           {post.description}

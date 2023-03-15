@@ -1,14 +1,16 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { findChat } from "../../api/chat/get";
 import { COMPANY_ADMIN_SIDEBAR_LINKS } from "../../constants/Company-admin-sidebar";
 import { USER_SIDEBAR_LINKS } from "../../constants/User-sideBar";
+import { AuthorizationContext } from "../../contexts/AuthorizationContext";
 import { messageStore } from "../../zustand";
 import { SideBarWithoutText } from "../Common";
 import { ChatScreen } from "./ChatScreen";
 import { LargeScreenSideBar } from "./LargeScreenSideBar";
 
 export function UserMessage({type}:{type:string}) {
+  const { alertToLogin } = useContext(AuthorizationContext);
   const socket = messageStore((state) => state.socket);
   const chat = messageStore((state) => state.chat);
   const setChat = messageStore((state) => state.setChat); 
@@ -22,8 +24,15 @@ export function UserMessage({type}:{type:string}) {
 
   async function getChat() {
     if(senderId && receiverId){
-      const result = await findChat(senderId.toString(), receiverId.toString())
+      try {
+          const result = await findChat(senderId.toString(), receiverId.toString())
       setChat(result[0])
+      } catch (err: any) {
+        if (err?.response?.data?.statusCode === 401) {
+          alertToLogin()
+          return
+        }
+      }
     }
   }
   useEffect(()=>{

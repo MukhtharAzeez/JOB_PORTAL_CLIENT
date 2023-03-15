@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { sendMessageToFriend } from '../../api/User/Post/user';
 import { sendMessageToReceiver } from '../../api/User/Get/user';
 import useNotification from '../../customHooks/useNotification';
+import { AuthorizationContext } from '../../contexts/AuthorizationContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Options = ({ children }: any) => {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const setNotification = useNotification()
     const { me, callAccepted, callEnded, leaveCall, callUser } = useContext(VideoSocketContext);
     const [idToCall, setIdToCall] = useState('');
@@ -61,15 +63,21 @@ const Options = ({ children }: any) => {
         if (reason === "clickaway") {
             return;
         }
-
         setOpen(false);
     };
 
     const copy = async () => {
         navigator.clipboard.writeText(me);
         if (router.query.applicantId) {
-            const result = await sendMessageToFriend(router.query.applicantId.toString(), companyAdminId, 'company')
-            await sendMessageToReceiver(companyAdminId, result.data._id, `You have an online interview now please paste this id ${me} on the video option input and join`)
+            try {
+                const result = await sendMessageToFriend(router.query.applicantId.toString(), companyAdminId, 'company')
+                await sendMessageToReceiver(companyAdminId, result.data._id, `You have an online interview now please paste this id ${me} on the video option input and join`)     
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
             setNotification({
                 content: `you have an online interview now 🍿 check the message from ${adminName}`,
                 type: "success",

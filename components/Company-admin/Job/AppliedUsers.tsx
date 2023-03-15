@@ -1,17 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useSWR from "swr";
 import { useRouter } from 'next/router';
 import { getAppliedUsers } from '../../../api/Company-Admin/get';
 import { EachAppliedUsers } from './EachAppliedUsers';
 import Loader from '../../Common/skeleton/Loader';
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 
 
 export function AppliedUsers() {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const router = useRouter();
     const jobId = router.query.jobId
     const fetcher = async () => {
-        const appliedUsers = await getAppliedUsers(jobId);
-        return appliedUsers;
+        try {
+            const appliedUsers = await getAppliedUsers(jobId);
+            return appliedUsers;
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
     };
     const { data, error, isLoading } = useSWR("appliedUsers", fetcher);
     if (error) return <div>Error....</div>

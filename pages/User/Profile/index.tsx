@@ -30,7 +30,7 @@ function index() {
             <div className="lg:w-5/12 sm:w-full xs:w-2/12 md:pl-44 lg:pl-16 mt-5 flex justify-center">
               <Profile userId={userId} user={true} />
             </div>
-            <div className="w-0 md:w-2/12 md:pr-10  mt-28">
+            <div className="w-0 hidden xl:block xl:w-[240px] md:pr-10  mt-28">
               <RightBar />
             </div>
           </div>

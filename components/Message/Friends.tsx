@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { getUserChat } from '../../api/User/Get/user';
+import { AuthorizationContext } from '../../contexts/AuthorizationContext';
 import { AllChats } from './AllChats';
 
 interface OnlineUsers {
@@ -14,10 +15,18 @@ interface Props {
 }
 
 export function Friends({ setChat, onlineUsers, id, type }: Props) {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const [data, setData] = useState([])
     const fetcher = async () => {
-        const friends = await getUserChat(id, 'user');
-        setData(friends)
+        try {
+            const friends = await getUserChat(id, 'user');
+            setData(friends)
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
     };
     useEffect(() => {
         fetcher();

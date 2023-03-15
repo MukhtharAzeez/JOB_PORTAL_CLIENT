@@ -11,20 +11,28 @@ import { currentUser } from "../../../redux/user/userAuthSlicer";
 import Loader from "../skeleton/Loader";
 import EmptyData from '../../../public/image/EmptyData.webp'
 import Error from '../../../public/image/Error.webp'
+import { AuthorizationContext } from "../../../contexts/AuthorizationContext";
 
 
 export function RightBar() {
+    const { alertToLogin } = React.useContext(AuthorizationContext);
   const router = useRouter();
   const { userId } = useSelector(currentUser)
   const { companyAdminId } = useSelector(currentCompanyAdmin)
   const fetcher = async () => {
-    if (userId) {
-      const getRandomCompany = await getARandomCompany()
-      return getRandomCompany;
-    }
-    if (companyAdminId) {
-      const getRandomCompany = await getRandomUser()
-      return getRandomCompany;
+    try {
+      if (userId) {
+        const getRandomCompany = await getARandomCompany()
+        return getRandomCompany;
+      }
+      if (companyAdminId) {
+        const getRandomCompany = await getRandomUser()
+        return getRandomCompany;
+      }
+    } catch (err: any) {
+      if (err?.response?.data?.statusCode === 401) {
+        alertToLogin()
+      }
     }
   };
   const { data, error, isLoading } = useSWR("getRandomCompany", fetcher);
@@ -62,11 +70,11 @@ export function RightBar() {
                     >
                       {
                         userId ? (
-                          <div 
-                      onClick={() => router.push({
-                        pathname: `/company-admin/user/${each?._id}`,
-                      },
-                      )}>See All <span className="font-bold">Jobs Posted</span> by {each?.company}</div>
+                          <div
+                            onClick={() => router.push({
+                              pathname: `/company-admin/user/${each?._id}`,
+                            },
+                            )}>See All <span className="font-bold">Jobs Posted</span> by {each?.company}</div>
                         ) : (
                           <div>Go to <span className="font-bold">{each?.firstName + " " + each?.lastName}</span> Profile </div>
                         )

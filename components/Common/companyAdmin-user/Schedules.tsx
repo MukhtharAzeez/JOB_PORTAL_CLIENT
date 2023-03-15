@@ -1,9 +1,10 @@
 import { Alert, Snackbar } from '@mui/material';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getPendingSchedules } from '../../../api/Company-Admin/get';
 import { getUserSchedules } from '../../../api/User/Get/user';
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 import { currentCompanyAdmin } from '../../../redux/company-admin/CompanyAdminAuthSlicer';
 import { currentUser } from '../../../redux/user/userAuthSlicer';
 import { ScheduleModal } from './ScheduleModal';
@@ -29,6 +30,7 @@ interface Data {
 }
 
 export function Schedules() {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const { userId } = useSelector(currentUser)
     const { companyId } = useSelector(currentCompanyAdmin)
     const [data, setData] = useState([])
@@ -65,7 +67,10 @@ export function Schedules() {
                 const getUserSchedule = await getPendingSchedules(companyId, month);
                 setData(getUserSchedule)
             }
-        } catch (error) {
+        } catch (error:any) {
+            if (error?.response?.data?.statusCode === 401) {
+                alertToLogin()
+            }
             setMessage("Something Happened Please try again")
             setOpen(true)
         } finally {

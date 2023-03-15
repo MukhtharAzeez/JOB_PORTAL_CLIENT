@@ -5,6 +5,7 @@ import notifierSlice from "./notifier/Notifier";
 import progressBarSlice from "./progressBar/ProgressBarSlicer";
 import userSideThemeSlice from "./user/ThemeSlice";
 import userAuthSlice from "./user/userAuthSlicer";
+import adminAuthSlicer from "./admin/adminAuthSlicer";
 
 const reducer = combineReducers({
   progress: progressBarSlice.reducer,
@@ -12,7 +13,8 @@ const reducer = combineReducers({
   userTheme: userSideThemeSlice.reducer,
   company: companyAuthSlice.reducer,
   companyAdmin: companyAdminAuthSlice.reducer,
-  notifier: notifierSlice.reducer
+  notifier: notifierSlice.reducer,
+  admin: adminAuthSlicer.reducer
 });
 
 const store = configureStore({

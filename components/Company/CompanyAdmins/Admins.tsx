@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getAllCompanyAdmins, getCountCompanyAdmins } from '../../../api/Company/get';
 import { useSelector } from 'react-redux';
 import { currentCompany } from '../../../redux/company/companyAuthSlicer';
 import { useRouter } from 'next/router';
 import { Pagination } from '@mui/material';
+import { AuthorizationContext } from '../../../contexts/AuthorizationContext';
 
 interface CompanyAdmin {
     _id: string
@@ -15,20 +16,35 @@ interface CompanyAdmin {
 }
 
 export function Admins() {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const router = useRouter();
     const [companyAdmins, setCompanyAdmins] = useState([])
     const [count, setCount] = useState<number>(1)
     const { companyId } = useSelector(currentCompany)
-    async function fetchData(skip:number) {
-        const companyAdmins = await getAllCompanyAdmins(companyId, skip, 10);
-        setCompanyAdmins(companyAdmins.data)
+    async function fetchData(skip: number) {
+        try {
+            const companyAdmins = await getAllCompanyAdmins(companyId, skip, 10);
+            setCompanyAdmins(companyAdmins.data)
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
     }
-    async function fetcher(skip:number) {
+    async function fetcher(skip: number) {
         if (skip == 0) {
-            const data = await getCountCompanyAdmins(companyId)
-            let int = data.data / 10
-            int = Math.ceil(int)
-            setCount(int)
+            try {
+                const data = await getCountCompanyAdmins(companyId)
+                let int = data.data / 10
+                int = Math.ceil(int)
+                setCount(int)
+            } catch (err: any) {
+                if (err?.response?.data?.statusCode === 401) {
+                    alertToLogin()
+                    return
+                }
+            }
         }
         fetchData(skip);
     }

@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { Progress } from "../components/Progress";
 import { io } from "socket.io-client";
 import { Notifier } from "../components/Common/Notifier/Notifier";
-
+import { AuthorizationContextProvider } from "../contexts/AuthorizationContext";
 
 const darkTheme = createTheme({
   palette: {
@@ -64,6 +64,7 @@ export default function App({ Component, pageProps }: AppProps) {
   
   return (
     <Provider store={store}>
+      <AuthorizationContextProvider>
       <ThemeProvider theme={darkTheme}>
         <SessionProvider session={pageProps.session}>
           <Progress isAnimating={isAnimating}/>
@@ -71,6 +72,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Notifier />
         </SessionProvider>
       </ThemeProvider>
+      </AuthorizationContextProvider>
     </Provider>
   );
 }

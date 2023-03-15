@@ -29,6 +29,7 @@ import PublicRoute from "../../../protectRoutes/publicRoute";
 import { addCompanyDetails } from "../../../redux/company/companyAuthSlicer";
 import { addCompanyAdminDetails } from "../../../redux/company-admin/CompanyAdminAuthSlicer";
 import { allUsersIdStore } from "../../../zustand";
+import { addAdminDetails } from "../../../redux/admin/adminAuthSlicer";
 
 const theme = createTheme();
 interface Props {
@@ -44,7 +45,6 @@ export function Login({ type, image, color}: Props) {
     const [isLoading, setIsLoading] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState("");
-
     const handleClose = (
         event?: React.SyntheticEvent | Event,
         reason?: string
@@ -54,7 +54,6 @@ export function Login({ type, image, color}: Props) {
         }
         setOpen(false);
     };
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsLoading(true);
@@ -144,6 +143,35 @@ export function Login({ type, image, color}: Props) {
                     dispatch(addCompanyAdminDetails(companyAdmin.data));
                     setId(companyAdmin.data.result._id)
                     router.push("/company-admin");
+                }
+            } catch (error: any) {
+                const type = typeof error.response.data.message;
+                if (type == "string") {
+                    setMessage(error.response.data.message);
+                } else {
+                    setMessage(error.response.data.message[0]);
+                }
+                setOpen(true);
+                setIsLoading(false);
+            }
+        }else if(type=='admin'){
+            try {
+                const admin = await instance.post("/auth/admin/login", data, {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (admin) {
+                    localStorage.setItem(
+                        "adminName",
+                        admin.data.result.name
+                    );
+                    localStorage.setItem("email", admin.data.result.email);
+                    localStorage.setItem("adminToken", admin.data.accessToken.access_token);
+                    dispatch(addAdminDetails(admin.data));
+                    setId(admin.data.result._id)
+                    router.push("/admin");
                 }
             } catch (error: any) {
                 const type = typeof error.response.data.message;
@@ -288,7 +316,7 @@ export function Login({ type, image, color}: Props) {
                                         "Sign In"
                                     )}
                                 </Button>
-                                <p style={{ marginLeft: "48%", paddingBottom: 15 }}>or</p>
+                                {type !== 'admin' && <p style={{ marginLeft: "48%", paddingBottom: 15 }}>or</p>}
                                 {
                                     type == 'user' && 
                                     <>
@@ -358,14 +386,4 @@ export function Login({ type, image, color}: Props) {
             </ThemeProvider>
         </PublicRoute>
     );
-}
-
-
-export async function getServerSideProps({ req }: any) {
-    const obj: null = null
-    return {
-        props: {
-            obj
-        }
-    }
 }

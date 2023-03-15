@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import useSWR from "swr";
 import Head from "next/head";
 import Box from "@mui/material/Box";
@@ -11,8 +11,10 @@ import { useRouter } from "next/router";
 import { getAnApplicantSchedules } from "../../../../../api/Company-Admin/get";
 import { MobileBottom, NavBar, RightBar, SchedulesStepper, SideBar, SideBarWithoutText } from "../../../../../components/Common";
 import Loader from "../../../../../components/Common/skeleton/Loader";
+import { AuthorizationContext } from "../../../../../contexts/AuthorizationContext";
 
 export default function Index({ req }: { req: any }) {
+    const { alertToLogin } = useContext(AuthorizationContext);
     const mode = useSelector(currentTheme);
     const router = useRouter();
     const jobId = router.query.jobId;
@@ -24,8 +26,15 @@ export default function Index({ req }: { req: any }) {
     });
 
     const fetcher = async () => {
-        const applicantSchedules = await getAnApplicantSchedules(jobId, applicantId)
-        return applicantSchedules.data
+        try {
+            const applicantSchedules = await getAnApplicantSchedules(jobId, applicantId)
+            return applicantSchedules.data
+        } catch (err: any) {
+            if (err?.response?.data?.statusCode === 401) {
+                alertToLogin()
+                return
+            }
+        }
     };
     const { data, error, isLoading } = useSWR("applicantSchedules", fetcher);
     if (error) return <div>Error....</div>
